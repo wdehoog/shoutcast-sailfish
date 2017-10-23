@@ -24,15 +24,32 @@
 
 // http://api.shoutcast.com/genre/primary?k=[Your Dev ID]&f=xml
 // http://api.shoutcast.com/genre/secondary?parentid=0&k=[Your Dev ID]&f=xml
+// http://api.shoutcast.com/station/advancedsearch?genre_id=1&limit=10&f=xml&k=[Your Dev ID]
+//   limit=X,Y Y is the number of results to return and X is the offset.
 
 var DevKeyPart = "k=ia9p4XYXmOPEtXzL";
 var LegacyBaseURL = "http://api.shoutcast.com/legacy/";
 
 var PrimaryGenreBase = "http://api.shoutcast.com/genre/primary";
 var SecondaryGenreBase = "http://api.shoutcast.com/genre/secondary";
+var StationSearchBase = "http://api.shoutcast.com/station/advancedsearch";
 
 var QueryFormat = "f=json";
 
-function getGenrePart(genreId) {
+function getParentGenrePart(genreId) {
     return "parentid=" + genreId;
+}
+
+function getGenrePart(genreId) {
+    return "genre_id=" + genreId;
+}
+
+var LimitPart = "limit=200";
+
+function getAudioType(mimeType) {
+    switch(mimeType) {
+    case "audio/mpeg": return "mp3"
+    case "audio/aacp": return "aac"
+    default: mimeType
+    }
 }

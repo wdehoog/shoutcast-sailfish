@@ -9,20 +9,23 @@ import "../components"
 import "../shoutcast.js" as Shoutcast
 
 Page {
-    id: subGenrePage
+    id: staionsPage
     property string genreName: ""
     property string genreId: ""
+    property int currentItem: -1
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
     JSONListModel {
         id: genresModel
-        source: Shoutcast.SecondaryGenreBase
+        source: Shoutcast.StationSearchBase
                 + "?" + Shoutcast.getGenrePart(genreId)
                 + "&" + Shoutcast.DevKeyPart
+                + "&" + Shoutcast.LimitPart
                 + "&" + Shoutcast.QueryFormat
-        query: "$..genre.*"
+        query: "$..station.*"
+        orderField: "lc"
     }
 
 
@@ -68,12 +71,13 @@ Page {
             id: delegate
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
+
             Column {
                 width: parent.width
 
                 Item {
                     width: parent.width
-                    //height: nameLabel.height
+                    height: nameLabel.height
 
                     Label {
                         id: nameLabel
@@ -88,11 +92,19 @@ Page {
                         anchors.right: parent.right
                         color: Theme.secondaryColor
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        text: count
-
+                        text: lc + " " + Shoutcast.getAudioType(mt) + " " + br
                     }
                 }
 
+                Label {
+                    color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    textFormat: Text.StyledText
+                    truncationMode: TruncationMode.Fade
+                    width: parent.width
+                    //visible: metaText ? metaText.length > 0 : false
+                    text: ct ? ct : qsTr("no track info")
+                }
             }
 
             onClicked: {

@@ -17,7 +17,6 @@ CONFIG += sailfishapp_qml
 DISTFILES += qml/shoutcast-sailfish.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml \
     rpm/shoutcast-sailfish.changes.in \
     rpm/shoutcast-sailfish.changes.run.in \
     rpm/shoutcast-sailfish.spec \
@@ -26,7 +25,9 @@ DISTFILES += qml/shoutcast-sailfish.qml \
     shoutcast-sailfish.desktop \
     qml/shoutcast.js \
     qml/components/jsonpath.js \
-    qml/components/JSONListModel.qml
+    qml/components/JSONListModel.qml \
+    qml/pages/SubGenrePage.qml \
+    qml/pages/StationsPage.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 

@@ -9,14 +9,19 @@ import "../components"
 import "../shoutcast.js" as Shoutcast
 
 Page {
-    id: page
+    id: subGenrePage
+    property string genreName: ""
+    property string genreId: ""
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
     JSONListModel {
         id: genresModel
-        source: Shoutcast.PrimaryGenreBase + "?" + Shoutcast.DevKeyPart + "&" + Shoutcast.QueryFormat
+        source: Shoutcast.SecondaryGenreBase
+                + "?" + Shoutcast.getParentGenrePart(genreId)
+                + "&" + Shoutcast.DevKeyPart
+                + "&" + Shoutcast.QueryFormat
         query: "$..genre.*"
     }
 
@@ -48,7 +53,7 @@ Page {
 
             PageHeader {
                 id: pHeader
-                title: qsTr("Genres")
+                title: genreName
                 BusyIndicator {
                     id: busyThingy
                     parent: pHeader.extraContent
@@ -91,7 +96,7 @@ Page {
             }
 
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("SubGenrePage.qml"),
+                pageStack.push(Qt.resolvedUrl("StationsPage.qml"),
                                {genreId: model.id, genreName: model.name})
             }
         }
