@@ -10,9 +10,12 @@ import "../shoutcast.js" as Shoutcast
 
 Page {
     id: staionsPage
+
     property string genreName: ""
     property string genreId: ""
     property int currentItem: -1
+
+    property bool showBusy: true
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -27,6 +30,7 @@ Page {
         query: "$..station.*"
         keepQuery: "$..tunein"
         orderField: "lc"
+        Component.onCompleted: showBusy = false
     }
 
 
@@ -62,7 +66,7 @@ Page {
                     id: busyThingy
                     parent: pHeader.extraContent
                     anchors.left: parent.left
-                    //running: showBusy
+                    running: showBusy
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -117,7 +121,17 @@ Page {
                 xhr.onreadystatechange = function() {
                     if(xhr.readyState === XMLHttpRequest.DONE) {
                         var m3u = xhr.responseText;
-                        console.log("Station: \n" + m3u)
+                        //console.log("Station: \n" + m3u)
+                        var streamURL = Shoutcast.extractURLFromM3U(m3u)
+                        console.log("URL: \n" + streamURL)
+                        if(streamURL.length > 0) {
+                            pageStack.push(Qt.resolvedUrl("PlayerPage.qml"),
+                                           {genreName: genreName,
+                                            stationName: model.name,
+                                            streamURL: streamURL,
+                                            logoURL: model.logo})
+                        }
+
                     }
                 }
                 xhr.send();

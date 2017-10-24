@@ -59,6 +59,15 @@ function getAudioType(mimeType) {
     }
 }
 
-function extractURL(text) {
+function startsWith(str, start) {
+    return str.match("^"+start) !== null;
+}
 
+function extractURLFromM3U(text) {
+    var lines = text.split('\n');
+    for(var i = 0;i < lines.length;i++) {
+        if(startsWith(lines[i], "http"))
+            return lines[i];
+    }
+    return "";
 }

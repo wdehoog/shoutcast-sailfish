@@ -10,8 +10,11 @@ import "../shoutcast.js" as Shoutcast
 
 Page {
     id: subGenrePage
+
     property string genreName: ""
     property string genreId: ""
+
+    property bool showBusy: true
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -23,6 +26,7 @@ Page {
                 + "&" + Shoutcast.DevKeyPart
                 + "&" + Shoutcast.QueryFormat
         query: "$..genre.*"
+        Component.onCompleted: showBusy = false
     }
 
 
@@ -58,7 +62,7 @@ Page {
                     id: busyThingy
                     parent: pHeader.extraContent
                     anchors.left: parent.left
-                    //running: showBusy
+                    running: showBusy
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
