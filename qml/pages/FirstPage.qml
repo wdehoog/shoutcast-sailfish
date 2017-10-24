@@ -20,9 +20,12 @@ Page {
         id: genresModel
         source: Shoutcast.PrimaryGenreBase + "?" + Shoutcast.DevKeyPart + "&" + Shoutcast.QueryFormat
         query: "$..genre.*"
-        Component.onCompleted: showBusy = false
     }
 
+    Connections {
+        target: genresModel
+        onLoaded: showBusy = false
+    }
 
     SilicaListView {
         id: genreView
@@ -33,13 +36,12 @@ Page {
             bottomMargin: 0
         }
 
-        /*PullDownMenu {
+        PullDownMenu {
             MenuItem {
-                text: qsTr("Reload")
-                //enabled: browseModel.count < totalCount
-                onClicked: loadGenres()
+                text: qsTr("About")
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
-        }*/
+        }
 
         header: Column {
             id: lvColumn
@@ -94,8 +96,16 @@ Page {
             }
 
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("SubGenrePage.qml"),
-                               {genreId: model.id, genreName: model.name})
+                var page = pageStack.nextPage()
+                if(!page)
+                    pageStack.pushAttached(Qt.resolvedUrl("SubGenrePage.qml"),
+                                           {genreId: model.id, genreName: model.name})
+                else {
+                    page.genreId =  model.id
+                    page.genreName = model.name
+                }
+
+                pageStack.navigateForward(PageStackAction.Animated)
             }
         }
 

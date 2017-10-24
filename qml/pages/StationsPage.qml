@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 207 Willem-Jan de Hoog
+  Copyright (C) 2017 Willem-Jan de Hoog
 */
 
 import QtQuick 2.0
@@ -15,7 +15,7 @@ Page {
     property string genreId: ""
     property int currentItem: -1
 
-    property bool showBusy: true
+    property bool showBusy: false
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -30,9 +30,14 @@ Page {
         query: "$..station.*"
         keepQuery: "$..tunein"
         orderField: "lc"
-        Component.onCompleted: showBusy = false
     }
 
+    onGenreIdChanged: showBusy = true
+
+    Connections {
+        target: stationsModel
+        onLoaded: showBusy = false
+    }
 
     SilicaListView {
         id: genreView
@@ -42,14 +47,6 @@ Page {
             topMargin: 0
             bottomMargin: 0
         }
-
-        /*PullDownMenu {
-            MenuItem {
-                text: qsTr("Reload")
-                //enabled: browseModel.count < totalCount
-                onClicked: loadGenres()
-            }
-        }*/
 
         header: Column {
             id: lvColumn
@@ -125,11 +122,20 @@ Page {
                         var streamURL = Shoutcast.extractURLFromM3U(m3u)
                         console.log("URL: \n" + streamURL)
                         if(streamURL.length > 0) {
-                            pageStack.push(Qt.resolvedUrl("PlayerPage.qml"),
-                                           {genreName: genreName,
-                                            stationName: model.name,
-                                            streamURL: streamURL,
-                                            logoURL: model.logo})
+                            var page = pageStack.nextPage()
+                            if(!page)
+                                pageStack.pushAttached(app.getPlayerPage(),
+                                                       {genreName: genreName,
+                                                        stationName: model.name,
+                                                        streamURL: streamURL,
+                                                        logoURL: model.logo})
+                            else {
+                                page.genreName = genreName
+                                page.stationName = model.name
+                                page.streamURL = streamURL
+                                page.logoURL = model.logo
+                            }
+                            pageStack.navigateForward(PageStackAction.Animated)
                         }
 
                     }

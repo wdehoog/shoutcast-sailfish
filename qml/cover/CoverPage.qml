@@ -32,21 +32,51 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
-        anchors.centerIn: parent
-        text: qsTr("My Cover")
-    }
+    id: cover
 
-    CoverActionList {
-        id: coverAction
+    property string defaultImageSource : "image://theme/icon-l-music"
+    property string imageSource : defaultImageSource
+    property string playIconSource : "image://theme/icon-cover-play"
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-next"
+    Column {
+        width: parent.width
+
+        //anchors.topMargin: Theme.paddingMedium
+        //anchors.top: parent.top + Theme.paddingMedium
+        // nothing works. try a filler...
+        Rectangle {
+            width: parent.width
+            height:Theme.paddingMedium
+            opacity: 0
         }
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
+        Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            id: label
+            text: qsTr("Shoutcast")
+            horizontalAlignment: Text.AlignHCenter
+            visible: imageSource.toString().length == 0
+        }
+
+        Image {
+            id: image
+            width: parent.width - (Theme.paddingMedium * 2)
+            height: parent.width - (Theme.paddingMedium * 2)
+            //anchors.topMargin: Theme.paddingMedium
+            //anchors.top: parent.top + Theme.paddingMedium
+            anchors.horizontalCenter: parent.horizontalCenter
+            source: imageSource
+        }
+
+        CoverActionList {
+            id: coverAction
+
+            CoverAction {
+                iconSource: playIconSource
+                onTriggered: app.pause()
+            }
+
         }
     }
 }

@@ -29,6 +29,8 @@ Page {
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
+    onLogoURLChanged: cover.imageSource = logoURL.length > 0 ? logoURL : defaultImageSource
+
     Audio {
         id: audio
         source: streamURL
@@ -81,10 +83,10 @@ Page {
     function updateIcons() {
         if(audio.playbackState == Audio.PlayingState) {
             playIconSource = "image://theme/icon-l-pause";
-            //cover.playIconSource = "image://theme/icon-cover-pause";
+            cover.playIconSource = "image://theme/icon-cover-pause";
         } else {
             playIconSource =  "image://theme/icon-l-play";
-            //cover.playIconSource = "image://theme/icon-cover-play";
+            cover.playIconSource = "image://theme/icon-cover-play";
         }
     }
 

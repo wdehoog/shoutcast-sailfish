@@ -20,6 +20,8 @@ Item {
     property ListModel model : ListModel { id: jsonModel }
     property alias count: jsonModel.count
 
+    signal loaded();
+
     onSourceChanged: {
         var xhr = new XMLHttpRequest;
         xhr.open("GET", source);
@@ -51,6 +53,7 @@ Item {
             jsonModel.append( jo );
         }
 
+        loaded()
     }
 
     function parseJSONString(jsonString, jsonPathQuery) {

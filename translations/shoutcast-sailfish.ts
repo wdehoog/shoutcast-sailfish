@@ -2,9 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shoutcast player for Sailfish OS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2017 Willem-Jan de Hoog</source>
+        <extracomment>I doubt this needs to be translated</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thanks to</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
+        <source>Shoutcast</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12,6 +32,10 @@
     <name>FirstPage</name>
     <message>
         <source>Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

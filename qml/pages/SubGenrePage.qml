@@ -14,7 +14,7 @@ Page {
     property string genreName: ""
     property string genreId: ""
 
-    property bool showBusy: true
+    property bool showBusy: false
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -26,9 +26,14 @@ Page {
                 + "&" + Shoutcast.DevKeyPart
                 + "&" + Shoutcast.QueryFormat
         query: "$..genre.*"
-        Component.onCompleted: showBusy = false
     }
 
+    onGenreIdChanged: showBusy = true
+
+    Connections {
+        target: genresModel
+        onLoaded: showBusy = false
+    }
 
     SilicaListView {
         id: genreView
@@ -38,14 +43,6 @@ Page {
             topMargin: 0
             bottomMargin: 0
         }
-
-        /*PullDownMenu {
-            MenuItem {
-                text: qsTr("Reload")
-                //enabled: browseModel.count < totalCount
-                onClicked: loadGenres()
-            }
-        }*/
 
         header: Column {
             id: lvColumn
@@ -100,8 +97,15 @@ Page {
             }
 
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("StationsPage.qml"),
-                               {genreId: model.id, genreName: model.name})
+                var page = pageStack.nextPage()
+                if(!page)
+                    pageStack.pushAttached(Qt.resolvedUrl("StationsPage.qml"),
+                                           {genreId: model.id, genreName: model.name})
+                else {
+                   page.genreId = model.id
+                   page. genreName = model.name
+                }
+                pageStack.navigateForward(PageStackAction.Animated)
             }
         }
 
