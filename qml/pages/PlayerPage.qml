@@ -18,21 +18,20 @@ Page {
     allowedOrientations: Orientation.All
 
     JSONListModel {
-        id: stationsModel
+        id: genresModel
         source: Shoutcast.StationSearchBase
                 + "?" + Shoutcast.getGenrePart(genreId)
                 + "&" + Shoutcast.DevKeyPart
                 + "&" + Shoutcast.LimitPart
                 + "&" + Shoutcast.QueryFormat
         query: "$..station.*"
-        keepQuery: "$..tunein"
         orderField: "lc"
     }
 
 
     SilicaListView {
         id: genreView
-        model: stationsModel.model
+        model: genresModel.model
         anchors.fill: parent
         anchors {
             topMargin: 0
@@ -109,18 +108,7 @@ Page {
             }
 
             onClicked: {
-                var xhr = new XMLHttpRequest
-                var uri = Shoutcast.TuneInBase
-                        + stationsModel.keepObject[0]["base-m3u"]
-                        + "?" + Shoutcast.getStationPart(model.id)
-                xhr.open("GET", uri)
-                xhr.onreadystatechange = function() {
-                    if(xhr.readyState === XMLHttpRequest.DONE) {
-                        var m3u = xhr.responseText;
-                        console.log("Station: \n" + m3u)
-                    }
-                }
-                xhr.send();
+                var item = model.get(index)
             }
         }
 

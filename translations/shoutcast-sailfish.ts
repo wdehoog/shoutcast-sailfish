@@ -16,6 +16,13 @@
     </message>
 </context>
 <context>
+    <name>PlayerPage</name>
+    <message>
+        <source>no track info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StationsPage</name>
     <message>
         <source>no track info</source>

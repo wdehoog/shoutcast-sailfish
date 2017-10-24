@@ -27,7 +27,8 @@ DISTFILES += qml/shoutcast-sailfish.qml \
     qml/components/jsonpath.js \
     qml/components/JSONListModel.qml \
     qml/pages/SubGenrePage.qml \
-    qml/pages/StationsPage.qml
+    qml/pages/StationsPage.qml \
+    qml/pages/PlayerPage.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 

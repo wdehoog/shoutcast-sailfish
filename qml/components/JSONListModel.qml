@@ -13,6 +13,10 @@ Item {
     property string query: ""
     property string orderField: ""
 
+    // json is not saved but sometimes we need to keep something
+    property string keepQuery: ""
+    property var keepObject: null
+
     property ListModel model : ListModel { id: jsonModel }
     property alias count: jsonModel.count
 
@@ -51,9 +55,10 @@ Item {
 
     function parseJSONString(jsonString, jsonPathQuery) {
         var objectArray = JSON.parse(jsonString);
+        if ( keepQuery !== "" )
+            keepObject = JSONPath.jsonPath(objectArray, keepQuery);
         if ( jsonPathQuery !== "" )
-            objectArray = JSONPath.jsonPath(objectArray, jsonPathQuery);
-
+            objectArray = JSONPath.jsonPath(objectArray, jsonPathQuery);        
         return objectArray;
     }
 }

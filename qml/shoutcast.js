@@ -33,6 +33,7 @@ var LegacyBaseURL = "http://api.shoutcast.com/legacy/";
 var PrimaryGenreBase = "http://api.shoutcast.com/genre/primary";
 var SecondaryGenreBase = "http://api.shoutcast.com/genre/secondary";
 var StationSearchBase = "http://api.shoutcast.com/station/advancedsearch";
+var TuneInBase = "http://yp.shoutcast.com";
 
 var QueryFormat = "f=json";
 
@@ -44,12 +45,20 @@ function getGenrePart(genreId) {
     return "genre_id=" + genreId;
 }
 
+function getStationPart(stationId) {
+    return "id=" + stationId;
+}
+
 var LimitPart = "limit=200";
 
 function getAudioType(mimeType) {
     switch(mimeType) {
-    case "audio/mpeg": return "mp3"
-    case "audio/aacp": return "aac"
-    default: mimeType
+    case "audio/mpeg": return "mp3";
+    case "audio/aacp": return "aac";
+    default: return mimeType;
     }
+}
+
+function extractURL(text) {
+
 }
