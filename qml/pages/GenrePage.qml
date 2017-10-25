@@ -36,13 +36,6 @@ Page {
             bottomMargin: 0
         }
 
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("About")
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-            }
-        }
-
         header: Column {
             id: lvColumn
 

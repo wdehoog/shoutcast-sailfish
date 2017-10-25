@@ -110,37 +110,7 @@ Page {
             }
 
             onClicked: {
-                var xhr = new XMLHttpRequest
-                var uri = Shoutcast.TuneInBase
-                        + stationsModel.keepObject[0]["base-m3u"]
-                        + "?" + Shoutcast.getStationPart(model.id)
-                xhr.open("GET", uri)
-                xhr.onreadystatechange = function() {
-                    if(xhr.readyState === XMLHttpRequest.DONE) {
-                        var m3u = xhr.responseText;
-                        //console.log("Station: \n" + m3u)
-                        var streamURL = Shoutcast.extractURLFromM3U(m3u)
-                        console.log("URL: \n" + streamURL)
-                        if(streamURL.length > 0) {
-                            var page = pageStack.nextPage()
-                            if(!page)
-                                pageStack.pushAttached(app.getPlayerPage(),
-                                                       {genreName: genreName,
-                                                        stationName: model.name,
-                                                        streamURL: streamURL,
-                                                        logoURL: model.logo})
-                            else {
-                                page.genreName = genreName
-                                page.stationName = model.name
-                                page.streamURL = streamURL
-                                page.logoURL = model.logo
-                            }
-                            pageStack.navigateForward(PageStackAction.Animated)
-                        }
-
-                    }
-                }
-                xhr.send();
+                app.loadStation(model.id, model.name, model.logo)
             }
         }
 
