@@ -19,7 +19,7 @@ This project is developed with the Sailfish OS IDE (QT Creator).
 Translation is done using Qt Quick Internationalisation. If you want to contribute a translation take donnie.ts and create a version for your locale.
 
 ### Thanks
-Shoutcast: fantastic directory
-nesnomis: harbour-allradio
-Romain Pokrzywka: JSONListModel
-Stefan Goessner: JSONPath
+  * Shoutcast: fantastic directory
+  * nesnomis: harbour-allradio
+  * Romain Pokrzywka: JSONListModel
+  * Stefan Goessner: JSONPath
