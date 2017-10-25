@@ -8,6 +8,8 @@ import Sailfish.Silica 1.0
 import "pages"
 import "cover"
 
+import "shoutcast.js" as Shoutcast
+
 ApplicationWindow {
     id: app
 
@@ -30,10 +32,10 @@ ApplicationWindow {
         playerPage.pause()
     }
 
-    function loadStation(stationId, name, logoURL) {
+    function loadStation(stationId, name, logoURL, tuneinBase) {
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.TuneInBase
-                + stationsModel.keepObject[0]["base-m3u"]
+                + tuneinBase
                 + "?" + Shoutcast.getStationPart(stationId)
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
@@ -44,11 +46,25 @@ ApplicationWindow {
                 console.log("URL: \n" + streamURL)
                 if(streamURL.length > 0) {
                     var page = app.getPlayerPage()
-                    page.genreName = genreName
+                    //page.genreName = genreName
                     page.stationName = name
                     page.streamURL = streamURL
                     page.logoURL = logoURL
                 }
+            }
+        }
+        xhr.send();
+    }
+
+    function loadKeywordSearch(keywordQuery, onDone) {
+        var xhr = new XMLHttpRequest
+        var uri = Shoutcast.KeywordSearchBase
+            + "?" + Shoutcast.DevKeyPart
+            + "&" + Shoutcast.getSearchPart(keywordQuery)
+        xhr.open("GET", uri)
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                onDone(xhr.responseText)
             }
         }
         xhr.send();

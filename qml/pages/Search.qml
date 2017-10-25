@@ -8,6 +8,7 @@
 import QtQuick 2.0
 
 import QtQuick 2.0
+import QtQuick.XmlListModel 2.0
 import Sailfish.Silica 1.0
 
 import org.nemomobile.configuration 1.0
@@ -26,8 +27,11 @@ Page {
     property var searchResults
     property var searchCapabilities: []
     property var scMap: []
-    property string groupByField: groupby_search_results.value
+    property string groupByField: ""
     property string nowPlayingQuery: ""
+    property string keywordQuery: ""
+    property int searchInType: 0
+    property string tuneinBase: ""
 
     onSearchStringChanged: {
         typeDelay.restart()
@@ -43,20 +47,20 @@ Page {
 
     function refresh() {
         if(searchString.length >= 2) {
-            //var searchQuery = UPnP.createUPnPQuery(searchString, searchCapabilities, selectedSearchCapabilitiesMask, allowContainers);
             showBusy = true
-            nowPlayingQuery = searchString
-            //upnp.search(searchQuery, 0, maxCount);
-            //console.log("search start="+startIndex);
+            if(searchInType === 0)
+                nowPlayingQuery = searchString
+            else
+                keywordQuery = searchString
         }
     }
 
     JSONListModel {
         id: nowPlayingModel
         source: nowPlayingQuery.length == 0 ? "" : (Shoutcast.NowPlayingSearchBase
-                + "?" + Shoutcast.getPlayingPart(nowPlayingQuery)
-                + "&" + Shoutcast.DevKeyPart
+                + "?" + Shoutcast.DevKeyPart
                 + "&" + Shoutcast.QueryFormat)
+                + "&" + Shoutcast.getPlayingPart(nowPlayingQuery)
         query: "$..station.*"
         keepQuery: "$..tunein"
     }
@@ -68,9 +72,62 @@ Page {
             searchModel.clear()
             for(i=0;i<nowPlayingModel.model.count;i++)
                 searchModel.append(nowPlayingModel.model.get(i))
+            tuneinBase = nowPlayingModel.keepObject[0]["base-m3u"]
             showBusy = false
         }
     }
+
+    onKeywordQueryChanged: {
+        if(keywordQuery.length === 0)
+            return
+        loadKeywordSearch(keywordQuery, function(xml) {
+            keywordModel.xml = xml
+            tuneinModel.xml = xml
+        })
+    }
+
+    XmlListModel {
+        id: keywordModel
+        query: "/stationlist/station"
+        XmlRole { name: "name"; query: "@name/string()" }
+        XmlRole { name: "mt"; query: "@mt/string()" }
+        XmlRole { name: "id"; query: "@id/number()" }
+        XmlRole { name: "br"; query: "@br/number()" }
+        XmlRole { name: "genre"; query: "@genre/string()" }
+        XmlRole { name: "ct"; query: "@ct/string()" }
+        XmlRole { name: "lc"; query: "@lc/number()" }
+        onStatusChanged: {
+            if (status !== XmlListModel.Ready)
+                return
+            var i
+            searchModel.clear()
+            for(i=0;i<count;i++)
+                searchModel.append(get(i))
+            showBusy = false
+        }
+    }
+
+    XmlListModel {
+        id: tuneinModel
+        query: "/stationlist/tunein"
+        XmlRole{ name: "base"; query: "@base/string()" }
+        XmlRole{ name: "base-m3u"; query: "@base-m3u/string()" }
+        XmlRole{ name: "base-xspf"; query: "@base-xspf/string()" }
+        onStatusChanged: {
+            if (status !== XmlListModel.Ready)
+                return
+            tuneinBase = tuneinModel.get(0)["base-m3u"]
+        }
+    }
+
+    /*function catchTuninBase(xml) {
+        // try to also catch the tuninbase
+        var start = xml.indexOf("<tunein");
+        var end = xml.indexOf("/>", start)
+        var tuninPartsXML = xml.substring(start, end+2)
+        var parts = tuninPartsXML.match("(\S+)=[\"']?((?:.(?![\"']?\s+(?:\S+)=|[>\"']))+.)[\"']?\")")
+        tuninParts = parts["base-m3u"]
+    }*/
 
     ListModel {
         id: searchModel
@@ -118,19 +175,17 @@ Page {
             }
 
             ComboBox {
-                id: groupBy
+                id: searchIn
                 width: parent.width
                 label: qsTr("Search in")
                 menu: ContextMenu {
                     MenuItem {
                         text: qsTr("Now Playing")
-                        onClicked: {
-                        }
+                        onClicked: searchInType = 0
                     }
                     MenuItem {
                         text: qsTr("Keyword")
-                        onClicked: {
-                        }
+                        onClicked: searchInType = 1
                     }
                 }
             }
@@ -199,7 +254,7 @@ Page {
             }
 
             onClicked: {
-                app.loadStation(model.id, model.name, model.logo)
+                app.loadStation(model.id, model.name, model.logo, tuneinBase)
             }
         }
 

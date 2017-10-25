@@ -110,7 +110,7 @@ Page {
             }
 
             onClicked: {
-                app.loadStation(model.id, model.name, model.logo)
+                app.loadStation(model.id, model.name, model.logo, stationsModel.keepObject[0]["base-m3u"])
             }
         }
 

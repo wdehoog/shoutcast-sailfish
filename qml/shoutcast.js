@@ -30,7 +30,7 @@ var PrimaryGenreBase = "http://api.shoutcast.com/genre/primary";
 var SecondaryGenreBase = "http://api.shoutcast.com/genre/secondary";
 var StationSearchBase = "http://api.shoutcast.com/station/advancedsearch";
 var TuneInBase = "http://yp.shoutcast.com";
-var StationKeywordSearchBase = "http://api.shoutcast.com/legacy/stationsearch";
+var KeywordSearchBase = "http://api.shoutcast.com/legacy/stationsearch";
 var NowPlayingSearchBase = "http://api.shoutcast.com/station/nowplaying";
 
 var QueryFormat = "f=json";
@@ -50,7 +50,11 @@ function getStationPart(stationId) {
 }
 
 function getPlayingPart(query) {
-    return "ct=" + query;
+    return "ct=" + encodeURI(query);
+}
+
+function getSearchPart(query) {
+    return "search=" + encodeURI(query);
 }
 
 function getAudioType(mimeType) {
