@@ -25,7 +25,7 @@ Page {
         source: Shoutcast.StationSearchBase
                 + "?" + Shoutcast.getGenrePart(genreId)
                 + "&" + Shoutcast.DevKeyPart
-                + "&" + Shoutcast.LimitPart
+                + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
                 + "&" + Shoutcast.QueryFormat
         query: "$..station.*"
         keepQuery: "$..tunein"

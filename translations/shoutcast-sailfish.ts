@@ -90,6 +90,17 @@
     </message>
 </context>
 <context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of results per request</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StationsPage</name>
     <message>
         <source>no track info</source>

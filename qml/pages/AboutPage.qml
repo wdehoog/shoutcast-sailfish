@@ -104,7 +104,9 @@ Page {
                 wrapMode: Text.WordWrap
                 text:
 "Shoutcast
-nesnomis: harbour-allradio"
+nesnomis: harbour-allradio
+Romain Pokrzywka: JSONListModel
+Stefan Goessner: JSONPath"
             }
         }
 

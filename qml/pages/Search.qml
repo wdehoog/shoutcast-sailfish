@@ -37,6 +37,10 @@ Page {
         typeDelay.restart()
     }
 
+    onSearchInTypeChanged: {
+        refresh()
+    }
+
     Timer {
         id: typeDelay
         interval: 1000
@@ -59,8 +63,9 @@ Page {
         id: nowPlayingModel
         source: nowPlayingQuery.length == 0 ? "" : (Shoutcast.NowPlayingSearchBase
                 + "?" + Shoutcast.DevKeyPart
-                + "&" + Shoutcast.QueryFormat)
-                + "&" + Shoutcast.getPlayingPart(nowPlayingQuery)
+                + "&" + Shoutcast.QueryFormat
+                + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
+                + "&" + Shoutcast.getPlayingPart(nowPlayingQuery))
         query: "$..station.*"
         keepQuery: "$..tunein"
     }
@@ -72,7 +77,11 @@ Page {
             searchModel.clear()
             for(i=0;i<nowPlayingModel.model.count;i++)
                 searchModel.append(nowPlayingModel.model.get(i))
-            tuneinBase = nowPlayingModel.keepObject[0]["base-m3u"]
+            if(nowPlayingModel.keepObject.length > 0)
+                tuneinBase = nowPlayingModel.keepObject[0]["base-m3u"]
+            else
+                tuneinBase = ""
+            nowPlayingQuery = ""
             showBusy = false
         }
     }
@@ -80,7 +89,7 @@ Page {
     onKeywordQueryChanged: {
         if(keywordQuery.length === 0)
             return
-        loadKeywordSearch(keywordQuery, function(xml) {
+        app.loadKeywordSearch(keywordQuery, function(xml) {
             keywordModel.xml = xml
             tuneinModel.xml = xml
         })
@@ -103,6 +112,7 @@ Page {
             searchModel.clear()
             for(i=0;i<count;i++)
                 searchModel.append(get(i))
+            keywordQuery = ""
             showBusy = false
         }
     }
@@ -116,18 +126,12 @@ Page {
         onStatusChanged: {
             if (status !== XmlListModel.Ready)
                 return
-            tuneinBase = tuneinModel.get(0)["base-m3u"]
+            if(tuneinModel.count > 0)
+                tuneinBase = tuneinModel.get(0)["base-m3u"]
+            else
+                tuneinBase = ""
         }
     }
-
-    /*function catchTuninBase(xml) {
-        // try to also catch the tuninbase
-        var start = xml.indexOf("<tunein");
-        var end = xml.indexOf("/>", start)
-        var tuninPartsXML = xml.substring(start, end+2)
-        var parts = tuninPartsXML.match("(\S+)=[\"']?((?:.(?![\"']?\s+(?:\S+)=|[>\"']))+.)[\"']?\")")
-        tuninParts = parts["base-m3u"]
-    }*/
 
     ListModel {
         id: searchModel

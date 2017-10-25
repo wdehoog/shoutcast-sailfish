@@ -4,6 +4,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import org.nemomobile.configuration 1.0
 
 import "pages"
 import "cover"
@@ -12,6 +13,7 @@ import "shoutcast.js" as Shoutcast
 
 ApplicationWindow {
     id: app
+    property alias maxNumberOfResults: max_number_of_results
 
     initialPage: Component { MainPage { } }
     allowedOrientations: defaultAllowedOrientations
@@ -60,6 +62,7 @@ ApplicationWindow {
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.KeywordSearchBase
             + "?" + Shoutcast.DevKeyPart
+            + "&" + Shoutcast.getLimitPart(max_number_of_results.value)
             + "&" + Shoutcast.getSearchPart(keywordQuery)
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
@@ -69,5 +72,12 @@ ApplicationWindow {
         }
         xhr.send();
     }
+
+    ConfigurationValue {
+            id: max_number_of_results
+            key: "/shoutcast-sailfish/max_number_of_results"
+            defaultValue: 200
+    }
+
 }
 

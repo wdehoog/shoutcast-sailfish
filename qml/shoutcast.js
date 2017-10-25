@@ -34,8 +34,11 @@ var KeywordSearchBase = "http://api.shoutcast.com/legacy/stationsearch";
 var NowPlayingSearchBase = "http://api.shoutcast.com/station/nowplaying";
 
 var QueryFormat = "f=json";
-var LimitPart = "limit=200";
 var HasChildrenPart = "haschildren=true"
+
+function getLimitPart(limitValue) {
+    return "limit=" + limitValue;
+}
 
 function getParentGenrePart(genreId) {
     return "parentid=" + genreId;
