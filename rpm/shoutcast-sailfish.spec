@@ -15,10 +15,10 @@ Name:       shoutcast-sailfish
 Summary:    Shoutcast Player for Sailfish OS
 Version:    0.1
 Release:    1
-Group:      Qt/Qt
-License:    LICENSE
+Group:      Applications/Multimedia
+License:    MIT
 BuildArch:  noarch
-URL:        http://example.org/
+URL:        https://github.com/wdehoog
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  shoutcast-sailfish.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
