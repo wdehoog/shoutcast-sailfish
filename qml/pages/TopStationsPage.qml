@@ -58,8 +58,6 @@ Page {
 
     function reload() {
         showBusy = true
-        top500Model.clear()
-        tuneinModel.clear()
         app.loadTop500(function(xml) {
             top500Model.xml = xml
             tuneinModel.xml = xml
