@@ -106,6 +106,7 @@ Page {
         XmlRole { name: "genre"; query: "@genre/string()" }
         XmlRole { name: "ct"; query: "@ct/string()" }
         XmlRole { name: "lc"; query: "@lc/number()" }
+        XmlRole { name: "logo"; query: "@logo/string()" }
         onStatusChanged: {
             if (status !== XmlListModel.Ready)
                 return
@@ -252,7 +253,7 @@ Page {
                         textFormat: Text.StyledText
                         truncationMode: TruncationMode.Fade
                         width: parent.width
-                        text: ct ? ct : qsTr("no track info")
+                        text: (genre ? (genre + " - ") : "") + (ct ? ct : qsTr("no track info"))
                     }
                 }
 

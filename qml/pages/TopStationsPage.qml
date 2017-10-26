@@ -139,8 +139,7 @@ Page {
                     textFormat: Text.StyledText
                     truncationMode: TruncationMode.Fade
                     width: parent.width
-                    //visible: metaText ? metaText.length > 0 : false
-                    text: ct ? ct : qsTr("no track info")
+                    text: (genre ? (genre + " - ") : "") + (ct ? ct : qsTr("no track info"))
                 }
             }
 

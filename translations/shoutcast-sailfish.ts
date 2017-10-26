@@ -3,7 +3,7 @@
 <TS version="2.1">
 <context>
     <name></name>
-    <message id="Shoutcast">
+    <message id="Shoutcast for SailfishOS">
         <source></source>
         <translation type="unfinished"></translation>
     </message>

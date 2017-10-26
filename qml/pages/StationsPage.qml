@@ -18,7 +18,6 @@ Page {
     property bool showBusy: false
     property string tuneinBase: ""
 
-    // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
     JSONListModel {
@@ -108,8 +107,7 @@ Page {
                     textFormat: Text.StyledText
                     truncationMode: TruncationMode.Fade
                     width: parent.width
-                    //visible: metaText ? metaText.length > 0 : false
-                    text: ct ? ct : qsTr("no track info")
+                    text: (ct ? ct : qsTr("no track info"))
                 }
             }
 
