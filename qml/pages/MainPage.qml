@@ -8,11 +8,15 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
+import org.nemomobile.mpris 1.0
+
 
 import "../shoutcast.js" as Shoutcast
 
 Page {
     property bool showBusy : false
+
+    property alias mpris: mprisPlayer
 
     // 0 inactive, 1 load queue data, 2 load browse stack data
     property int resumeState: 0
@@ -153,4 +157,45 @@ Page {
         pageStack.navigateForward(PageStackAction.Animated)
     }
 
+
+    // lot's of stuff copied from MediaPlayer
+    MprisPlayer {
+        id: mprisPlayer
+        serviceName: "jolla-mediaplayer"
+
+        property var metaData
+
+        identity: qsTrId("Shoutcast")
+
+        canControl: true
+
+        canPause: playbackStatus === Mpris.Playing
+        canPlay: playbackStatus !== Mpris.Playing
+
+        playbackStatus: {
+            var audio = app.playerPage.audio
+            if (audio.playbackState === audio.Playing) {
+                return Mpris.Playing
+            } else if (audio.playbackState === audio.Stopped) {
+                return Mpris.Stopped
+            } else {
+                return Mpris.Paused
+            }
+        }
+
+        onPauseRequested: app.playerPage.pause()
+        onPlayRequested: app.playerPage.play()
+        onPlayPauseRequested: app.playerPage.pause()
+
+        onMetaDataChanged: {
+            var metadata = {}
+
+            if (metaData && 'url' in metaData) {
+                metadata[Mpris.metadataToString(Mpris.Artist)] = [metaData['artist']] // List of strings
+                metadata[Mpris.metadataToString(Mpris.Title)] = metaData['title'] // String
+            }
+
+            mprisPlayer.metadata = metadata
+        }
+    }
 }

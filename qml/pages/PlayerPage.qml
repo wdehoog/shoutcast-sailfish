@@ -26,6 +26,8 @@ Page {
     property string streamMetaText1: stationName
     property string streamMetaText2: ""
 
+    property alias audio: audio
+
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
@@ -53,11 +55,20 @@ Page {
         repeat: true
         onTriggered: {
             var title = audio.metaData.title
-            if(title === undefined)
-                return
-            var publisher = audio.metaData.publisher
-            streamMetaText1 = title
-            streamMetaText2 = publisher
+            if(title !== undefined) {
+                streamMetaText1 = title
+                streamMetaText2 = audio.metaData.publisher
+                app.mainPage.mpris.metaData = audio.metaData
+
+                var metaData = {}
+                metaData['artist'] = audio.metaData.publisher
+                metaData['title'] = audio.metaData.title
+                app.mainPage.mpris.metaData = metaData
+            } else {
+                streamMetaText1 = ""
+                streamMetaText2 = ""
+                app.mainPage.mpris.metaData = {}
+            }
         }
     }
 

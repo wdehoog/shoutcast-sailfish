@@ -14,12 +14,18 @@ import "shoutcast.js" as Shoutcast
 ApplicationWindow {
     id: app
     property alias maxNumberOfResults: max_number_of_results
+    property alias mainPage: mainPage
+    property alias playerPage: playerPage
 
-    initialPage: Component { MainPage { } }
+    initialPage: mainPage
     allowedOrientations: defaultAllowedOrientations
 
     cover: CoverPage {
         id: cover
+    }
+
+    MainPage {
+        id: mainPage
     }
 
     PlayerPage {
