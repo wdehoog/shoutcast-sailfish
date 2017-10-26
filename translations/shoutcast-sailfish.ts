@@ -61,6 +61,10 @@
         <source>Player</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Top 500</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Search</name>
@@ -104,6 +108,21 @@
     <name>StationsPage</name>
     <message>
         <source>no track info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TopStationsPage</name>
+    <message>
+        <source>Top 500</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no track info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -4,52 +4,84 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtQuick.XmlListModel 2.0
 
-import "../components"
 import "../shoutcast.js" as Shoutcast
 
 Page {
-    id: stationsPage
+    id: top500Page
+    objectName: "TopStationsPage"
 
-    property string genreName: ""
-    property string genreId: ""
     property int currentItem: -1
 
     property bool showBusy: false
     property string tuneinBase: ""
 
-    // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
-    JSONListModel {
+    ListModel {
         id: stationsModel
-        source: Shoutcast.StationSearchBase
-                + "?" + Shoutcast.getGenrePart(genreId)
-                + "&" + Shoutcast.DevKeyPart
-                + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
-                + "&" + Shoutcast.QueryFormat
-        query: "$..station.*"
-        keepQuery: "$..tunein"
-        orderField: "lc"
     }
 
-    onGenreIdChanged: showBusy = true
-
-    Connections {
-        target: stationsModel
-        onLoaded: {
+    XmlListModel {
+        id: top500Model
+        query: "/stationlist/station"
+        XmlRole { name: "name"; query: "@name/string()" }
+        XmlRole { name: "mt"; query: "@mt/string()" }
+        XmlRole { name: "id"; query: "@id/number()" }
+        XmlRole { name: "br"; query: "@br/number()" }
+        XmlRole { name: "genre"; query: "@genre/string()" }
+        XmlRole { name: "ct"; query: "@ct/string()" }
+        XmlRole { name: "lc"; query: "@lc/number()" }
+        onStatusChanged: {
+            if (status !== XmlListModel.Ready)
+                return
             showBusy = false
-            tuneinBase = stationsModel.keepObject[0]["base-m3u"]
         }
     }
 
+    XmlListModel {
+        id: tuneinModel
+        query: "/stationlist/tunein"
+        XmlRole{ name: "base"; query: "@base/string()" }
+        XmlRole{ name: "base-m3u"; query: "@base-m3u/string()" }
+        XmlRole{ name: "base-xspf"; query: "@base-xspf/string()" }
+        onStatusChanged: {
+            if (status !== XmlListModel.Ready)
+                return
+            if(tuneinModel.count > 0)
+                tuneinBase = tuneinModel.get(0)["base-m3u"]
+            else
+                tuneinBase = ""
+        }
+    }
+
+    function reload() {
+        showBusy = true
+        top500Model.clear()
+        tuneinModel.clear()
+        app.loadTop500(function(xml) {
+            top500Model.xml = xml
+            tuneinModel.xml = xml
+        })
+    }
+
+    Component.onCompleted: reload()
+
     SilicaListView {
         id: genreView
-        model: stationsModel.model
+        model: top500Model
         anchors.fill: parent
         anchors {
             topMargin: 0
             bottomMargin: 0
+        }
+
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
         }
 
         header: Column {
@@ -62,7 +94,7 @@ Page {
 
             PageHeader {
                 id: pHeader
-                title: genreName
+                title: qsTr("Top 500")
                 BusyIndicator {
                     id: busyThingy
                     parent: pHeader.extraContent

@@ -26,6 +26,7 @@ var DevKeyPart = "k=ia9p4XYXmOPEtXzL";
 
 var LegacyBaseURL = "http://api.shoutcast.com/legacy/";
 
+var Top500Base = "http://api.shoutcast.com/legacy/Top500"
 var PrimaryGenreBase = "http://api.shoutcast.com/genre/primary";
 var SecondaryGenreBase = "http://api.shoutcast.com/genre/secondary";
 var StationSearchBase = "http://api.shoutcast.com/station/advancedsearch";

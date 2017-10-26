@@ -51,7 +51,7 @@ ApplicationWindow {
                     //page.genreName = genreName
                     page.stationName = name
                     page.streamURL = streamURL
-                    page.logoURL = logoURL
+                    page.logoURL = logoURL ? logoURL : ""
                 }
             }
         }
@@ -64,6 +64,21 @@ ApplicationWindow {
             + "?" + Shoutcast.DevKeyPart
             + "&" + Shoutcast.getLimitPart(max_number_of_results.value)
             + "&" + Shoutcast.getSearchPart(keywordQuery)
+        xhr.open("GET", uri)
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                onDone(xhr.responseText)
+            }
+        }
+        xhr.send();
+    }
+
+    function loadTop500(onDone) {
+        var xhr = new XMLHttpRequest
+        var uri = Shoutcast.Top500Base
+                + "?" + Shoutcast.DevKeyPart
+                + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
+                + "&" + Shoutcast.QueryFormat
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {

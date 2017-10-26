@@ -22,7 +22,9 @@ Item {
 
     signal loaded();
 
-    onSourceChanged: {
+    onSourceChanged: refresh()
+
+    function refresh() {
         var xhr = new XMLHttpRequest;
         xhr.open("GET", source);
         xhr.onreadystatechange = function() {

@@ -81,6 +81,18 @@ Page {
                             onClicked: gotoGenrePage();
                         }
                     }
+                    Row {
+                        id: top500Row
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        IconButton {
+                            icon.source: "image://theme/icon-m-folder"
+                            onClicked: gotoTop500Page()
+                        }
+                        Button {
+                            text: qsTr("Top 500")
+                            onClicked: gotoTop500Page()
+                        }
+                    }
 
                     Row {
                         id: searchRow
@@ -116,16 +128,29 @@ Page {
         VerticalScrollDecorator { }
     }
 
+    function gotoTop500Page() {
+        var page = pageStack.nextPage()
+        if(!page || page.objectName !== "TopStationsPage")
+            pageStack.pushAttached(Qt.resolvedUrl("TopStationsPage.qml"))
+        pageStack.navigateForward(PageStackAction.Animated)
+    }
+
     function gotoPlayerPage() {
         pageStack.push(app.getPlayerPage());
     }
 
     function gotoGenrePage() {
-        pageStack.push(Qt.resolvedUrl("GenrePage.qml"));
+        var page = pageStack.nextPage()
+        if(!page || page.objectName !== "GenrePage")
+            pageStack.pushAttached(Qt.resolvedUrl("GenrePage.qml"))
+        pageStack.navigateForward(PageStackAction.Animated)
     }
 
     function gotoSearchPage() {
-        pageStack.push(Qt.resolvedUrl("Search.qml"));
+        var page = pageStack.nextPage()
+        if(!page || page.objectName !== "Search")
+            pageStack.pushAttached(Qt.resolvedUrl("Search.qml"))
+        pageStack.navigateForward(PageStackAction.Animated)
     }
 
 }

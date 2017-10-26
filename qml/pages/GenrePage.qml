@@ -9,7 +9,8 @@ import "../components"
 import "../shoutcast.js" as Shoutcast
 
 Page {
-    id: page
+    id: genrePage
+    objectName: "GenrePage"
 
     property bool showBusy: true
 

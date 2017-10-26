@@ -106,7 +106,8 @@ Page {
 "Shoutcast
 nesnomis: harbour-allradio
 Romain Pokrzywka: JSONListModel
-Stefan Goessner: JSONPath"
+Stefan Goessner: JSONPath
+igh0zt: app icon"
             }
         }
 

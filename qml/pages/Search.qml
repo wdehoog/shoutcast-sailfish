@@ -18,6 +18,7 @@ import "../shoutcast.js" as Shoutcast
 
 Page {
     id: searchPage
+    objectName: "SearchPage"
 
     property bool keepSearchFieldFocus: true
     property bool showBusy: false;
