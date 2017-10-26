@@ -33,7 +33,8 @@ DISTFILES += qml/shoutcast-sailfish.qml \
     qml/pages/MainPage.qml \
     qml/pages/Search.qml \
     qml/pages/SettingsPage.qml \
-    qml/pages/TopStationsPage.qml
+    qml/pages/TopStationsPage.qml \
+    qml/dialogs/ErrorDialog.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 

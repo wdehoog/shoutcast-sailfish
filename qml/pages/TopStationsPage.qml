@@ -33,6 +33,7 @@ Page {
         XmlRole { name: "genre"; query: "@genre/string()" }
         XmlRole { name: "ct"; query: "@ct/string()" }
         XmlRole { name: "lc"; query: "@lc/number()" }
+        XmlRole { name: "logo"; query: "@logo/string()" }
         onStatusChanged: {
             if (status !== XmlListModel.Ready)
                 return

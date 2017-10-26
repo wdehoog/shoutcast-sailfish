@@ -6,6 +6,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 
+import "dialogs"
 import "pages"
 import "cover"
 
@@ -58,6 +59,9 @@ ApplicationWindow {
                     page.stationName = name
                     page.streamURL = streamURL
                     page.logoURL = logoURL ? logoURL : ""
+                } else {
+                    showErrorDialog(qsTr("Failed to retrieve stream URL."))
+                    console.log("Error could not find stream URL: \n" + m3u)
                 }
             }
         }
@@ -92,6 +96,17 @@ ApplicationWindow {
             }
         }
         xhr.send();
+    }
+
+    function showErrorDialog(text) { //, showCancelAll, cancelAll) {
+        var dialog = pageStack.push(Qt.resolvedUrl("ErrorDialog.qml"),
+                                    {errorMessageText: text}) //, showCancelAll: showCancelAll});
+        /*if(showCancelAll) {
+          dialog.accepted.connect(function() {
+              if(dialog.cancelAll)
+                cancelAll()
+          })
+        }*/
     }
 
     ConfigurationValue {

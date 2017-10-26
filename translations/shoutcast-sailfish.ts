@@ -133,4 +133,11 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>shoutcast-sailfish</name>
+    <message>
+        <source>Failed to retrieve stream URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

@@ -161,11 +161,11 @@ Page {
     // lot's of stuff copied from MediaPlayer
     MprisPlayer {
         id: mprisPlayer
-        serviceName: "jolla-mediaplayer"
+        serviceName: "shoutcast-sailfish"
 
         property var metaData
 
-        identity: qsTrId("Shoutcast")
+        identity: qsTrId("Shoutcast for SailfishOS")
 
         canControl: true
 
