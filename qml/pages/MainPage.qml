@@ -157,7 +157,6 @@ Page {
         pageStack.navigateForward(PageStackAction.Animated)
     }
 
-
     // lot's of stuff copied from MediaPlayer
     MprisPlayer {
         id: mprisPlayer

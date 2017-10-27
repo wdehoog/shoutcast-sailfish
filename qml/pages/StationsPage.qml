@@ -112,7 +112,7 @@ Page {
             }
 
             onClicked: {
-                app.loadStation(model.id, model.name, model.logo, tuneinBase)
+                app.loadStation(model.id, model.name, model.mt, model.logo, tuneinBase)
             }
         }
 

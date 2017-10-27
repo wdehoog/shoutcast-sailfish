@@ -17,6 +17,7 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Activating) {
             msrField.text = app.maxNumberOfResults.value
+            mprisServiceName = app.mprisPlayerServiceName.value
         }
     }
 
@@ -39,6 +40,17 @@ Page {
                 onTextChanged: {
                     app.maxNumberOfResults.value = text
                     app.maxNumberOfResults.sync()
+                }
+            }
+
+            TextField {
+                id: mprisServiceName
+                label: qsTr("Mpris Service Name")
+                inputMethodHints: Qt.ImhDigitsOnly
+                width: parent.width
+                onTextChanged: {
+                    app.mprisPlayerServiceName.value = text
+                    app.mprisPlayerServiceName.sync()
                 }
             }
         }

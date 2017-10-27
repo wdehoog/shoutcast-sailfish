@@ -110,6 +110,10 @@
         <source>Maximum number of results per request</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Mpris Service Name</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationsPage</name>

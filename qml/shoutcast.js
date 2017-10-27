@@ -68,6 +68,13 @@ function getAudioType(mimeType) {
     default: return mimeType;
     }
 }
+function getAudioTypeExtension(mimeType) {
+    switch(mimeType) {
+    case "audio/aacp": return "aac";
+    default:
+    case "audio/mpeg": return "mp3";
+    }
+}
 
 function startsWith(str, start) {
     return str.match("^"+start) !== null;
