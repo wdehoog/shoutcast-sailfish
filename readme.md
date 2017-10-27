@@ -4,7 +4,7 @@ A Shoutcast player for SailfishOS. It is a very simple but effective one.
 
 I use and develop it on my Oneplus One (currently 2.1.2.3).
 
-Binary builds can be found in my [OBS repository]( http://repo.merproject.org/obs/home:/wdehoog:/shoutcast-sailfish/sailfish_latest_armv7hl/). 
+A package can be found in my [OBS repository]( http://repo.merproject.org/obs/home:/wdehoog:/shoutcast-sailfish/sailfish_latest_armv7hl/). 
 
 ### Features
   * Browse by Genre
