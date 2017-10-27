@@ -111,7 +111,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Mpris Service Name</source>
+        <source>Player Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Which type of player to use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Built In Player (Qt Audio)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mpris Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Detect Mpris Players</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mpris Service Name (skip &apos;org.mpris.MediaPlayer2&apos;)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

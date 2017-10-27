@@ -17,13 +17,24 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Activating) {
             msrField.text = app.maxNumberOfResults.value
-            mprisServiceName = app.mprisPlayerServiceName.value
+            mprisServiceName.text = app.mprisPlayerServiceName.value
         }
     }
 
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
+
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Detect Mpris Players")
+                onClicked: {
+                    app.dbus.getServices("org.mpris.MediaPlayer2.", function(filteredServices) {
+                        app.showMessageDialog("Mpris Players", filteredServices.join("\n"))
+                    })
+                }
+            }
+        }
 
         Column {
             id: column
@@ -43,9 +54,27 @@ Page {
                 }
             }
 
+            ComboBox {
+                 label: qsTr("Player Type")
+                 description: qsTr("Which type of player to use")
+
+                 currentIndex: app.playerType.value
+
+                 menu: ContextMenu {
+                     MenuItem {
+                         text: qsTr("Built In Player (Qt Audio)")
+                         onClicked: app.playerType.value = 0
+                     }
+                     MenuItem {
+                         text: qsTr("Mpris Player")
+                         onClicked: app.playerType.value = 1
+                     }
+                 }
+            }
+
             TextField {
                 id: mprisServiceName
-                label: qsTr("Mpris Service Name")
+                label: qsTr("Mpris Service Name (skip 'org.mpris.MediaPlayer2')")
                 inputMethodHints: Qt.ImhDigitsOnly
                 width: parent.width
                 onTextChanged: {
@@ -53,6 +82,7 @@ Page {
                     app.mprisPlayerServiceName.sync()
                 }
             }
+
         }
     }
 

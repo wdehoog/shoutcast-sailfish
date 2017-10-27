@@ -18,8 +18,10 @@ ApplicationWindow {
 
     property alias maxNumberOfResults: max_number_of_results
     property alias mprisPlayerServiceName: mpris_player_servicename
+    property alias playerType: player_type
     property alias mainPage: mainPage
     property alias playerPage: playerPage
+    property alias dbus: dbus
 
     initialPage: mainPage
     allowedOrientations: defaultAllowedOrientations
@@ -44,8 +46,6 @@ ApplicationWindow {
         playerPage.pause()
     }
 
-    property bool playMPris: true
-
     function loadStation(stationId, name, mimeType, logoURL, tuneinBase) {
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.TuneInBase
@@ -59,14 +59,19 @@ ApplicationWindow {
                 var streamURL = Shoutcast.extractURLFromM3U(m3u)
                 console.log("URL: \n" + streamURL)
                 if(streamURL.length > 0) {
-                    if(!playMPris) {
+                    switch(playerType.value) {
+                    case 1:
+                        mprisOpenUri(streamURL, mimeType)
+                        break
+                    case 0:
+                    default:
                         var page = app.getPlayerPage()
                         //page.genreName = genreName
                         page.stationName = name
                         page.streamURL = streamURL
                         page.logoURL = logoURL ? logoURL : ""
-                    } else
-                        mprisOpenUri(streamURL, mimeType)
+                        break
+                    }
                 } else {
                     showErrorDialog(qsTr("Failed to retrieve stream URL."))
                     console.log("Error could not find stream URL: \n" + m3u)
@@ -106,8 +111,13 @@ ApplicationWindow {
         xhr.send();
     }
 
+    function showMessageDialog(title, text) {
+        var dialog = pageStack.push(Qt.resolvedUrl("dialogs/ErrorDialog.qml"),
+                                    {titleText: title, errorMessageText: text})
+    }
+
     function showErrorDialog(text) { //, showCancelAll, cancelAll) {
-        var dialog = pageStack.push(Qt.resolvedUrl("../dialogs/ErrorDialog.qml"),
+        var dialog = pageStack.push(Qt.resolvedUrl("dialogs/ErrorDialog.qml"),
                                     {errorMessageText: text}) //, showCancelAll: showCancelAll});
         /*if(showCancelAll) {
           dialog.accepted.connect(function() {
@@ -124,21 +134,17 @@ ApplicationWindow {
 
     function getFileNameParts(url) {
         var matches = url && typeof url.match === "function" && url.match(/\/?([^/.]*)\.?([^/]*)$/);
-        if (!matches)
+        if(!matches)
             return null;
-
-        //if (includeExtension && matches.length > 2 && matches[2]) {
-        //    return matches.slice(1).join(".");
-        //}
-        return matches; //matches[1];
+        return matches;
     }
 
 
     DBusInterface {
         id: mpris
 
-        bus:DBus.SystemBus
-        service: "org.mpris.MediaPlayer2" + mpris_player_servicename
+        bus:DBus.SystemBus //SessionBus ?
+        service: "org.mpris.MediaPlayer2" + mpris_player_servicename.value
         path: "/org/mpris/MediaPlayer2"
         iface: "org.mpris.MediaPlayer2.Player"
 
@@ -158,14 +164,49 @@ ApplicationWindow {
                 console.log("mpris.openUri added extension to uri: " + uri)
             }
 
-            typedCall('OpenUri', { "type": "s", "value": uri},
+
+            typedCall("OpenUri", { "type": "s", "value": uri},
                  function(result) {
-                     console.log('mpris.openUri call completed with:', result)
+                     console.log("mpris.openUri call completed with:", result)
                  },
                  function() {
-                     console.log('mpris.openUri call failed for: ' + uri)
+                     console.log("mpris.openUri call failed for: " + uri
+                                 + ", error: " + error)
+                     showErrorDialog("Failed to start using Mpris: " + uri
+                                 + "\n\nError: " + error)
                  })
         }
+
+    }
+
+    // dbus-send  --print-reply --session --type=method_call
+    // --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames | grep -i mpris
+    DBusInterface {
+        id: dbus
+
+        bus:DBus.SessionBus
+        service: "org.freedesktop.DBus"
+        path: "/org/freedesktop/DBus"
+        iface: "org.freedesktop.DBus"
+
+        function getServices(filter, callback) {
+            typedCall('ListNames', undefined,
+                 function(result) {
+                     //console.log('dbus.getServices call completed with:', result)
+                     var filteredServices = []
+                     for(var i=0;i<result.length;i++) {
+                         var index = result[i].indexOf(filter)
+                         if(index > -1)
+                             filteredServices.push(result[i].substring(filter.length))
+                     }
+                     if(callback)
+                        callback(filteredServices)
+                 },
+                 function() {
+                     console.log('dbus.getServices call failed')
+                 })
+        }
+        //Component.onCompleted: getServices()
     }
 
     ConfigurationValue {
@@ -178,6 +219,13 @@ ApplicationWindow {
         id: mpris_player_servicename
         key: "/shoutcast-sailfish/mpris_player_servicename"
         defaultValue: "donnie"
+    }
+
+    // 0: local player (QT Audio), 1: Mpris openUri
+    ConfigurationValue {
+        id: player_type
+        key: "/shoutcast-sailfish/player_type"
+        defaultValue: 0
     }
 }
 

@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Dialog {
+    property string titleText: "Error"
     property string errorMessageText : ""
     property bool   cancelAll: false
     property bool   showCancelAll: false
@@ -22,7 +23,7 @@ Dialog {
             id: column
             width: parent.width
 
-            PageHeader { title: "Error" }
+            PageHeader { title: titleText }
 
             TextArea {
                 id: logTextArea
