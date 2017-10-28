@@ -12,6 +12,7 @@ import "pages"
 import "cover"
 
 import "shoutcast.js" as Shoutcast
+import "Util.js" as Util
 
 ApplicationWindow {
     id: app
@@ -128,17 +129,34 @@ ApplicationWindow {
         }*/
     }
 
+    function getAppIconSource() {
+        var iconSize = Theme.iconSizeExtraLarge
+        return getAppIconSource2(iconSize)
+    }
+
+    function getAppIconSource2(iconSize) {
+        if (iconSize < 108)
+            iconSize = 86
+        else if (iconSize < 128)
+            iconSize = 108
+        else if (iconSize < 256)
+            iconSize = 128
+        else iconSize = 256
+
+        return "/usr/share/icons/hicolor/" + iconSize + "x" + iconSize + "/apps/shoutcast-sailfish.png"
+    }
+
     function mprisOpenUri(uri, mimeType) {
         mpris.openUri(uri, mimeType)
     }
 
 
-    function getFileNameParts(url) {
+    /*function getFileNameParts(url) {
         var matches = url && typeof url.match === "function" && url.match(/\/?([^/.]*)\.?([^/]*)$/);
         if(!matches)
             return null;
         return matches;
-    }
+    }*/
 
 
     DBusInterface {
@@ -157,24 +175,28 @@ ApplicationWindow {
             // QT Mpris checks mimetype and uses the file extension so we have to make sure
             // it is there. Maybe then the stream uri becomes invalid. So be it because no
             // mime type will definately not work.
-            var fileNameParts = getFileNameParts(uri)
+
+            /*var fileNameParts = getFileNameParts(uri)
             if(fileNameParts.length <= 2
                || fileNameParts[2].length === 0) {
                 // no extension
                 uri += "." + Shoutcast.getAudioTypeExtension(mimeType)
                 console.log("mpris.openUri added extension to uri: " + uri)
+            }*/
+            var ext = Util.parseURL("fileext", uri)
+            if(!ext) {
+                // no extension
+                uri += "." + Shoutcast.getAudioTypeExtension(mimeType)
+                console.log("mpris.openUri added extension to uri: " + uri)
             }
-
 
             typedCall("OpenUri", { "type": "s", "value": uri},
                  function(result) {
                      console.log("mpris.openUri call completed with:", result)
                  },
-                 function(error) {
-                     console.log("mpris.openUri call failed for: " + uri
-                                 + ", error: " + error)
-                     showErrorDialog("Failed to start using Mpris: " + uri
-                                 + "\n\nError: " + error)
+                 function() {
+                     console.log("mpris.openUri call failed for: " + uri)
+                     showErrorDialog("Failed to start using Mpris: " + uri)
                  })
         }
 

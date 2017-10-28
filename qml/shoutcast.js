@@ -68,6 +68,7 @@ function getAudioType(mimeType) {
     default: return mimeType;
     }
 }
+
 function getAudioTypeExtension(mimeType) {
     switch(mimeType) {
     case "audio/aacp": return "aac";

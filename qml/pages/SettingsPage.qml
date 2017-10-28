@@ -19,7 +19,10 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Activating) {
             msrField.text = app.maxNumberOfResults.value
-            mprisServiceName.text = app.mprisPlayerServiceName.value
+            var curValue = app.mprisPlayerServiceName.value
+            if(curValue[0] === ".")
+                curValue = curValue.substring(1)
+            mprisServiceName.text = curValue
         }
     }
 
@@ -64,7 +67,10 @@ Page {
                 inputMethodHints: Qt.ImhDigitsOnly
                 width: parent.width
                 onTextChanged: {
-                    app.maxNumberOfResults.value = text
+                    var newValue = text
+                    if(newValue[0] !== ".")
+                        newValue = "." + newValue
+                    app.maxNumberOfResults.value = newValue
                     app.maxNumberOfResults.sync()
                 }
             }

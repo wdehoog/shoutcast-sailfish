@@ -34,7 +34,7 @@ import Sailfish.Silica 1.0
 CoverBackground {
     id: cover
 
-    property string defaultImageSource : "image://theme/icon-l-music"
+    property string defaultImageSource : app.getAppIconSource2(Theme.iconSizeLarge) //"image://theme/icon-l-music"
     property string imageSource : defaultImageSource
     property string playIconSource : "image://theme/icon-cover-play"
 
@@ -61,10 +61,10 @@ CoverBackground {
 
         Image {
             id: image
-            width: parent.width - (Theme.paddingMedium * 2)
-            height: parent.width - (Theme.paddingMedium * 2)
-            //anchors.topMargin: Theme.paddingMedium
-            //anchors.top: parent.top + Theme.paddingMedium
+            width: imageSource === defaultImageSource
+                       ? Theme.iconSizeLarge
+                       : parent.width - (Theme.paddingMedium * 2)
+            height: width
             anchors.horizontalCenter: parent.horizontalCenter
             source: imageSource
         }
