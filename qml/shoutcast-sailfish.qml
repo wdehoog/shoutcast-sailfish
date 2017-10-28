@@ -163,7 +163,7 @@ ApplicationWindow {
     DBusInterface {
         id: mpris
 
-        bus:DBus.SystemBus //SessionBus ?
+        bus:DBus.SessionBus
         service: "org.mpris.MediaPlayer2." + mpris_player_servicename.value
         path: "/org/mpris/MediaPlayer2"
         iface: "org.mpris.MediaPlayer2.Player"
@@ -184,9 +184,18 @@ ApplicationWindow {
                 uri += "." + Shoutcast.getAudioTypeExtension(mimeType)
                 console.log("mpris.openUri added extension to uri: " + uri)
             }*/
+
+            // no path: http://46.105.101.196:80 we add /track.mp3
+            // no extension: http://136.243.21.140:8015/stream we add .mp3
+
+            var filename = Util.parseURL("filename", uri)
             var ext = Util.parseURL("fileext", uri)
-            if(!ext) {
-                // no extension
+            if(!filename) {
+                // no filename
+                uri += "/track." + Shoutcast.getAudioTypeExtension(mimeType)
+                console.log("mpris.openUri added filename to uri: " + uri)
+            } else if(filename && !ext) {
+                // filename but no extension
                 uri += "." + Shoutcast.getAudioTypeExtension(mimeType)
                 console.log("mpris.openUri added extension to uri: " + uri)
             }
