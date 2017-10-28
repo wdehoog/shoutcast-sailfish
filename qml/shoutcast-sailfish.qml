@@ -141,7 +141,8 @@ ApplicationWindow {
             iconSize = 108
         else if (iconSize < 256)
             iconSize = 128
-        else iconSize = 256
+        else
+            iconSize = 256
 
         return "/usr/share/icons/hicolor/" + iconSize + "x" + iconSize + "/apps/shoutcast-sailfish.png"
     }
@@ -163,7 +164,7 @@ ApplicationWindow {
         id: mpris
 
         bus:DBus.SystemBus //SessionBus ?
-        service: "org.mpris.MediaPlayer2" + mpris_player_servicename.value
+        service: "org.mpris.MediaPlayer2." + mpris_player_servicename.value
         path: "/org/mpris/MediaPlayer2"
         iface: "org.mpris.MediaPlayer2.Player"
 

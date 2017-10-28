@@ -59,14 +59,20 @@ CoverBackground {
             visible: imageSource.toString().length == 0
         }
 
-        Image {
-            id: image
-            width: imageSource === defaultImageSource
-                       ? Theme.iconSizeLarge
-                       : parent.width - (Theme.paddingMedium * 2)
+        Column {
+            width: parent.width - (Theme.paddingMedium * 2)
             height: width
-            anchors.horizontalCenter: parent.horizontalCenter
-            source: imageSource
+            x: Theme.paddingMedium
+
+            Image {
+                id: image
+
+                fillMode: Image.PreserveAspectFit
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                source: imageSource
+
+            }
         }
 
         CoverActionList {
