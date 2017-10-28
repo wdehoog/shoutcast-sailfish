@@ -43,6 +43,17 @@
     </message>
 </context>
 <context>
+    <name>ItemPicker</name>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainPage</name>
     <message>
         <source>About</source>
@@ -132,6 +143,10 @@
     </message>
     <message>
         <source>Mpris Service Name (skip &apos;org.mpris.MediaPlayer2&apos;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mpris Players</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -160,7 +160,7 @@ Page {
     // lot's of stuff copied from MediaPlayer
     MprisPlayer {
         id: mprisPlayer
-        serviceName: "shoutcast-sailfish"
+        serviceName: app.mprisServiceName
 
         property var metaData
 

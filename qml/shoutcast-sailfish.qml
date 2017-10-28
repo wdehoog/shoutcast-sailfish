@@ -16,6 +16,7 @@ import "shoutcast.js" as Shoutcast
 ApplicationWindow {
     id: app
 
+    property string mprisServiceName: "shoutcast-sailfish"
     property alias maxNumberOfResults: max_number_of_results
     property alias mprisPlayerServiceName: mpris_player_servicename
     property alias playerType: player_type
@@ -169,7 +170,7 @@ ApplicationWindow {
                  function(result) {
                      console.log("mpris.openUri call completed with:", result)
                  },
-                 function() {
+                 function(error) {
                      console.log("mpris.openUri call failed for: " + uri
                                  + ", error: " + error)
                      showErrorDialog("Failed to start using Mpris: " + uri
