@@ -92,7 +92,7 @@ Page {
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.WordWrap
                 text:
-"Shoutcast
+"SHOUTcast: www.shoutcast.com & DevID
 nesnomis: harbour-allradio
 Romain Pokrzywka: JSONListModel
 Stefan Goessner: JSONPath

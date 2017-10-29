@@ -7,22 +7,12 @@
 
 .pragma library
 
-// http://wiki.shoutcast.com/wiki/SHOUTcast_Radio_Directory_API
-// http://api.shoutcast.com/legacy/Top500?k=ia9p4XYXmOPEtXzL&limit=5
-
-// http://api.shoutcast.com/genre/primary?k=[Your Dev ID]&f=xml
-// http://api.shoutcast.com/genre/secondary?parentid=0&k=[Your Dev ID]&f=xml
-// http://api.shoutcast.com/station/advancedsearch?genre_id=1&limit=10&f=xml&k=[Your Dev ID]
-//   limit=X,Y Y is the number of results to return and X is the offset.
-// http://api.shoutcast.com/legacy/stationsearch?k=[Your Dev ID]&search=ambient+beats (xml only)
-// http://api.shoutcast.com/station/nowplaying?k=[Your Dev ID]&ct=rihanna&f=xml
-
-// Access to the Shoutcast API requires a Dev Key. I requested one but never
-// received an answer. I found some on the interweb but you better get one yourself
-// the official way.
-//   "U5F3uwzkJF6JW9Pf";
-//   "dnHoPZSjLfVVdI8N";
-var DevKeyPart = "k=ia9p4XYXmOPEtXzL";
+//
+// see http://wiki.shoutcast.com/wiki/SHOUTcast_Radio_Directory_API
+//
+// Access to the Shoutcast API requires a DevID.
+// This one is mine. It can only be used for my apps.
+var DevKeyPart = "k=4FyiY5TYNSSPZhHG";
 
 var LegacyBaseURL = "http://api.shoutcast.com/legacy/";
 
