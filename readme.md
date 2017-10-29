@@ -15,9 +15,6 @@ A package can be found in my [OBS repository]( http://repo.merproject.org/obs/ho
   * Tune in on a Station 
   * Pause/Play
 
-### Issues
-  * Accessing the Shoutcast API requires a Dev Key. I requested one but got no reply. Searching the internet shows this happens all the time. So using this app requires a Dev Key and you will have to get or find one and add it to qml/shoutcast.js.
-
 ### Development
 This project is developed with the Sailfish OS IDE (QT Creator). 
 
