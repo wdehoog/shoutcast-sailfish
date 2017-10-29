@@ -159,9 +159,6 @@ ApplicationWindow {
         return matches;
     }*/
 
-    // short guid 128 bit
-    property string qtmprisQuirckUID: "DA0NCAAMBQILAQwHBAUBCg"
-
     DBusInterface {
         id: mpris
 
@@ -174,30 +171,6 @@ ApplicationWindow {
             // dbus-send  --print-reply --session --type=method_call
             // --dest=org.mpris.MediaPlayer2.donnie /org/mpris/MediaPlayer2
             // org.mpris.MediaPlayer2.Player.OpenUri "string:http://....."
-
-            // QT Mpris checks mimetype and uses the file extension so we have to make sure
-            // it is there. Maybe then the stream uri becomes invalid. So be it because no
-            // mime type will definately not work.
-
-            /*var fileNameParts = getFileNameParts(uri)
-            if(fileNameParts.length <= 2
-               || fileNameParts[2].length === 0) {
-                // no extension
-                uri += "." + Shoutcast.getAudioTypeExtension(mimeType)
-                console.log("mpris.openUri added extension to uri: " + uri)
-            }*/
-
-            // DA0NCAAMBQILAQwHBAUBCg
-            // no path: http://46.105.101.196:80
-            // no extension: http://136.243.21.140:8015/stream
-            // we add /<guid>.mp3
-
-            var filename = Util.parseURL("filename", uri)
-            var ext = Util.parseURL("fileext", uri)
-            if(!filename || !ext) {
-                uri += "/" + qtmprisQuirckUID + "." + Shoutcast.getAudioTypeExtension(mimeType)
-                console.log("mpris.openUri added filename to uri: " + uri)
-            }
 
             typedCall("OpenUri", { "type": "s", "value": uri},
                  function() {
