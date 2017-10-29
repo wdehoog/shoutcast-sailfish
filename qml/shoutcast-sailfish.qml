@@ -159,6 +159,8 @@ ApplicationWindow {
         return matches;
     }*/
 
+    // short guid 128 bit
+    property string qtmprisQuirckUID: "DA0NCAAMBQILAQwHBAUBCg"
 
     DBusInterface {
         id: mpris
@@ -185,28 +187,25 @@ ApplicationWindow {
                 console.log("mpris.openUri added extension to uri: " + uri)
             }*/
 
-            // no path: http://46.105.101.196:80 we add /track.mp3
-            // no extension: http://136.243.21.140:8015/stream we add .mp3
+            // DA0NCAAMBQILAQwHBAUBCg
+            // no path: http://46.105.101.196:80
+            // no extension: http://136.243.21.140:8015/stream
+            // we add /<guid>.mp3
 
             var filename = Util.parseURL("filename", uri)
             var ext = Util.parseURL("fileext", uri)
-            if(!filename) {
-                // no filename
-                uri += "/track." + Shoutcast.getAudioTypeExtension(mimeType)
+            if(!filename || !ext) {
+                uri += "/" + qtmprisQuirckUID + "." + Shoutcast.getAudioTypeExtension(mimeType)
                 console.log("mpris.openUri added filename to uri: " + uri)
-            } else if(filename && !ext) {
-                // filename but no extension
-                uri += "." + Shoutcast.getAudioTypeExtension(mimeType)
-                console.log("mpris.openUri added extension to uri: " + uri)
             }
 
             typedCall("OpenUri", { "type": "s", "value": uri},
-                 function(result) {
-                     console.log("mpris.openUri call completed with:", result)
+                 function() {
+                     console.log("mpris.openUri call completed for: " + uri)
                  },
                  function() {
                      console.log("mpris.openUri call failed for: " + uri)
-                     showErrorDialog("Failed to start using Mpris: " + uri)
+                     showErrorDialog("Failed to open uri using Mpris: " + uri)
                  })
         }
 
