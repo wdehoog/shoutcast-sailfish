@@ -46,10 +46,10 @@ Page {
         id: genreView
         model: stationsModel.model
         anchors.fill: parent
-        anchors {
-            topMargin: 0
-            bottomMargin: 0
-        }
+        anchors.topMargin: 0
+
+        anchors.bottomMargin: playerPanel.visibleSize
+        clip: playerPanel.expanded
 
         header: Column {
             id: lvColumn

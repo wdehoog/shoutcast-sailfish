@@ -6,6 +6,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtQuick.XmlListModel 2.0
 
+import "../components"
 import "../shoutcast.js" as Shoutcast
 
 Page {
@@ -67,14 +68,16 @@ Page {
 
     Component.onCompleted: reload()
 
+    //property AudioPlayerPanel playerPanel: app.playerPanel
+
     SilicaListView {
         id: genreView
         model: top500Model
         anchors.fill: parent
-        anchors {
-            topMargin: 0
-            bottomMargin: 0
-        }
+        anchors.topMargin: 0
+
+        anchors.bottomMargin: app.playerPanel.visibleSize
+        clip: app.playerPanel.expanded
 
         PullDownMenu {
             MenuItem {

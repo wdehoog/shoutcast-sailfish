@@ -7,6 +7,7 @@ import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import org.nemomobile.dbus 2.0
 
+import "components"
 import "dialogs"
 import "pages"
 import "cover"
@@ -24,12 +25,20 @@ ApplicationWindow {
     property alias mainPage: mainPage
     property alias playerPage: playerPage
     property alias dbus: dbus
+    property alias playerPanel: dockedPlayerPanel
 
     initialPage: mainPage
     allowedOrientations: defaultAllowedOrientations
 
+    anchors.bottomMargin: dockedPlayerPanel.visibleSize
+    //clip: dockedPlayerPanel.expanded
+
     cover: CoverPage {
         id: cover
+    }
+
+    AudioPlayerPanel {
+        id: dockedPlayerPanel
     }
 
     MainPage {
@@ -40,13 +49,25 @@ ApplicationWindow {
         id: playerPage
     }
 
+    function getAudio() {
+        return getPlayerPage().audio
+    }
+
     function getPlayerPage() {
-        return playerPage
+        return playerPanel //Page
     }
 
     function pause() {
-        playerPage.pause()
+        getPlayerPage().pause()
     }
+
+    function play() {
+        getPlayerPage().play()
+    }
+
+    //function stop() {
+    //
+    //}
 
     function loadStation(stationId, name, mimeType, logoURL, tuneinBase) {
         var xhr = new XMLHttpRequest

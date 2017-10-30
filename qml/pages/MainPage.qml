@@ -10,7 +10,7 @@ import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import org.nemomobile.mpris 1.0
 
-
+import "../components"
 import "../shoutcast.js" as Shoutcast
 
 Page {
@@ -24,6 +24,9 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
+
+        anchors.bottomMargin: playerPanel.visibleSize
+        clip: playerPanel.expanded
 
         PullDownMenu {
             MenuItem {
@@ -172,7 +175,7 @@ Page {
         canPlay: playbackStatus !== Mpris.Playing
 
         playbackStatus: {
-            var audio = app.playerPage.audio
+            var audio = app.getAudio()
             if (audio.playbackState === audio.Playing) {
                 return Mpris.Playing
             } else if (audio.playbackState === audio.Stopped) {
@@ -182,9 +185,9 @@ Page {
             }
         }
 
-        onPauseRequested: app.playerPage.pause()
-        onPlayRequested: app.playerPage.play()
-        onPlayPauseRequested: app.playerPage.pause()
+        onPauseRequested: app.pause()
+        onPlayRequested: app.play()
+        onPlayPauseRequested: app.pause()
 
         onMetaDataChanged: {
             var metadata = {}
