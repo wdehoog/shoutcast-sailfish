@@ -78,10 +78,19 @@ Page {
             searchModel.clear()
             for(i=0;i<nowPlayingModel.model.count;i++)
                 searchModel.append(nowPlayingModel.model.get(i))
-            if(nowPlayingModel.keepObject.length > 0)
-                tuneinBase = nowPlayingModel.keepObject[0]["base-m3u"]
-            else
-                tuneinBase = ""
+            if(nowPlayingModel.keepObject.length > 0) {
+                tuneinBase = {}
+                var b = stationsModel.keepObject[0]["base"]
+                if(b)
+                    tuneinBase["base"] = b
+                b = stationsModel.keepObject[0]["base-m3u"]
+                if(b)
+                    tuneinBase["base-m3u"] = b
+                b = stationsModel.keepObject[0]["base-xspf"]
+                if(b)
+                    tuneinBase["base-xspf"] = b
+            } else
+                tuneinBase = {}
             nowPlayingQuery = ""
             showBusy = false
         }
@@ -128,10 +137,19 @@ Page {
         onStatusChanged: {
             if (status !== XmlListModel.Ready)
                 return
-            if(tuneinModel.count > 0)
-                tuneinBase = tuneinModel.get(0)["base-m3u"]
-            else
-                tuneinBase = ""
+            if(tuneinModel.count > 0) {
+                tuneinBase = {}
+                var b = tuneinModel.get(0)["base"]
+                if(b)
+                    tuneinBase["base"] = b
+                b = tuneinModel.get(0)["base-m3u"]
+                if(b)
+                    tuneinBase["base-m3u"] = b
+                b = tuneinModel.get(0)["base-xspf"]
+                if(b)
+                    tuneinBase["base-xspf"] = b
+            } else
+                tuneinBase = {}
         }
     }
 
@@ -265,7 +283,7 @@ Page {
             }
 
             onClicked: {
-                app.loadStation(model.id, model.name, model.mt, model.logo, tuneinBase)
+                app.loadStation(model.id, Shoutcast.createInfo(model), model.mt, model.logo, tuneinBase)
             }
         }
 

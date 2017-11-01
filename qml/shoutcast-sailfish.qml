@@ -40,13 +40,15 @@ ApplicationWindow {
     }
 
     signal audioBufferFull()
+    signal playbackStateChanged()
+
     Audio {
         id: audio
 
         autoLoad: true
         autoPlay: false
 
-        //onPlaybackStateChanged: refreshTransportState()
+        onPlaybackStateChanged: app.playbackStateChanged()
         //onSourceChanged: refreshTransportState()
         onBufferProgressChanged: {
             if(bufferProgress == 1.0)
@@ -58,12 +60,21 @@ ApplicationWindow {
         id: mainPage
     }
 
-    signal stationChanged(string name, string stream, string logo)
+    property string logoURL: ""
+    onLogoURLChanged: cover.imageSource = logoURL.length > 0 ? logoURL : cover.defaultImageSource
 
-    function loadStation(stationId, name, mimeType, logoURL, tuneinBase) {
+    signal stationChanged(string name)
+
+    function loadStation(stationId, info, mimeType, logoURL, tuneinBase) {
+        // need m3u
+        if(!tuneinBase["base-m3u"]) {
+            showErrorDialog(qsTr("Don't know how to retrieve playlist."))
+            console.log("Don't know how to retrieve playlist.: \n" + JSON.stringify(tuneinBase))
+        }
+
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.TuneInBase
-                + tuneinBase
+                + tuneinBase["base-m3u"]
                 + "?" + Shoutcast.getStationPart(stationId)
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
@@ -79,11 +90,13 @@ ApplicationWindow {
                         break
                     case 0:
                     default:
-                        //page.genreName = genreName
-                        stationChanged(name, streamURL, logoURL)
-                        //player.stationName = name
-                        //player.streamURL = streamURL
-                        //player.logoURL = logoURL ? logoURL : ""
+                        app.stationName = info.name
+                        app.genreName = info.genre
+                        app.streamMetaText1 = info.name + " - " + info.lc + " " + Shoutcast.getAudioType(info.mt) + " " + info.br
+                        app.streamMetaText2 = (info.genre ? (info.genre + " - ") : "") + info.ct
+                        app.logoURL = logoURL
+                        app.audio.source = streamURL
+                        stationChanged(info.name)
                         break
                     }
                 } else {
@@ -170,6 +183,42 @@ ApplicationWindow {
             return null;
         return matches;
     }*/
+
+    property string stationName: ""
+    property string genreName: ""
+    property string metaText: genreName
+    property string streamMetaText1: stationName
+    property string streamMetaText2: ""
+
+    Timer {
+        interval: 5000
+        running: true
+        repeat: true
+        onTriggered: {
+            var title = audio.metaData.title
+            var metaData
+            if(title !== undefined) {
+                streamMetaText1 = title
+                streamMetaText2 = app.audio.metaData.publisher
+
+                metaData = {}
+                metaData['title'] = title
+                metaData['artist'] = app.audio.metaData.publisher
+                app.mprisPlayer.metaData = metaData
+
+                //console.log("meta1: " + streamMetaText1)
+                //console.log("meta2: " + streamMetaText2)
+            } else {
+                //streamMetaText1 = stationName ? stationName : ""
+                //streamMetaText2 = metaText ? metaText : ""
+                metaData = {}
+                metaData['title'] = streamMetaText1
+                metaData['artist'] = stationName
+                app.mprisPlayer.metaData = metaData
+            }
+        }
+    }
+
 
     signal pauseRequested()
     signal playRequested()

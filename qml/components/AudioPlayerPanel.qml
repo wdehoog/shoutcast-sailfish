@@ -15,66 +15,21 @@ DockedPanel {
     open: audio.hasAudio
     dock: Dock.Bottom
 
-    property string genreName: ""
-    property string stationName: ""
-    property string streamURL: ""
-    property string logoURL: ""
-
     property string defaultImageSource : "image://theme/icon-m-music"
     property string playIconSource : "image://theme/icon-m-play"
 
-    property string titleText: stationName
-    property string durationText: ""
-    property string metaText: genreName
-
-    property string streamMetaText1: stationName
-    property string streamMetaText2: ""
-
-
-    onLogoURLChanged: cover.imageSource = logoURL.length > 0 ? logoURL : defaultImageSource
+    Component.onCompleted: updateIcons()
 
     Connections {
         target: app
         onStationChanged: {
-            stationName = name
-            streamURL = stream ? stream : ""
-            logoURL = logo ? logo : ""
-
-            app.audio.source = streamURL
-        }
-
-        onAudioBufferFull: {
-            play()
             updateIcons()
         }
 
+        onPlaybackStateChanged: updateIcons()
+        onAudioBufferFull: play()
         onPlayRequested: play()
         onPauseRequested: pause()
-    }
-
-    Timer {
-        interval: 5000
-        running: true
-        repeat: true
-        onTriggered: {
-            var title = audio.metaData.title
-            if(title !== undefined) {
-                streamMetaText1 = title
-                streamMetaText2 = app.audio.metaData.publisher
-
-                var metaData = {}
-                metaData['title'] = title
-                metaData['artist'] = app.audio.metaData.publisher
-                app.mprisPlayer.metaData = metaData
-
-                console.log("meta1: " + streamMetaText1)
-                console.log("meta2: " + streamMetaText2)
-            } else {
-                streamMetaText1 = stationName ? stationName : ""
-                streamMetaText2 = metaText ? metaText : ""
-                app.mprisPlayer.metaData = {}
-            }
-        }
     }
 
     function play() {
@@ -114,7 +69,7 @@ DockedPanel {
 
         Image {
             id: imageItem
-            source: logoURL.length > 0 ? logoURL : defaultImageSource
+            source: app.logoURL.length > 0 ? app.logoURL : defaultImageSource
             width: parent.width / 4
             height: width
             fillMode: Image.PreserveAspectFit
@@ -133,7 +88,7 @@ DockedPanel {
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.Wrap
-                text: streamMetaText1
+                text: app.streamMetaText1
             }
             Text {
                 id: m2
@@ -143,7 +98,7 @@ DockedPanel {
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.Wrap
-                text: streamMetaText2 //lc + " " + Shoutcast.getAudioType(mt) + " " + br
+                text: app.streamMetaText2 //lc + " " + Shoutcast.getAudioType(mt) + " " + br
             }
 
         }
@@ -152,7 +107,7 @@ DockedPanel {
           id: playerButtons
 
           anchors.verticalCenter: parent.verticalCenter
-          //spacing: Theme.paddingSmall
+          spacing: Theme.paddingSmall
           width: playIcon.width + Theme.paddingSmall
 
           IconButton {

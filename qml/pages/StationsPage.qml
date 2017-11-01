@@ -16,7 +16,7 @@ Page {
     property int currentItem: -1
 
     property bool showBusy: false
-    property string tuneinBase: ""
+    property var tuneinBase: ({})
 
     allowedOrientations: Orientation.All
 
@@ -38,7 +38,16 @@ Page {
         target: stationsModel
         onLoaded: {
             showBusy = false
-            tuneinBase = stationsModel.keepObject[0]["base-m3u"]
+            tuneinBase = {}
+            var b = stationsModel.keepObject[0]["base"]
+            if(b)
+                tuneinBase["base"] = b
+            b = stationsModel.keepObject[0]["base-m3u"]
+            if(b)
+                tuneinBase["base-m3u"] = b
+            b = stationsModel.keepObject[0]["base-xspf"]
+            if(b)
+                tuneinBase["base-xspf"] = b
         }
     }
 
@@ -117,7 +126,7 @@ Page {
             }
 
             onClicked: {
-                app.loadStation(model.id, model.name, model.mt, model.logo, tuneinBase)
+                app.loadStation(model.id, Shoutcast.createInfo(model), model.mt, model.logo, tuneinBase)
             }
         }
 

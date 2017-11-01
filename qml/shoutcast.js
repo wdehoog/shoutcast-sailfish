@@ -79,3 +79,16 @@ function extractURLFromM3U(text) {
     }
     return "";
 }
+
+function createInfo(model) {
+    var info = {}
+    info.id = model.id
+    info.name = model.name ? model.name : "no name"
+    info.genre = model.genre ? model.genre : "no genre"
+    info.ct = model.ct ? model.ct : "no track info"
+    info.lc = model.lc ? model.lc : 0
+    info.br = model.br ? model.br : 0
+    info.mt = model.mt ? model.mt : "no mimetype"
+    info.logo = model.logo ? model.logo : ""
+    return info
+}

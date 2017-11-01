@@ -95,7 +95,7 @@ Page {
                         id: top500Row
                         anchors.horizontalCenter: parent.horizontalCenter
                         IconButton {
-                            icon.source: "image://theme/icon-m-folder"
+                            icon.source: "image://theme/icon-m-page-up"
                             onClicked: gotoTop500Page()
                         }
                         Button {
