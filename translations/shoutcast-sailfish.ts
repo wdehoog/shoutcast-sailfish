@@ -76,10 +76,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Top 500</source>
         <translation type="unfinished"></translation>
     </message>

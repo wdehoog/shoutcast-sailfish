@@ -10,10 +10,10 @@ DockedPanel {
     id: panel
 
     width: parent.width
-    height: Theme.itemSizeMedium + Theme.paddingMedium
+    height: playerUI.height + Theme.paddingSmall
 
-    dock: Dock.Bottom
     open: audio.hasAudio
+    dock: Dock.Bottom
 
     property string genreName: ""
     property string stationName: ""
@@ -30,24 +30,26 @@ DockedPanel {
     property string streamMetaText1: stationName
     property string streamMetaText2: ""
 
-    property alias audio: audio
 
     onLogoURLChanged: cover.imageSource = logoURL.length > 0 ? logoURL : defaultImageSource
 
-    Audio {
-        id: audio
-        source: streamURL
-        autoLoad: true
-        autoPlay: false
+    Connections {
+        target: app
+        onStationChanged: {
+            stationName = name
+            streamURL = stream ? stream : ""
+            logoURL = logo ? logo : ""
 
-        //onPlaybackStateChanged: refreshTransportState()
-        //onSourceChanged: refreshTransportState()
-        onBufferProgressChanged: {
-            if(bufferProgress == 1.0) {
-                play()
-                updateIcons()
-            }
+            app.audio.source = streamURL
         }
+
+        onAudioBufferFull: {
+            play()
+            updateIcons()
+        }
+
+        onPlayRequested: play()
+        onPauseRequested: pause()
     }
 
     Timer {
@@ -58,42 +60,45 @@ DockedPanel {
             var title = audio.metaData.title
             if(title !== undefined) {
                 streamMetaText1 = title
-                streamMetaText2 = audio.metaData.publisher
-                app.mainPage.mpris.metaData = audio.metaData
+                streamMetaText2 = app.audio.metaData.publisher
 
                 var metaData = {}
-                metaData['artist'] = audio.metaData.publisher
-                metaData['title'] = audio.metaData.title
-                app.mainPage.mpris.metaData = metaData
+                metaData['title'] = title
+                metaData['artist'] = app.audio.metaData.publisher
+                app.mprisPlayer.metaData = metaData
+
+                console.log("meta1: " + streamMetaText1)
+                console.log("meta2: " + streamMetaText2)
             } else {
-                streamMetaText1 = ""
-                streamMetaText2 = ""
-                app.mainPage.mpris.metaData = {}
+                streamMetaText1 = stationName ? stationName : ""
+                streamMetaText2 = metaText ? metaText : ""
+                app.mprisPlayer.metaData = {}
             }
         }
     }
 
     function play() {
-        audio.play()
+        app.audio.play()
         updateIcons()
     }
 
     function pause() {
-        if(audio.playbackState == Audio.PlayingState) {
-            audio.pause()
+        if(app.audio.playbackState === Audio.PlayingState) {
+            app.audio.pause()
             updateIcons()
         } else {
             play()
         }
     }
 
-    function stop() {
-        audio.stop()
+    /*function stop() {
+        app.audio.stop()
+        app.audio.source = ""
         updateIcons()
-    }
+    }*/
 
     function updateIcons() {
-        if(audio.playbackState == Audio.PlayingState) {
+        if(app.audio.playbackState === Audio.PlayingState) {
             playIconSource = "image://theme/icon-m-pause";
             cover.playIconSource = "image://theme/icon-cover-pause";
         } else {
@@ -103,37 +108,64 @@ DockedPanel {
     }
 
     Row {
+        id: playerUI
+
         width: parent.width
 
         Image {
             id: imageItem
             source: logoURL.length > 0 ? logoURL : defaultImageSource
-            width: parent.width / 3
+            width: parent.width / 4
             height: width
             fillMode: Image.PreserveAspectFit
+        }
+
+        Column {
+            id: meta
+            width: parent.width - imageItem.width - playerButtons.width
+            anchors.verticalCenter: parent.verticalCenter
+
+            Text {
+                id: m1
+                x: Theme.paddingSmall
+                width: parent.width - Theme.paddingSmall
+                color: Theme.primaryColor
+                textFormat: Text.StyledText
+                font.pixelSize: Theme.fontSizeSmall
+                wrapMode: Text.Wrap
+                text: streamMetaText1
+            }
+            Text {
+                id: m2
+                x: Theme.paddingSmall
+                width: parent.width- Theme.paddingSmall
+                anchors.right: parent.right
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeSmall
+                wrapMode: Text.Wrap
+                text: streamMetaText2 //lc + " " + Shoutcast.getAudioType(mt) + " " + br
+            }
+
         }
 
         Row {
           id: playerButtons
 
           anchors.verticalCenter: parent.verticalCenter
-          spacing: Theme.paddingMedium
-          width: parent.width * 2 / 3
-          //height: playIcon.height
+          //spacing: Theme.paddingSmall
+          width: playIcon.width + Theme.paddingSmall
 
           IconButton {
               id: playIcon
               icon.source: playIconSource
               onClicked: pause()
           }
-          IconButton {
+
+          /*IconButton {
               id: stopIcon
               icon.source: "image://theme/icon-m-reset"
-              onClicked: {
-                  stop()
-                  //app.stop()
-              }
-          }
+              onClicked: stop()
+          }*/
 
        }
     }

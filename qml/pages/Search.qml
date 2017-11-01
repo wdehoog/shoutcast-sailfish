@@ -139,14 +139,19 @@ Page {
         id: searchModel
     }
 
+    property alias playerPanel: audioPanel
+    AudioPlayerPanel {
+        id: audioPanel
+    }
+
     SilicaListView {
         id: listView
         model: searchModel
         anchors.fill: parent
-        anchors {
-            topMargin: 0
-            bottomMargin: 0
-        }
+        anchors.topMargin: 0
+
+        anchors.bottomMargin: playerPanel.visibleSize
+        clip: playerPanel.expanded
 
         header: Column {
             id: lvColumn

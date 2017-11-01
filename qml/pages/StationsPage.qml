@@ -42,6 +42,11 @@ Page {
         }
     }
 
+    property alias playerPanel: audioPanel
+    AudioPlayerPanel {
+        id: audioPanel
+    }
+
     SilicaListView {
         id: genreView
         model: stationsModel.model

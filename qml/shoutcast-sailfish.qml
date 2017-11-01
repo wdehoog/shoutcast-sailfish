@@ -6,6 +6,9 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import org.nemomobile.dbus 2.0
+import QtMultimedia 5.5
+import org.nemomobile.mpris 1.0
+
 
 import "components"
 import "dialogs"
@@ -23,51 +26,39 @@ ApplicationWindow {
     property alias mprisPlayerServiceName: mpris_player_servicename
     property alias playerType: player_type
     property alias mainPage: mainPage
-    property alias playerPage: playerPage
+    //property alias playerPage: playerPage
     property alias dbus: dbus
-    property alias playerPanel: dockedPlayerPanel
+    property alias audio: audio
+    property alias mprisDBus: mprisDBus
+    property alias mprisPlayer: mprisPlayer
 
     initialPage: mainPage
     allowedOrientations: defaultAllowedOrientations
-
-    anchors.bottomMargin: dockedPlayerPanel.visibleSize
-    //clip: dockedPlayerPanel.expanded
 
     cover: CoverPage {
         id: cover
     }
 
-    AudioPlayerPanel {
-        id: dockedPlayerPanel
+    signal audioBufferFull()
+    Audio {
+        id: audio
+
+        autoLoad: true
+        autoPlay: false
+
+        //onPlaybackStateChanged: refreshTransportState()
+        //onSourceChanged: refreshTransportState()
+        onBufferProgressChanged: {
+            if(bufferProgress == 1.0)
+                audioBufferFull()
+        }
     }
 
     MainPage {
         id: mainPage
     }
 
-    PlayerPage {
-        id: playerPage
-    }
-
-    function getAudio() {
-        return getPlayerPage().audio
-    }
-
-    function getPlayerPage() {
-        return playerPanel //Page
-    }
-
-    function pause() {
-        getPlayerPage().pause()
-    }
-
-    function play() {
-        getPlayerPage().play()
-    }
-
-    //function stop() {
-    //
-    //}
+    signal stationChanged(string name, string stream, string logo)
 
     function loadStation(stationId, name, mimeType, logoURL, tuneinBase) {
         var xhr = new XMLHttpRequest
@@ -88,11 +79,11 @@ ApplicationWindow {
                         break
                     case 0:
                     default:
-                        var page = app.getPlayerPage()
                         //page.genreName = genreName
-                        page.stationName = name
-                        page.streamURL = streamURL
-                        page.logoURL = logoURL ? logoURL : ""
+                        stationChanged(name, streamURL, logoURL)
+                        //player.stationName = name
+                        //player.streamURL = streamURL
+                        //player.logoURL = logoURL ? logoURL : ""
                         break
                     }
                 } else {
@@ -169,7 +160,7 @@ ApplicationWindow {
     }
 
     function mprisOpenUri(uri, mimeType) {
-        mpris.openUri(uri, mimeType)
+        mprisDBus.openUri(uri, mimeType)
     }
 
 
@@ -180,8 +171,51 @@ ApplicationWindow {
         return matches;
     }*/
 
+    signal pauseRequested()
+    signal playRequested()
+
+    // lot's of stuff copied from MediaPlayer
+    MprisPlayer {
+        id: mprisPlayer
+        serviceName: mprisServiceName
+
+        property var metaData
+
+        identity: qsTrId("Shoutcast for SailfishOS")
+
+        canControl: true
+
+        canPause: playbackStatus === Mpris.Playing
+        canPlay: audio.hasAudio && playbackStatus !== Mpris.Playing
+
+        playbackStatus: {
+            if (audio.playbackState === audio.Playing) {
+                return Mpris.Playing
+            } else if (audio.playbackState === audio.Stopped) {
+                return Mpris.Stopped
+            } else {
+                return Mpris.Paused
+            }
+        }
+
+        onPauseRequested: pauseRequested()
+        onPlayRequested: playRequested()
+        onPlayPauseRequested: pauseRequested()
+
+        onMetaDataChanged: {
+            var metadata = {}
+
+            if (metaData && 'url' in metaData) {
+                metadata[Mpris.metadataToString(Mpris.Artist)] = [metaData['artist']] // List of strings
+                metadata[Mpris.metadataToString(Mpris.Title)] = metaData['title'] // String
+            }
+
+            mprisPlayer.metadata = metadata
+        }
+    }
+
     DBusInterface {
-        id: mpris
+        id: mprisDBus
 
         bus:DBus.SessionBus
         service: "org.mpris.MediaPlayer2." + mpris_player_servicename.value

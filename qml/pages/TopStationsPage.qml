@@ -68,7 +68,10 @@ Page {
 
     Component.onCompleted: reload()
 
-    //property AudioPlayerPanel playerPanel: app.playerPanel
+    property alias playerPanel: audioPanel
+    AudioPlayerPanel {
+        id: audioPanel
+    }
 
     SilicaListView {
         id: genreView
@@ -76,8 +79,8 @@ Page {
         anchors.fill: parent
         anchors.topMargin: 0
 
-        anchors.bottomMargin: app.playerPanel.visibleSize
-        clip: app.playerPanel.expanded
+        anchors.bottomMargin: playerPanel.visibleSize
+        clip: playerPanel.expanded
 
         PullDownMenu {
             MenuItem {

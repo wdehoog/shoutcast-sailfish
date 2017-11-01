@@ -8,7 +8,6 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
-import org.nemomobile.mpris 1.0
 
 import "../components"
 import "../shoutcast.js" as Shoutcast
@@ -16,16 +15,20 @@ import "../shoutcast.js" as Shoutcast
 Page {
     property bool showBusy : false
 
-    property alias mpris: mprisPlayer
-
     // 0 inactive, 1 load queue data, 2 load browse stack data
     property int resumeState: 0
+
+    property alias playerPanel: audioPanel
+    AudioPlayerPanel {
+        id: audioPanel
+    }
 
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
 
         anchors.bottomMargin: playerPanel.visibleSize
+        //anchors.bottom: playerPanel.top
         clip: playerPanel.expanded
 
         PullDownMenu {
@@ -114,18 +117,6 @@ Page {
                         }
                     }
 
-                    Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        IconButton {
-                            icon.source: "image://theme/icon-m-music"
-                            onClicked: gotoPlayerPage();
-                        }
-                        Button {
-                            text: qsTr("Player")
-                            onClicked: gotoPlayerPage();
-                        }
-                    }
-
                 }
 
             }
@@ -142,10 +133,6 @@ Page {
         pageStack.navigateForward(PageStackAction.Animated)
     }
 
-    function gotoPlayerPage() {
-        pageStack.push(app.getPlayerPage());
-    }
-
     function gotoGenrePage() {
         var page = pageStack.nextPage()
         if(!page || page.objectName !== "GenrePage")
@@ -160,44 +147,5 @@ Page {
         pageStack.navigateForward(PageStackAction.Animated)
     }
 
-    // lot's of stuff copied from MediaPlayer
-    MprisPlayer {
-        id: mprisPlayer
-        serviceName: app.mprisServiceName
 
-        property var metaData
-
-        identity: qsTrId("Shoutcast for SailfishOS")
-
-        canControl: true
-
-        canPause: playbackStatus === Mpris.Playing
-        canPlay: playbackStatus !== Mpris.Playing
-
-        playbackStatus: {
-            var audio = app.getAudio()
-            if (audio.playbackState === audio.Playing) {
-                return Mpris.Playing
-            } else if (audio.playbackState === audio.Stopped) {
-                return Mpris.Stopped
-            } else {
-                return Mpris.Paused
-            }
-        }
-
-        onPauseRequested: app.pause()
-        onPlayRequested: app.play()
-        onPlayPauseRequested: app.pause()
-
-        onMetaDataChanged: {
-            var metadata = {}
-
-            if (metaData && 'url' in metaData) {
-                metadata[Mpris.metadataToString(Mpris.Artist)] = [metaData['artist']] // List of strings
-                metadata[Mpris.metadataToString(Mpris.Title)] = metaData['title'] // String
-            }
-
-            mprisPlayer.metadata = metadata
-        }
-    }
 }
