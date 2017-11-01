@@ -12,21 +12,18 @@ DockedPanel {
     width: parent.width
     height: playerUI.height + Theme.paddingSmall
 
-    open: audio.hasAudio
+    open: audio.source && audio.source.toString().length > 0
     dock: Dock.Bottom
 
-    property string defaultImageSource : "image://theme/icon-m-music"
-    property string playIconSource : "image://theme/icon-m-play"
+    property string defaultImageSource: "image://theme/icon-m-music"
+    property string playIconSource: app.audio.playbackState === Audio.PlayingState
+                                    ? "image://theme/icon-m-pause"
+                                    : "image://theme/icon-m-play"
 
-    Component.onCompleted: updateIcons()
+    onPlayIconSourceChanged: cover.playIconSource = playIconSource
 
     Connections {
         target: app
-        onStationChanged: {
-            updateIcons()
-        }
-
-        onPlaybackStateChanged: updateIcons()
         onAudioBufferFull: play()
         onPlayRequested: play()
         onPauseRequested: pause()
@@ -34,32 +31,13 @@ DockedPanel {
 
     function play() {
         app.audio.play()
-        updateIcons()
     }
 
     function pause() {
-        if(app.audio.playbackState === Audio.PlayingState) {
+        if(app.audio.playbackState === Audio.PlayingState)
             app.audio.pause()
-            updateIcons()
-        } else {
+        else
             play()
-        }
-    }
-
-    /*function stop() {
-        app.audio.stop()
-        app.audio.source = ""
-        updateIcons()
-    }*/
-
-    function updateIcons() {
-        if(app.audio.playbackState === Audio.PlayingState) {
-            playIconSource = "image://theme/icon-m-pause";
-            cover.playIconSource = "image://theme/icon-cover-pause";
-        } else {
-            playIconSource =  "image://theme/icon-m-play";
-            cover.playIconSource = "image://theme/icon-cover-play";
-        }
     }
 
     Row {
@@ -72,6 +50,7 @@ DockedPanel {
             source: app.logoURL.length > 0 ? app.logoURL : defaultImageSource
             width: parent.width / 4
             height: width
+            anchors.verticalCenter: parent.verticalCenter
             fillMode: Image.PreserveAspectFit
         }
 
@@ -98,7 +77,7 @@ DockedPanel {
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.Wrap
-                text: app.streamMetaText2 //lc + " " + Shoutcast.getAudioType(mt) + " " + br
+                text: app.streamMetaText2
             }
 
         }
@@ -115,12 +94,6 @@ DockedPanel {
               icon.source: playIconSource
               onClicked: pause()
           }
-
-          /*IconButton {
-              id: stopIcon
-              icon.source: "image://theme/icon-m-reset"
-              onClicked: stop()
-          }*/
 
        }
     }

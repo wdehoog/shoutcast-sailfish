@@ -94,7 +94,7 @@ ApplicationWindow {
                         app.genreName = info.genre
                         app.streamMetaText1 = info.name + " - " + info.lc + " " + Shoutcast.getAudioType(info.mt) + " " + info.br
                         app.streamMetaText2 = (info.genre ? (info.genre + " - ") : "") + info.ct
-                        app.logoURL = logoURL
+                        app.logoURL = logoURL ? logoURL : ""
                         app.audio.source = streamURL
                         stationChanged(info.name)
                         break
@@ -223,6 +223,8 @@ ApplicationWindow {
     signal pauseRequested()
     signal playRequested()
 
+    property bool isPlayer: player_type.value === 0
+
     // lot's of stuff copied from MediaPlayer
     MprisPlayer {
         id: mprisPlayer
@@ -232,19 +234,18 @@ ApplicationWindow {
 
         identity: qsTrId("Shoutcast for SailfishOS")
 
-        canControl: true
+        canControl: isPlayer
 
-        canPause: playbackStatus === Mpris.Playing
-        canPlay: audio.hasAudio && playbackStatus !== Mpris.Playing
+        canPause: isPlayer && playbackStatus === Mpris.Playing
+        canPlay: isPlayer && audio.hasAudio && playbackStatus !== Mpris.Playing
 
         playbackStatus: {
-            if (audio.playbackState === audio.Playing) {
+            if (audio.playbackState === audio.Playing)
                 return Mpris.Playing
-            } else if (audio.playbackState === audio.Stopped) {
+            else if (audio.playbackState === audio.Stopped)
                 return Mpris.Stopped
-            } else {
+            else
                 return Mpris.Paused
-            }
         }
 
         onPauseRequested: pauseRequested()
