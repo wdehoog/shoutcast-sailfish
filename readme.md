@@ -18,6 +18,7 @@ A package can be found in my [OBS repository]( http://repo.merproject.org/obs/ho
 #### Usage
   * Press a Station will start playing it
   * Swipe the player area left/right will load previous/next Station (only for pages having a Station list)
+  * When configured to do so instead of playing a stream in the built in player it will call `openUri` on a MPris Player.
 
 ### Development
 This project is developed with the Sailfish OS IDE (QT Creator). 
@@ -30,4 +31,5 @@ Translation is done using Qt Quick Internationalisation. If you want to contribu
   * nesnomis: harbour-allradio
   * Romain Pokrzywka: JSONListModel
   * Stefan Goessner: JSONPath
+  * Gregor Santner & Sergejs Kovrovs: SwipeArea
   * igh0zt: app icon

@@ -2,6 +2,7 @@
  *
  * Copyright (c) 2012 Romain Pokrzywka (KDAB) (romain@kdab.com)
  * Licensed under the MIT licence (http://opensource.org/licenses/mit-license.php)
+ * Modified by Willem-Jan de Hoog
  */
 
 import QtQuick 2.0

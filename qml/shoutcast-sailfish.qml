@@ -114,7 +114,7 @@ ApplicationWindow {
                         console.log("Error could not find stream URL. Will retry.\n")
                     } else {
                         showErrorDialog(qsTr("Failed to retrieve stream URL."))
-                        console.log("Error could not find stream URL: \n" + m3u)
+                        console.log("Error could not find stream URL: \n" + uri + "\n" + m3u + "\n")
                     }
                 }
             }
@@ -218,18 +218,23 @@ ApplicationWindow {
                 metaData = {}
                 metaData['title'] = title
                 metaData['artist'] = app.audio.metaData.publisher
-                app.mprisPlayer.metaData = metaData
+                mprisPlayer.metaData = metaData
 
-                //console.log("meta1: " + streamMetaText1)
-                //console.log("meta2: " + streamMetaText2)
+                cover.metaText = streamMetaText2
             } else {
+
                 //streamMetaText1 = stationName ? stationName : ""
                 //streamMetaText2 = metaText ? metaText : ""
+
                 metaData = {}
                 metaData['title'] = streamMetaText1
                 metaData['artist'] = stationName
-                app.mprisPlayer.metaData = metaData
+                mprisPlayer.metaData = metaData
+
+                cover.metaText = stationName
             }
+            console.log("streamMetaText1: " + streamMetaText1)
+            console.log("streamMetaText2: " + streamMetaText2)
         }
     }
 
@@ -242,10 +247,13 @@ ApplicationWindow {
     }
 
     function pause() {
-        if(audio.playbackState === Audio.PlayingState)
-            audio.pause()
-        else
-            play()
+        if(isPlayer) {
+            if(audio.playbackState === Audio.PlayingState)
+                audio.pause()
+            else
+                play()
+        } else
+            mprisDBus.playPause()
     }
 
     function prev() {
@@ -263,7 +271,19 @@ ApplicationWindow {
 
     property bool isPlayer: player_type.value === 0
 
-    // lot's of stuff copied from MediaPlayer
+    Connections {
+        target: app.audio
+
+        onPlaybackStateChanged: {
+            if(audio.playbackState === Audio.PlayingState)
+                mprisPlayer.playbackStatus = Mpris.Playing
+            else if(audio.playbackState === Audio.StoppedState)
+                mprisPlayer.playbackStatus = Mpris.Stopped
+            else
+                mprisPlayer.playbackStatus = Mpris.Paused
+        }
+    }
+
     MprisPlayer {
         id: mprisPlayer
         serviceName: mprisServiceName
@@ -275,27 +295,20 @@ ApplicationWindow {
         canControl: isPlayer
 
         canPause: isPlayer && playbackStatus === Mpris.Playing
-        canPlay: isPlayer && audio.hasAudio && playbackStatus !== Mpris.Playing
+        canPlay: isPlayer && audio.source.toString().length > 0 && playbackStatus !== Mpris.Playing
         canGoNext: isPlayer && pageStack.currentPage.canGoNext
                    ? pageStack.currentPage.canGoNext : false
         canGoPrevious: isPlayer && pageStack.currentPage.canGoPrevious
                        ? pageStack.currentPage.canGoPrevious : false
         canSeek: false
 
-        playbackStatus: {
-            if (audio.playbackState === audio.Playing)
-                return Mpris.Playing
-            else if (audio.playbackState === audio.Stopped)
-                return Mpris.Stopped
-            else
-                return Mpris.Paused
-        }
+        playbackStatus: Mpris.Stopped
 
-        onPauseRequested: pauseRequested()
-        onPlayRequested: playRequested()
-        onPlayPauseRequested: pauseRequested()
-        onNextRequested: nextRequested()
-        onPreviousRequested: previousRequested()
+        onPauseRequested: app.pauseRequested()
+        onPlayRequested: app.playRequested()
+        onPlayPauseRequested: app.pauseRequested()
+        onNextRequested: app.nextRequested()
+        onPreviousRequested: app.previousRequested()
 
         onMetaDataChanged: {
             var metadata = {}
@@ -316,6 +329,51 @@ ApplicationWindow {
         service: "org.mpris.MediaPlayer2." + mpris_player_servicename.value
         path: "/org/mpris/MediaPlayer2"
         iface: "org.mpris.MediaPlayer2.Player"
+
+        function play() {
+            // dbus-send  --print-reply --session --type=method_call
+            // --dest=org.mpris.MediaPlayer2.donnie /org/mpris/MediaPlayer2
+            // org.mpris.MediaPlayer2.Player.Play
+            typedCall("Play", {}, undefined, function() {
+                console.log("mpris.Play call failed.")
+            })
+        }
+
+        function pause() {
+            // dbus-send  --print-reply --session --type=method_call
+            // --dest=org.mpris.MediaPlayer2.donnie /org/mpris/MediaPlayer2
+            // org.mpris.MediaPlayer2.Player.Pause
+            typedCall("Pause", {}, undefined, function() {
+                console.log("mpris.Pause call failed.")
+            })
+        }
+
+        function playPause() {
+            // dbus-send  --print-reply --session --type=method_call
+            // --dest=org.mpris.MediaPlayer2.donnie /org/mpris/MediaPlayer2
+            // org.mpris.MediaPlayer2.Player.PlayPause
+            typedCall("PlayPause", {}, undefined, function() {
+                console.log("mpris.PlayPause call failed.")
+            })
+        }
+
+        function next() {
+            // dbus-send  --print-reply --session --type=method_call
+            // --dest=org.mpris.MediaPlayer2.donnie /org/mpris/MediaPlayer2
+            // org.mpris.MediaPlayer2.Player.Next
+            typedCall("Next", {}, undefined, function() {
+                console.log("mpris.Next call failed.")
+            })
+        }
+
+        function previous() {
+            // dbus-send  --print-reply --session --type=method_call
+            // --dest=org.mpris.MediaPlayer2.donnie /org/mpris/MediaPlayer2
+            // org.mpris.MediaPlayer2.Player.Previous
+            typedCall("Previous", {}, undefined, function() {
+                console.log("mpris.Previous call failed.")
+            })
+        }
 
         function openUri(uri, mimeType) {
             // dbus-send  --print-reply --session --type=method_call

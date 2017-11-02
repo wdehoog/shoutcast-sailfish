@@ -1,32 +1,8 @@
 /*
-  Copyright (C) 2013 Jolla Ltd.
-  Contact: Thomas Perl <thomas.perl@jollamobile.com>
-  All rights reserved.
-
-  You may use this file under the terms of BSD license as follows:
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the Jolla Ltd nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR
-  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Donnie. Copyright (C) 2017 Willem-Jan de Hoog
+ *
+ * License: MIT
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
@@ -37,6 +13,7 @@ CoverBackground {
     property string defaultImageSource : app.getAppIconSource2(Theme.iconSizeLarge) //"image://theme/icon-l-music"
     property string imageSource : defaultImageSource
     property string playIconSource : "image://theme/icon-cover-play"
+    property string metaText: ""
 
     Column {
         width: parent.width
@@ -46,7 +23,7 @@ CoverBackground {
         // nothing works. try a filler...
         Rectangle {
             width: parent.width
-            height:Theme.paddingMedium
+            height: Theme.paddingMedium
             opacity: 0
         }
 
@@ -60,6 +37,7 @@ CoverBackground {
         }
 
         Item {
+            id: imageItem
             width: parent.width - (Theme.paddingMedium * 2)
             height: width
             x: Theme.paddingMedium
@@ -74,6 +52,40 @@ CoverBackground {
                 source: imageSource
             }
         }
+
+        Text {
+            id: meta
+            height: parent.height - Theme.paddingMedium - label.height - imageItem.height - coverAction.height
+            width: parent.width - 2 * Theme.paddingMedium
+            x: Theme.paddingMedium
+            text: metaText
+            horizontalAlignment:  Text.AlignHCenter
+            //visible: imageSource === defaultImageSource
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.primaryColor
+            wrapMode: Text.Wrap
+        }
+
+        /*Label {
+            id: meta
+            anchors.margins: Theme.paddingMedium
+            text: metaText.length > 0 ? metaText : qsTr("Shoutcast")
+            horizontalAlignment:  Text.AlignHCenter
+            visible: imageSource === defaultImageSource
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.primaryColor
+
+            NumberAnimation {
+                id: animation
+                target: meta
+                properties: "x"
+                from: 0 //parent.width
+                to: -1 * meta.width
+                loops: Animation.Infinite
+                duration: 10000
+                running: meta.width > parent.width
+            }
+        }*/
 
         CoverActionList {
             id: coverAction
