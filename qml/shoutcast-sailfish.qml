@@ -232,8 +232,19 @@ ApplicationWindow {
         }
     }
 
+    onAudioBufferFull: play()
+    onPlayRequested: play()
+    onPauseRequested: pause()
+
+    function play() {
+        audio.play()
+    }
+
     function pause() {
-        pauseRequested()
+        if(audio.playbackState === Audio.PlayingState)
+            audio.pause()
+        else
+            play()
     }
 
     function prev() {

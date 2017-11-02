@@ -17,7 +17,7 @@ DockedPanel {
     width: parent.width
     height: playerUI.height + Theme.paddingSmall
 
-    open: audio.source && audio.source.toString().length > 0
+    open: app.audio.source && app.audio.source.toString().length > 0
     dock: Dock.Bottom
 
     property string defaultImageSource: "image://theme/icon-m-music"
@@ -29,22 +29,8 @@ DockedPanel {
 
     Connections {
         target: app
-        onAudioBufferFull: play()
-        onPlayRequested: play()
-        onPauseRequested: pause()
         onNextRequested: next()
-        onPreviousRequested: previous()()
-    }
-
-    function play() {
-        app.audio.play()
-    }
-
-    function pause() {
-        if(app.audio.playbackState === Audio.PlayingState)
-            app.audio.pause()
-        else
-            play()
+        onPreviousRequested: previous()
     }
 
     Row {
@@ -100,7 +86,7 @@ DockedPanel {
               id: playIcon
               z: 1
               icon.source: playIconSource
-              onClicked: pause()
+              onClicked: app.pause()
           }
 
        }
