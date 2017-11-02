@@ -9,7 +9,9 @@ import "../"
 DockedPanel {
     id: panel
 
-    property alias flick: mouse.flick
+
+    property alias swipe: mouse
+    property alias page: mouse.page
 
     width: parent.width
     height: playerUI.height + Theme.paddingSmall

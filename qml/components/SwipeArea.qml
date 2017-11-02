@@ -1,6 +1,7 @@
 // Initial version was written by Sergejs Kovrovs and has been placed in the public domain.
 //   at https://gist.github.com/kovrov/1742405
 // Modified by Gregor Santner
+import Sailfish.Silica 1.0
 import QtQuick 2.0
 
 MouseArea {
@@ -15,8 +16,10 @@ MouseArea {
     readonly property string dirLeft:   "left"
     readonly property string dirRight:  "right"
 
-    property var flick
-    property bool flickInteractive
+    // allow to disable swiping of the page so we can be swiped
+    property Page page
+    property bool forwardNavigation
+    property bool backNavigation
 
     // ############################
     // #   Signals
@@ -33,9 +36,11 @@ MouseArea {
     onPressed: {
         drag.axis = Drag.XAndYAxis
         _origin = Qt.point(mouse.x, mouse.y)
-        if(flick) {
-            flickInteractive = flick.interactive
-            flick.interactive = false
+        if(page) {
+            forwardNavigation = page.forwardNavigation
+            page.forwardNavigation = false
+            backNavigation  = page.backNavigation
+            page.backNavigation  = false
         }
     }
 
@@ -59,8 +64,9 @@ MouseArea {
         case Drag.XAxis: swipe(mouse.x - _origin.x < 0 ? dirLeft : dirRight, Math.abs(mouse.x-_origin.x)) ; break
         case Drag.YAxis: swipe(mouse.y - _origin.y < 0 ? dirUp : dirDown, Math.abs(mouse.y-_origin.y)) ; break
         }
-        if(flick)
-            flick.interactive = flickInteractive
-
+        if(page) {
+            page.forwardNavigation = forwardNavigation
+            page.backNavigation  = backNavigation
+        }
     }
 }

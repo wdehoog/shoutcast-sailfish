@@ -54,6 +54,26 @@ Page {
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
         id: audioPanel
+
+        page: stationsPage
+
+        onSwipeLeft: {
+            if(currentItem > 0) {
+                currentItem--
+                var item = stationsModel.model.get(currentItem)
+                if(item)
+                    app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
+            }
+        }
+
+        onSwipeRight: {
+            if(currentItem < (stationsModel.model.count-1)) {
+                currentItem++
+                var item = stationsModel.model.get(currentItem)
+                if(item)
+                     app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
+            }
+        }
     }
 
     SilicaListView {
@@ -100,7 +120,7 @@ Page {
 
                     Label {
                         id: nameLabel
-                        color: Theme.primaryColor
+                        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
                         textFormat: Text.StyledText
                         truncationMode: TruncationMode.Fade
                         width: parent.width - countLabel.width
@@ -109,7 +129,7 @@ Page {
                     Label {
                         id: countLabel
                         anchors.right: parent.right
-                        color: Theme.secondaryColor
+                        color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
                         font.pixelSize: Theme.fontSizeExtraSmall
                         text: lc + " " + Shoutcast.getAudioType(mt) + " " + br
                     }
@@ -127,6 +147,7 @@ Page {
 
             onClicked: {
                 app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
+                currentItem = index
             }
         }
 

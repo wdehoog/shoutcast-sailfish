@@ -32,7 +32,8 @@ Page {
     property string nowPlayingQuery: ""
     property string keywordQuery: ""
     property int searchInType: 0
-    property string tuneinBase: ""
+    property var tuneinBase: ({})
+    property int currentItem: -1
 
     onSearchStringChanged: {
         typeDelay.restart()
@@ -78,19 +79,18 @@ Page {
             searchModel.clear()
             for(i=0;i<nowPlayingModel.model.count;i++)
                 searchModel.append(nowPlayingModel.model.get(i))
+            tuneinBase = {}
             if(nowPlayingModel.keepObject.length > 0) {
-                tuneinBase = {}
-                var b = stationsModel.keepObject[0]["base"]
+                var b = nowPlayingModel.keepObject[0]["base"]
                 if(b)
                     tuneinBase["base"] = b
-                b = stationsModel.keepObject[0]["base-m3u"]
+                b = nowPlayingModel.keepObject[0]["base-m3u"]
                 if(b)
                     tuneinBase["base-m3u"] = b
-                b = stationsModel.keepObject[0]["base-xspf"]
+                b = nowPlayingModel.keepObject[0]["base-xspf"]
                 if(b)
                     tuneinBase["base-xspf"] = b
-            } else
-                tuneinBase = {}
+            }
             nowPlayingQuery = ""
             showBusy = false
         }
@@ -137,8 +137,8 @@ Page {
         onStatusChanged: {
             if (status !== XmlListModel.Ready)
                 return
+            tuneinBase = {}
             if(tuneinModel.count > 0) {
-                tuneinBase = {}
                 var b = tuneinModel.get(0)["base"]
                 if(b)
                     tuneinBase["base"] = b
@@ -148,8 +148,7 @@ Page {
                 b = tuneinModel.get(0)["base-xspf"]
                 if(b)
                     tuneinBase["base-xspf"] = b
-            } else
-                tuneinBase = {}
+            }
         }
     }
 
@@ -160,6 +159,26 @@ Page {
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
         id: audioPanel
+
+        page: searchPage
+
+        onSwipeLeft: {
+            if(currentItem > 0) {
+                currentItem--
+                var item = searchModel.get(currentItem)
+                if(item)
+                    app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
+            }
+        }
+
+        onSwipeRight: {
+            if(currentItem < (searchModel.count-1)) {
+                currentItem++
+                var item = searchModel.get(currentItem)
+                if(item)
+                     app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
+            }
+        }
     }
 
     SilicaListView {
@@ -255,7 +274,7 @@ Page {
 
                         Label {
                             id: tt
-                            color: Theme.primaryColor
+                            color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
                             textFormat: Text.StyledText
                             truncationMode: TruncationMode.Fade
                             width: parent.width - dt.width
@@ -264,14 +283,14 @@ Page {
                         Label {
                             id: dt
                             anchors.right: parent.right
-                            color: Theme.secondaryColor
+                            color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
                             font.pixelSize: Theme.fontSizeExtraSmall
                             text: lc + " " + Shoutcast.getAudioType(mt) + " " + br
                         }
                     }
 
                     Label {
-                        color: Theme.secondaryColor
+                        color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
                         font.pixelSize: Theme.fontSizeExtraSmall
                         textFormat: Text.StyledText
                         truncationMode: TruncationMode.Fade
@@ -284,6 +303,7 @@ Page {
 
             onClicked: {
                 app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
+                currentItem = index
             }
         }
 
