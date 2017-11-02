@@ -92,10 +92,11 @@ Page {
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.WordWrap
                 text:
-"SHOUTcast: www.shoutcast.com & DevID
+"SHOUTcast: www.shoutcast.com
 nesnomis: harbour-allradio
 Romain Pokrzywka: JSONListModel
 Stefan Goessner: JSONPath
+Gregor Santner & Sergejs Kovrovs: SwipeArea
 igh0zt: app icon"
             }
         }

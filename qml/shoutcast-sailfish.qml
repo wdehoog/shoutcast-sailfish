@@ -232,9 +232,22 @@ ApplicationWindow {
         }
     }
 
+    function pause() {
+        pauseRequested()
+    }
+
+    function prev() {
+        previousRequested()
+    }
+
+    function next() {
+        nextRequested()
+    }
 
     signal pauseRequested()
     signal playRequested()
+    signal nextRequested()
+    signal previousRequested()
 
     property bool isPlayer: player_type.value === 0
 
@@ -251,6 +264,11 @@ ApplicationWindow {
 
         canPause: isPlayer && playbackStatus === Mpris.Playing
         canPlay: isPlayer && audio.hasAudio && playbackStatus !== Mpris.Playing
+        canGoNext: isPlayer && pageStack.currentPage.canGoNext
+                   ? pageStack.currentPage.canGoNext : false
+        canGoPrevious: isPlayer && pageStack.currentPage.canGoPrevious
+                       ? pageStack.currentPage.canGoPrevious : false
+        canSeek: false
 
         playbackStatus: {
             if (audio.playbackState === audio.Playing)
@@ -264,6 +282,8 @@ ApplicationWindow {
         onPauseRequested: pauseRequested()
         onPlayRequested: playRequested()
         onPlayPauseRequested: pauseRequested()
+        onNextRequested: nextRequested()
+        onPreviousRequested: previousRequested()
 
         onMetaDataChanged: {
             var metadata = {}

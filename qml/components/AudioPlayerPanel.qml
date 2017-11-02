@@ -12,6 +12,7 @@ DockedPanel {
 
     property alias swipe: mouse
     property alias page: mouse.page
+    property alias playerButtons: playerButtons
 
     width: parent.width
     height: playerUI.height + Theme.paddingSmall
@@ -31,6 +32,8 @@ DockedPanel {
         onAudioBufferFull: play()
         onPlayRequested: play()
         onPauseRequested: pause()
+        onNextRequested: next()
+        onPreviousRequested: previous()()
     }
 
     function play() {
@@ -95,6 +98,7 @@ DockedPanel {
 
           IconButton {
               id: playIcon
+              z: 1
               icon.source: playIconSource
               onClicked: pause()
           }
@@ -102,15 +106,14 @@ DockedPanel {
        }
     }
 
-    signal swipeLeft()
-    signal swipeRight()
-
-    onSwipeLeft: console.log("swipe left")
-    onSwipeRight: console.log("swipe right")
+    signal previous()
+    signal next()
 
     SwipeArea {
         id: mouse
-        anchors.fill: parent
+        anchors.top: parent.top
+        x: 0
+        width: parent.width - playerButtons.width
         swipeTreshold: 45
 
         //onMove: content.x = (-root.width * currentIndex) + x
@@ -119,11 +122,11 @@ DockedPanel {
              switch (direction) {
              //case dirUp:
              case dirLeft:
-                 swipeLeft()
+                 previous()
                  break
              //case dirDown:
              case dirRight:
-                 swipeRight()
+                 next()
                  break
              }
          }

@@ -14,6 +14,8 @@ Page {
     property string genreName: ""
     property string genreId: ""
     property int currentItem: -1
+    property bool canGoNext: currentItem < (stationsModel.count-1)
+    property bool canGoPrevious: currentItem > 0
 
     property bool showBusy: false
     property var tuneinBase: ({})
@@ -38,6 +40,7 @@ Page {
         target: stationsModel
         onLoaded: {
             showBusy = false
+            currentItem = -1
             tuneinBase = {}
             var b = stationsModel.keepObject[0]["base"]
             if(b)
@@ -57,8 +60,8 @@ Page {
 
         page: stationsPage
 
-        onSwipeLeft: {
-            if(currentItem > 0) {
+        onPrevious: {
+            if(canGoPrevious) {
                 currentItem--
                 var item = stationsModel.model.get(currentItem)
                 if(item)
@@ -66,8 +69,8 @@ Page {
             }
         }
 
-        onSwipeRight: {
-            if(currentItem < (stationsModel.model.count-1)) {
+        onNext: {
+            if(canGoNext) {
                 currentItem++
                 var item = stationsModel.model.get(currentItem)
                 if(item)

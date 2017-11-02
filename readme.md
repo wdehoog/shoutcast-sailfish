@@ -1,6 +1,6 @@
 ## shoutcast-sailfish
 
-A Shoutcast player for SailfishOS. It is a very simple but effective one.
+A Shoutcast player for SailfishOS. It is a simple but effective one.
 
 I use and develop it on my Oneplus One (currently 2.1.2.3).
 
@@ -14,6 +14,10 @@ A package can be found in my [OBS repository]( http://repo.merproject.org/obs/ho
   * Search by 'Now Playing' or Keywords
   * Tune in on a Station 
   * Pause/Play
+
+#### Usage
+  * Press a Station will start playing it
+  * Swipe the player area left/right will load previous/next Station (only for pages having a Station list)
 
 ### Development
 This project is developed with the Sailfish OS IDE (QT Creator). 

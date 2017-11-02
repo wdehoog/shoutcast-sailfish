@@ -17,6 +17,8 @@ Page {
 
     property bool showBusy: false
     property var tuneinBase: ({})
+    property bool canGoNext: currentItem < (top500Model.count-1)
+    property bool canGoPrevious: currentItem > 0
 
     allowedOrientations: Orientation.All
 
@@ -68,6 +70,7 @@ Page {
 
     function reload() {
         showBusy = true
+        currentItem = -1
         app.loadTop500(function(xml) {
             top500Model.xml = xml
             tuneinModel.xml = xml
@@ -83,8 +86,8 @@ Page {
 
         page: top500Page
 
-        onSwipeLeft: {
-            if(currentItem > 0) {
+        onPrevious: {
+            if(canGoPrevious) {
                 currentItem--
                 var item = top500Model.get(currentItem)
                 if(item)
@@ -92,8 +95,8 @@ Page {
             }
         }
 
-        onSwipeRight: {
-            if(currentItem < (top500Model.count-1)) {
+        onNext: {
+            if(canGoNext) {
                 currentItem++
                 var item = top500Model.get(currentItem)
                 if(item)

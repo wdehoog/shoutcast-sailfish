@@ -79,11 +79,21 @@ CoverBackground {
             id: coverAction
 
             CoverAction {
+                iconSource: "image://theme/icon-cover-previous"
+                onTriggered: app.prev()
+            }
+
+            CoverAction {
                 iconSource: playIconSource
                 onTriggered: app.pause()
             }
 
+            CoverAction {
+                iconSource: "image://theme/icon-cover-next"
+                onTriggered: app.next()
+            }
         }
+
     }
 }
 

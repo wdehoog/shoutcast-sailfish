@@ -1,6 +1,7 @@
 // Initial version was written by Sergejs Kovrovs and has been placed in the public domain.
 //   at https://gist.github.com/kovrov/1742405
 // Modified by Gregor Santner
+// Modified by Willem-Jan de Hoog
 import Sailfish.Silica 1.0
 import QtQuick 2.0
 

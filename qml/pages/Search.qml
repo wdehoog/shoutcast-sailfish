@@ -33,7 +33,10 @@ Page {
     property string keywordQuery: ""
     property int searchInType: 0
     property var tuneinBase: ({})
+
     property int currentItem: -1
+    property bool canGoNext: currentItem < (searchModel.count-1)
+    property bool canGoPrevious: currentItem > 0
 
     onSearchStringChanged: {
         typeDelay.restart()
@@ -76,6 +79,7 @@ Page {
         target: nowPlayingModel
         onLoaded: {
             var i
+            currentItem = -1
             searchModel.clear()
             for(i=0;i<nowPlayingModel.model.count;i++)
                 searchModel.append(nowPlayingModel.model.get(i))
@@ -120,6 +124,7 @@ Page {
             if (status !== XmlListModel.Ready)
                 return
             var i
+            currentItem = -1
             searchModel.clear()
             for(i=0;i<count;i++)
                 searchModel.append(get(i))
@@ -162,8 +167,8 @@ Page {
 
         page: searchPage
 
-        onSwipeLeft: {
-            if(currentItem > 0) {
+        onPrevious: {
+            if(canGoPrevious) {
                 currentItem--
                 var item = searchModel.get(currentItem)
                 if(item)
@@ -171,8 +176,8 @@ Page {
             }
         }
 
-        onSwipeRight: {
-            if(currentItem < (searchModel.count-1)) {
+        onNext: {
+            if(canGoNext) {
                 currentItem++
                 var item = searchModel.get(currentItem)
                 if(item)

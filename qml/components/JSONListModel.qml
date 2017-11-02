@@ -38,21 +38,24 @@ Item {
     onQueryChanged: updateJSONModel()
 
     function updateJSONModel() {
-        jsonModel.clear();
+        jsonModel.clear()
 
         if ( json === "" )
-            return;
+            return
 
         var objectArray = parseJSONString(json, query);
+        if(!objectArray)
+            return
+
         if(orderField !== "") {
            objectArray.sort(function(a, b) {
                // reverse!
-               return b[orderField] - a[orderField];
-           });
+               return b[orderField] - a[orderField]
+           })
         }
         for ( var key in objectArray ) {
-            var jo = objectArray[key];
-            jsonModel.append( jo );
+            var jo = objectArray[key]
+            jsonModel.append( jo )
         }
 
         loaded()
