@@ -79,6 +79,10 @@
         <source>Top 500</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>There is no Network available.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Search</name>

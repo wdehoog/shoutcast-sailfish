@@ -127,6 +127,10 @@ Page {
     }
 
     function gotoTop500Page() {
+        if(!app.connectedToNetwork) {
+            showErrorDialog(qsTr("There is no Network available."))
+            return
+        }
         var page = pageStack.nextPage()
         if(!page || page.objectName !== "TopStationsPage")
             pageStack.pushAttached(Qt.resolvedUrl("TopStationsPage.qml"))
@@ -134,6 +138,10 @@ Page {
     }
 
     function gotoGenrePage() {
+        if(!app.connectedToNetwork) {
+            showErrorDialog(qsTr("There is no Network available."))
+            return
+        }
         var page = pageStack.nextPage()
         if(!page || page.objectName !== "GenrePage")
             pageStack.pushAttached(Qt.resolvedUrl("GenrePage.qml"))
@@ -141,6 +149,10 @@ Page {
     }
 
     function gotoSearchPage() {
+        if(!app.connectedToNetwork) {
+            showErrorDialog(qsTr("There is no Network available."))
+            return
+        }
         var page = pageStack.nextPage()
         if(!page || page.objectName !== "Search")
             pageStack.pushAttached(Qt.resolvedUrl("Search.qml"))
