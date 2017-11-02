@@ -63,9 +63,22 @@ ApplicationWindow {
     property string logoURL: ""
     onLogoURLChanged: cover.imageSource = logoURL.length > 0 ? logoURL : cover.defaultImageSource
 
-    signal stationChanged(string name)
+    signal stationChanged(var stationInfo)
 
-    function loadStation(stationId, info, mimeType, logoURL, tuneinBase) {
+    onStationChanged: {
+        app.stationName = stationInfo.name
+        app.genreName = stationInfo.genre
+        app.streamMetaText1 = stationInfo.name + " - " + stationInfo.lc + " " + Shoutcast.getAudioType(stationInfo.mt) + " " + stationInfo.br
+        app.streamMetaText2 = (stationInfo.genre ? (stationInfo.genre + " - ") : "") + stationInfo.ct
+        app.logoURL = stationInfo.logo ? stationInfo.logo : ""
+        app.audio.source = stationInfo.stream
+    }
+
+    function loadStation(stationId, info, tuneinBase) {
+        _loadStation(stationId, info, tuneinBase, 1)
+    }
+
+    function _loadStation(stationId, info, tuneinBase, retryCount) {
         // need m3u
         if(!tuneinBase["base-m3u"]) {
             showErrorDialog(qsTr("Don't know how to retrieve playlist."))
@@ -86,22 +99,22 @@ ApplicationWindow {
                 if(streamURL.length > 0) {
                     switch(playerType.value) {
                     case 1:
-                        mprisOpenUri(streamURL, mimeType)
+                        mprisOpenUri(streamURL, info.mt)
                         break
                     case 0:
                     default:
-                        app.stationName = info.name
-                        app.genreName = info.genre
-                        app.streamMetaText1 = info.name + " - " + info.lc + " " + Shoutcast.getAudioType(info.mt) + " " + info.br
-                        app.streamMetaText2 = (info.genre ? (info.genre + " - ") : "") + info.ct
-                        app.logoURL = logoURL ? logoURL : ""
-                        app.audio.source = streamURL
-                        stationChanged(info.name)
+                        info.stream = streamURL
+                        stationChanged(info)
                         break
                     }
                 } else {
-                    showErrorDialog(qsTr("Failed to retrieve stream URL."))
-                    console.log("Error could not find stream URL: \n" + m3u)
+                    if(retryCount > 0) {
+                        _loadStation(stationId, info, tuneinBase, retryCount - 1)
+                        console.log("Error could not find stream URL. Will retry.\n")
+                    } else {
+                        showErrorDialog(qsTr("Failed to retrieve stream URL."))
+                        console.log("Error could not find stream URL: \n" + m3u)
+                    }
                 }
             }
         }

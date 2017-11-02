@@ -9,6 +9,8 @@ import "../"
 DockedPanel {
     id: panel
 
+    property alias flick: mouse.flick
+
     width: parent.width
     height: playerUI.height + Theme.paddingSmall
 
@@ -97,4 +99,33 @@ DockedPanel {
 
        }
     }
+
+    signal swipeLeft()
+    signal swipeRight()
+
+    onSwipeLeft: console.log("swipe left")
+    onSwipeRight: console.log("swipe right")
+
+    SwipeArea {
+        id: mouse
+        anchors.fill: parent
+        swipeTreshold: 45
+
+        //onMove: content.x = (-root.width * currentIndex) + x
+
+        onSwipe: {
+             switch (direction) {
+             //case dirUp:
+             case dirLeft:
+                 swipeLeft()
+                 break
+             //case dirDown:
+             case dirRight:
+                 swipeRight()
+                 break
+             }
+         }
+
+         //onCanceled:  currentIndexChanged()
+     }
 }

@@ -283,7 +283,7 @@ Page {
             }
 
             onClicked: {
-                app.loadStation(model.id, Shoutcast.createInfo(model), model.mt, model.logo, tuneinBase)
+                app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
             }
         }
 
