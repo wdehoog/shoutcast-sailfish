@@ -36,12 +36,13 @@ DockedPanel {
     Row {
         id: playerUI
 
+        //height: Math.max(imageItem.height, meta.height, playerButtons.height)
         width: parent.width
 
         Image {
             id: imageItem
             source: app.logoURL.length > 0 ? app.logoURL : defaultImageSource
-            width: parent.width / 4
+            width: Theme.iconSizeLarge
             height: width
             anchors.verticalCenter: parent.verticalCenter
             fillMode: Image.PreserveAspectFit

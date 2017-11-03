@@ -13,7 +13,7 @@ CoverBackground {
     property string defaultImageSource : app.getAppIconSource2(Theme.iconSizeLarge) //"image://theme/icon-l-music"
     property string imageSource : defaultImageSource
     property string playIconSource : "image://theme/icon-cover-play"
-    property string metaText: ""
+    property string metaText: "Shoutcast"
 
     Column {
         width: parent.width
