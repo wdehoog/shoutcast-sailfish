@@ -74,7 +74,7 @@ Page {
             id: delegate
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
-            property alias repr: repr
+            //property alias repr: repr
             Column {
                 width: parent.width
 
@@ -128,15 +128,28 @@ Page {
             }*/
 
             onClicked: {
-                var page = pageStack.nextPage()
-                if(!page)
-                    pageStack.pushAttached(Qt.resolvedUrl("SubGenrePage.qml"),
-                                           {genreId: model.id, genreName: model.name})
-                else {
-                    page.genreId = model.id
-                    page.genreName = model.name
+                var page
+                if(model.haschildren) {
+                    // has sub genres
+                    page = pageStack.nextPage()
+                    if(!page || page.objectName !== "SubGenrePage")
+                        pageStack.pushAttached(Qt.resolvedUrl("SubGenrePage.qml"),
+                                               {genreId: model.id, genreName: model.name})
+                    else {
+                        page.genreId = model.id
+                        page.genreName = model.name
+                    }
+                } else {
+                    // no sub genres
+                    page = pageStack.nextPage()
+                    if(!page || page.objectName !== "StationsPage")
+                        pageStack.pushAttached(Qt.resolvedUrl("StationsPage.qml"),
+                                               {genreId: model.id, genreName: model.name})
+                    else {
+                       page.genreId = model.id
+                       page. genreName = model.name
+                    }
                 }
-
                 pageStack.navigateForward(PageStackAction.Animated)
             }
         }

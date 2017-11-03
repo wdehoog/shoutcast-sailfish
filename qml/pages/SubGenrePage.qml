@@ -10,6 +10,7 @@ import "../shoutcast.js" as Shoutcast
 
 Page {
     id: subGenrePage
+    objectName: "SubGenrePage"
 
     property string genreName: ""
     property string genreId: ""
