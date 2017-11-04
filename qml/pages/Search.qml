@@ -190,9 +190,9 @@ Page {
         }
     }
 
-    function reload() {
+    /*function reload() {
         showBusy = true
-        if(nowPlayingQuery.length !== 0)
+        if(searchInType === 0)
             nowPlayingModel.refresh()
         else
             app.loadKeywordSearch(keywordQuery, function(xml) {
@@ -201,7 +201,7 @@ Page {
                 tuneinModel.xml = xml
                 tuneinModel.reload()
             })
-    }
+    }*/
 
     SilicaListView {
         id: listView
@@ -212,7 +212,7 @@ Page {
         anchors.bottomMargin: playerPanel.visibleSize
         clip: playerPanel.expanded
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("Reload")
                 onClicked: reload()
@@ -224,7 +224,7 @@ Page {
                 text: qsTr("Reload")
                 onClicked: reload()
             }
-        }
+        }*/
 
         header: Column {
             id: lvColumn

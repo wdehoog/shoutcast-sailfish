@@ -55,6 +55,11 @@ ApplicationWindow {
             if(bufferProgress == 1.0)
                 audioBufferFull()
         }
+        onError: {
+            console.log("Audio Player:" + errorString)
+            console.log("source: " + source)
+            showErrorDialog(qsTr("Audio Player:") + "\n\n" + errorString)
+        }
     }
 
     MainPage {

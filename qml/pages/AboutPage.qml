@@ -94,6 +94,7 @@ Page {
                 text:
 "SHOUTcast: www.shoutcast.com
 nesnomis: harbour-allradio
+kempe: harbour-received
 Romain Pokrzywka: JSONListModel
 Stefan Goessner: JSONPath
 Gregor Santner & Sergejs Kovrovs: SwipeArea
