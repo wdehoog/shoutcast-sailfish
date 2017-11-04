@@ -35,6 +35,11 @@ PkgConfigBR:
 Requires:
   - sailfishsilica-qt5 >= 0.10.9
   - libsailfishapp-launcher
+  - qt5-qtdeclarative-import-xmllistmodel
+  - mpris-qt5-qml-plugin
+  - nemo-qml-plugin-configuration-qt5
+  - nemo-qml-plugin-dbus-qt5
+  - nemo-qml-plugin-connectivity
 
 # All installed files
 Files:

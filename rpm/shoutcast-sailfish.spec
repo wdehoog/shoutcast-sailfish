@@ -23,6 +23,11 @@ Source0:    %{name}-%{version}.tar.bz2
 Source100:  shoutcast-sailfish.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
 Requires:   libsailfishapp-launcher
+Requires:   qt5-qtdeclarative-import-xmllistmodel
+Requires:   mpris-qt5-qml-plugin
+Requires:   nemo-qml-plugin-configuration-qt5
+Requires:   nemo-qml-plugin-dbus-qt5
+Requires:   nemo-qml-plugin-connectivity
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.3
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
