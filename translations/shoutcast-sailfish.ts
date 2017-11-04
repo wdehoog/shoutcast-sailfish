@@ -106,10 +106,6 @@
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Reload</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>SettingsPage</name>

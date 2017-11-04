@@ -324,10 +324,10 @@ ApplicationWindow {
         onMetaDataChanged: {
             var metadata = {}
 
-            if (metaData && 'url' in metaData) {
+            if (metaData && 'artist' in metaData)
                 metadata[Mpris.metadataToString(Mpris.Artist)] = [metaData['artist']] // List of strings
+            if (metaData && 'title' in metaData)
                 metadata[Mpris.metadataToString(Mpris.Title)] = metaData['title'] // String
-            }
 
             mprisPlayer.metadata = metadata
         }
