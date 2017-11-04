@@ -31,7 +31,7 @@ Item {
         xhr.open("GET", source);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE)
-                json = xhr.responseText;
+                json = xhr.responseText
         }
         xhr.send();
     }
@@ -46,8 +46,10 @@ Item {
             return
 
         var objectArray = parseJSONString(json, query);
-        if(!objectArray)
+        if(!objectArray) {
+            loaded()
             return
+        }
 
         if(orderField !== "") {
            objectArray.sort(function(a, b) {
