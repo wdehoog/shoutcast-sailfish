@@ -5,10 +5,13 @@ import "../shoutcast.js" as Shoutcast
 import "../"
 
 Column {
-
+    id: stationListItemViewColumn
     width: parent.width
 
-    Item {
+    // name    lc, mt/br
+    // ct
+
+    /*Item {
         width: parent.width
         height: nameLabel.height
 
@@ -27,15 +30,78 @@ Column {
             font.pixelSize: Theme.fontSizeExtraSmall
             text: lc + " - " + Shoutcast.getAudioType(mt) + "/" + br
         }
+    }*/
+
+    // name
+    // lc, genre, mt/br
+    // ct
+
+    Label {
+        id: nameLabel
+        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
+        textFormat: Text.StyledText
+        truncationMode: TruncationMode.Fade
+        width: parent.width
+        text: name
     }
 
     Label {
+        id: metaLabel
+        width: parent.width
+        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
+        font.pixelSize: Theme.fontSizeExtraSmall
+        truncationMode: TruncationMode.Fade
+        //text: (genre ? (genre + ", ") : "") + lc + ", " + Shoutcast.getAudioType(mt) + "/" + br
+        text: getMetaString(model)
+    }
+
+    Label {
+        id: trackLabel
+        width: parent.width
         color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
         font.pixelSize: Theme.fontSizeExtraSmall
         textFormat: Text.StyledText
         truncationMode: TruncationMode.Fade
-        width: parent.width
-        text: (genre ? (genre + " - ") : "") + (ct ? ct : qsTr("no track info"))
+        text: ct ? ct : qsTr("no track info")
+    }
+
+    function getMetaString(model) {
+        var mstr = ""
+        if(lc)
+            mstr += lc;
+        var gstr = genreString(model)
+        if(gstr.length > 0) {
+            if(mstr.length > 0)
+                mstr += ", "
+            mstr += gstr
+        }
+        if(mt) {
+            if(mstr.length > 0)
+                mstr += ", "
+            mstr += Shoutcast.getAudioType(mt)
+        }
+        if(br) {
+            if(mstr.length > 0)
+                mstr += "/"
+            mstr += br
+        }
+        return mstr
+    }
+
+    function genreString(model) {
+        //console.log(model.id + ": l=" + model.ct.length + ", text=" + model.ct)
+        var str = ""
+        if(model.genre)
+            str += genre
+        if(model.genre2)
+            str += ", " + genre2
+        if(model.genre3)
+            str += ", " + genre3
+        if(model.genre4)
+            str += ", " + genre4
+        if(model.genre5)
+            str += ", " + genre5
+        return str
     }
 }
 
