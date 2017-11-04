@@ -73,7 +73,9 @@ Page {
         currentItem = -1
         app.loadTop500(function(xml) {
             top500Model.xml = xml
+            top500Model.reload()
             tuneinModel.xml = xml
+            tuneinModel.reload()
         })
     }
 
@@ -121,6 +123,13 @@ Page {
             }
         }
 
+        PushUpMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
+        }
+
         header: Column {
             id: lvColumn
 
@@ -147,38 +156,8 @@ Page {
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
 
-            Column {
-                width: parent.width
-
-                Item {
-                    width: parent.width
-                    height: nameLabel.height
-
-                    Label {
-                        id: nameLabel
-                        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
-                        textFormat: Text.StyledText
-                        truncationMode: TruncationMode.Fade
-                        width: parent.width - countLabel.width
-                        text: name
-                    }
-                    Label {
-                        id: countLabel
-                        anchors.right: parent.right
-                        color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        text: lc + " " + Shoutcast.getAudioType(mt) + " " + br
-                    }
-                }
-
-                Label {
-                    color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    textFormat: Text.StyledText
-                    truncationMode: TruncationMode.Fade
-                    width: parent.width
-                    text: (genre ? (genre + " - ") : "") + (ct ? ct : qsTr("no track info"))
-                }
+            StationListItemView {
+                id: stationListItemView
             }
 
             onClicked: {

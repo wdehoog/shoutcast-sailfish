@@ -80,22 +80,28 @@ ApplicationWindow {
     }
 
     function _loadStation(stationId, info, tuneinBase, retryCount) {
-        // need m3u
-        if(!tuneinBase["base-m3u"]) {
+        var m3uBase = tuneinBase["base-m3u"]
+        var plsBase = tuneinBase["base"]
+
+        if(!m3uBase && !plsBase) {
             showErrorDialog(qsTr("Don't know how to retrieve playlist."))
             console.log("Don't know how to retrieve playlist.: \n" + JSON.stringify(tuneinBase))
         }
 
         var xhr = new XMLHttpRequest
-        var uri = Shoutcast.TuneInBase
-                + tuneinBase["base-m3u"]
+        var playlistUri = Shoutcast.TuneInBase
+                + (retryCount > 0 ? m3uBase : plsBase)
                 + "?" + Shoutcast.getStationPart(stationId)
-        xhr.open("GET", uri)
+        xhr.open("GET", playlistUri)
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
-                var m3u = xhr.responseText;
-                console.log("Station: \n" + m3u)
-                var streamURL = Shoutcast.extractURLFromM3U(m3u)
+                var playlist = xhr.responseText;
+                console.log("Station: \n" + playlist)
+                var streamURL
+                if(retryCount > 0)
+                    streamURL = Shoutcast.extractURLFromM3U(playlist)
+                else
+                    streamURL = Shoutcast.extractURLFromPLS(playlist)
                 console.log("URL: \n" + streamURL)
                 if(streamURL.length > 0) {
                     switch(playerType.value) {
@@ -111,10 +117,10 @@ ApplicationWindow {
                 } else {
                     if(retryCount > 0) {
                         _loadStation(stationId, info, tuneinBase, retryCount - 1)
-                        console.log("Error could not find stream URL. Will retry.\n")
+                        console.log("Error could not find stream URL. Will retry.\n" + playlistUri + "\n" + playlist)
                     } else {
                         showErrorDialog(qsTr("Failed to retrieve stream URL."))
-                        console.log("Error could not find stream URL: \n" + uri + "\n" + m3u + "\n")
+                        console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
                     }
                 }
             }

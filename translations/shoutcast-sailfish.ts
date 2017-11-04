@@ -107,7 +107,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>no track info</source>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -151,9 +151,16 @@
     </message>
 </context>
 <context>
-    <name>StationsPage</name>
+    <name>StationListItemView</name>
     <message>
         <source>no track info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StationsPage</name>
+    <message>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -161,10 +168,6 @@
     <name>TopStationsPage</name>
     <message>
         <source>Top 500</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no track info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

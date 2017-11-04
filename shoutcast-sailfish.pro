@@ -37,7 +37,8 @@ DISTFILES += qml/shoutcast-sailfish.qml \
     qml/dialogs/ItemPicker.qml \
     qml/Util.js \
     qml/components/AudioPlayerPanel.qml \
-    qml/components/SwipeArea.qml
+    qml/components/SwipeArea.qml \
+    qml/components/StationListItemView.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 

@@ -55,6 +55,11 @@ Page {
         }
     }
 
+    function reload() {
+        showBusy = true
+        stationsModel.refresh()
+    }
+
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
         id: audioPanel
@@ -77,6 +82,20 @@ Page {
                 if(item)
                      app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
+        }
+    }
+
+    PullDownMenu {
+        MenuItem {
+            text: qsTr("Reload")
+            onClicked: reload()
+        }
+    }
+
+    PushUpMenu {
+        MenuItem {
+            text: qsTr("Reload")
+            onClicked: reload()
         }
     }
 
@@ -115,38 +134,8 @@ Page {
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
 
-            Column {
-                width: parent.width
-
-                Item {
-                    width: parent.width
-                    height: nameLabel.height
-
-                    Label {
-                        id: nameLabel
-                        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
-                        textFormat: Text.StyledText
-                        truncationMode: TruncationMode.Fade
-                        width: parent.width - countLabel.width
-                        text: name
-                    }
-                    Label {
-                        id: countLabel
-                        anchors.right: parent.right
-                        color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        text: lc + " " + Shoutcast.getAudioType(mt) + " " + br
-                    }
-                }
-
-                Label {
-                    color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    textFormat: Text.StyledText
-                    truncationMode: TruncationMode.Fade
-                    width: parent.width
-                    text: (ct ? ct : qsTr("no track info"))
-                }
+            StationListItemView {
+                id: stationListItemView
             }
 
             onClicked: {

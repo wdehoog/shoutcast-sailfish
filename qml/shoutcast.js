@@ -80,6 +80,16 @@ function extractURLFromM3U(text) {
     return "";
 }
 
+function extractURLFromPLS(text) {
+    var lines = text.split('\n');
+    for(var i = 0;i < lines.length;i++) {
+        var match = lines[i].match("File[^=]+\s*=\s*(http.*)\s*")
+        if(match && match.length>=2)
+            return match[1];
+    }
+    return "";
+}
+
 function createInfo(model) {
     var info = {}
     info.id = model.id

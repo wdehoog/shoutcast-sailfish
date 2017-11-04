@@ -186,6 +186,33 @@ Page {
         }
     }
 
+    function reload() {
+        showBusy = true
+        if(nowPlayingQuery.length !== 0)
+            nowPlayingModel.refresh()
+        else
+            app.loadKeywordSearch(keywordQuery, function(xml) {
+                keywordModel.xml = xml
+                keywordModel.reload()
+                tuneinModel.xml = xml
+                tuneinModel.reload()
+            })
+    }
+
+    PullDownMenu {
+        MenuItem {
+            text: qsTr("Reload")
+            onClicked: reload()
+        }
+    }
+
+    PushUpMenu {
+        MenuItem {
+            text: qsTr("Reload")
+            onClicked: reload()
+        }
+    }
+
     SilicaListView {
         id: listView
         model: searchModel
@@ -266,44 +293,8 @@ Page {
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
 
-            Row {
-                spacing: Theme.paddingMedium
-                width: parent.width
-
-                Column {
-                    width: parent.width
-
-                    Item {
-                        width: parent.width
-                        height: tt.height
-
-                        Label {
-                            id: tt
-                            color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
-                            textFormat: Text.StyledText
-                            truncationMode: TruncationMode.Fade
-                            width: parent.width - dt.width
-                            text: name
-                        }
-                        Label {
-                            id: dt
-                            anchors.right: parent.right
-                            color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: lc + " " + Shoutcast.getAudioType(mt) + " " + br
-                        }
-                    }
-
-                    Label {
-                        color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        textFormat: Text.StyledText
-                        truncationMode: TruncationMode.Fade
-                        width: parent.width
-                        text: (genre ? (genre + " - ") : "") + (ct ? ct : qsTr("no track info"))
-                    }
-                }
-
+            StationListItemView {
+                id: stationListItemView
             }
 
             onClicked: {
