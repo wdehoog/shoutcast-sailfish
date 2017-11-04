@@ -100,5 +100,18 @@ function createInfo(model) {
     info.br = model.br ? model.br : 0
     info.mt = model.mt ? model.mt : "no mimetype"
     info.logo = model.logo ? model.logo : ""
+
+    info.genres = []
+    if(model.genre)
+        info.genres.push(model.genre)
+    if(model.genre2)
+        info.genres.push(model.genre2)
+    if(model.genre3)
+        info.genres.push(model.genre3)
+    if(model.genre4)
+        info.genres.push(model.genre4)
+    if(model.genre5)
+        info.genres.push(model.genre5)
+
     return info
 }

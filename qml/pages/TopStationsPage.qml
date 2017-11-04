@@ -29,14 +29,18 @@ Page {
     XmlListModel {
         id: top500Model
         query: "/stationlist/station"
-        XmlRole { name: "name"; query: "@name/string()" }
-        XmlRole { name: "mt"; query: "@mt/string()" }
+        XmlRole { name: "name"; query: "string(@name)" }
+        XmlRole { name: "mt"; query: "string(@mt)" }
         XmlRole { name: "id"; query: "@id/number()" }
         XmlRole { name: "br"; query: "@br/number()" }
-        XmlRole { name: "genre"; query: "@genre/string()" }
-        XmlRole { name: "ct"; query: "@ct/string()" }
+        XmlRole { name: "genre"; query: "string(@genre)" }
+        XmlRole { name: "ct"; query: "string(@ct)" }
         XmlRole { name: "lc"; query: "@lc/number()" }
-        XmlRole { name: "logo"; query: "@logo/string()" }
+        XmlRole { name: "logo"; query: "string(@logo)" }
+        XmlRole { name: "genre2"; query: "string(@genre2)" }
+        XmlRole { name: "genre3"; query: "string(@genre3)" }
+        XmlRole { name: "genre4"; query: "string(@genre4)" }
+        XmlRole { name: "genre5"; query: "string(@genre5)" }
         onStatusChanged: {
             if (status !== XmlListModel.Ready)
                 return
@@ -72,6 +76,7 @@ Page {
         showBusy = true
         currentItem = -1
         app.loadTop500(function(xml) {
+            //console.log(xml)
             top500Model.xml = xml
             top500Model.reload()
             tuneinModel.xml = xml
@@ -154,6 +159,7 @@ Page {
         delegate: ListItem {
             id: delegate
             width: parent.width - 2*Theme.paddingMedium
+            height: stationListItemView.height
             x: Theme.paddingMedium
 
             StationListItemView {

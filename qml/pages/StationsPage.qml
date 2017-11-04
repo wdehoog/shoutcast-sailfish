@@ -85,20 +85,6 @@ Page {
         }
     }
 
-    PullDownMenu {
-        MenuItem {
-            text: qsTr("Reload")
-            onClicked: reload()
-        }
-    }
-
-    PushUpMenu {
-        MenuItem {
-            text: qsTr("Reload")
-            onClicked: reload()
-        }
-    }
-
     SilicaListView {
         id: genreView
         model: stationsModel.model
@@ -107,6 +93,20 @@ Page {
 
         anchors.bottomMargin: playerPanel.visibleSize
         clip: playerPanel.expanded
+
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
+        }
+
+        PushUpMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
+        }
 
         header: Column {
             id: lvColumn
@@ -132,6 +132,7 @@ Page {
         delegate: ListItem {
             id: delegate
             width: parent.width - 2*Theme.paddingMedium
+            height: stationListItemView.height
             x: Theme.paddingMedium
 
             StationListItemView {

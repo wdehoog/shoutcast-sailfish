@@ -239,8 +239,8 @@ ApplicationWindow {
 
                 cover.metaText = stationName
             }
-            console.log("streamMetaText1: " + streamMetaText1)
-            console.log("streamMetaText2: " + streamMetaText2)
+            //console.log("streamMetaText1: " + streamMetaText1)
+            //console.log("streamMetaText2: " + streamMetaText2)
         }
     }
 
