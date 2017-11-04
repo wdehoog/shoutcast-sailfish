@@ -310,6 +310,14 @@ Page {
 
         VerticalScrollDecorator {}
 
-    }
+        Label {
+            anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignBottom
+            visible: parent.count == 0
+            text: qsTr("No stations found")
+            color: Theme.secondaryColor
+        }
 
+    }
 }

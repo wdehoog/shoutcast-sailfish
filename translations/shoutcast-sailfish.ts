@@ -106,6 +106,10 @@
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No stations found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
