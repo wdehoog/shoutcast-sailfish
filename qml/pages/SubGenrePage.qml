@@ -29,7 +29,11 @@ Page {
         query: "$..genre.*"
     }
 
-    onGenreIdChanged: showBusy = true
+    onGenreIdChanged: {
+        showBusy = true
+        if(genresModel.count == 0)
+            app.showErrorDialog(qsTr("SHOUTcast server returned no Sub Genres"))
+    }
 
     Connections {
         target: genresModel

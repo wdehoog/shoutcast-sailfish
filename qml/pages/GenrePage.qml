@@ -25,7 +25,11 @@ Page {
 
     Connections {
         target: genresModel
-        onLoaded: showBusy = false
+        onLoaded: {
+            showBusy = false
+            if(genresModel.count == 0)
+                app.showErrorDialog(qsTr("SHOUTcast server returned no Genres"))
+        }
     }
 
     /* tried to use contextmenu but the lists can be too long

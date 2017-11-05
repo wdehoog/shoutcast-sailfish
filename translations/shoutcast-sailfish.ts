@@ -41,6 +41,10 @@
         <source>Genres</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>SHOUTcast server returned no Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ItemPicker</name>
@@ -183,6 +187,17 @@
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No stations found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SubGenrePage</name>
+    <message>
+        <source>SHOUTcast server returned no Sub Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TopStationsPage</name>
@@ -192,6 +207,10 @@
     </message>
     <message>
         <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stations found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
