@@ -45,6 +45,14 @@
         <source>SHOUTcast server returned no Genres</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No Station Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ItemPicker</name>
