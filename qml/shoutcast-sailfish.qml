@@ -43,7 +43,7 @@ ApplicationWindow {
     }
 
     signal audioBufferFull()
-    signal playbackStateChanged()
+    //signal playbackStateChanged()
 
     Audio {
         id: audio
@@ -51,7 +51,7 @@ ApplicationWindow {
         autoLoad: true
         autoPlay: false
 
-        onPlaybackStateChanged: app.playbackStateChanged()
+        //onPlaybackStateChanged: app.playbackStateChanged()
         //onSourceChanged: refreshTransportState()
         onBufferProgressChanged: {
             if(bufferProgress == 1.0)
@@ -323,12 +323,22 @@ ApplicationWindow {
         target: app.audio
 
         onPlaybackStateChanged: {
+            var status
+
             if(audio.playbackState === Audio.PlayingState)
-                mprisPlayer.playbackStatus = Mpris.Playing
+                status = Mpris.Playing
             else if(audio.playbackState === Audio.StoppedState)
-                mprisPlayer.playbackStatus = Mpris.Stopped
+                status = Mpris.Stopped
             else
-                mprisPlayer.playbackStatus = Mpris.Paused
+                status = Mpris.Paused
+
+            // it seems that in order to use the play button on the Lock screen
+            // when canPlay is true so should canPause be.
+            mprisPlayer.canPlay = isPlayer && status !== Mpris.Playing
+            mprisPlayer.canPause = isPlayer && status !== Mpris.Stopped
+            mprisPlayer.playbackStatus = status
+
+            //console.log("onPlaybackStateChanged canPlay="+mprisPlayer.canPlay+", canPause="+mprisPlayer.canPause)
         }
     }
 
@@ -342,20 +352,29 @@ ApplicationWindow {
 
         canControl: isPlayer
 
-        canPause: isPlayer && playbackStatus === Mpris.Playing
-        canPlay: isPlayer && audio.source.toString().length > 0 && playbackStatus !== Mpris.Playing
+        // canPlay and canPause are handled in onPlaybackStateChanged above since there
+        // were binding loop problems
+        canPause: false
+        canPlay: false
+
         canGoNext: isPlayer && pageStack.currentPage.canGoNext
                    ? pageStack.currentPage.canGoNext : false
+
         canGoPrevious: isPlayer && pageStack.currentPage.canGoPrevious
                        ? pageStack.currentPage.canGoPrevious : false
+
         canSeek: false
 
         playbackStatus: Mpris.Stopped
 
         onPauseRequested: app.pauseRequested()
+
         onPlayRequested: app.playRequested()
+
         onPlayPauseRequested: app.pauseRequested()
+
         onNextRequested: app.nextRequested()
+
         onPreviousRequested: app.previousRequested()
 
         onMetaDataChanged: {

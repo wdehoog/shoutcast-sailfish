@@ -198,7 +198,7 @@
 <context>
     <name>shoutcast-sailfish</name>
     <message>
-        <source>Failed to retrieve stream URL.</source>
+        <source>Audio Player:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -206,7 +206,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Audio Player:</source>
+        <source>Failed to retrieve stream URL.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
