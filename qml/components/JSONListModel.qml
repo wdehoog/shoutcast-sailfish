@@ -22,33 +22,46 @@ Item {
     property alias count: jsonModel.count
 
     signal loaded();
+    signal requestDone(string responseText);
 
     onSourceChanged: refresh()
 
     function refresh() {
         var xhr = new XMLHttpRequest;
-        xhr.open("GET", source);
+        console.log("source: " + source)
+        xhr.open("GET", source)
+        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE)
-                json = xhr.responseText
+                requestDone(xhr.responseText)
         }
         xhr.send();
     }
 
-    onJsonChanged: updateJSONModel()
+    onRequestDone: {
+        console.log(responseText)
+        json = responseText
+        updateJSONModel()
+    }
+
+    //onJsonChanged: updateJSONModel()
     onQueryChanged: updateJSONModel()
 
     function updateJSONModel() {
+        console.log("updateJSONModel")
+        _updateJSONModel()
+        loaded()
+    }
+
+    function _updateJSONModel() {
         jsonModel.clear()
 
         if ( json === "" )
             return
 
         var objectArray = parseJSONString(json, query);
-        if(!objectArray) {
-            loaded()
+        if(!objectArray)
             return
-        }
 
         if(orderField !== "") {
            objectArray.sort(function(a, b) {
@@ -60,8 +73,6 @@ Item {
             var jo = objectArray[key]
             jsonModel.append( jo )
         }
-
-        loaded()
     }
 
     function parseJSONString(jsonString, jsonPathQuery) {
