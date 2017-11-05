@@ -77,7 +77,7 @@ Page {
     JSONListModel {
         id: nowPlayingModel
         source: ""
-        query: "$..station.*"
+        query: "$..station"
         keepQuery: "$..tunein"
     }
 

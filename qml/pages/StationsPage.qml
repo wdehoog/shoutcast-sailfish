@@ -26,7 +26,7 @@ Page {
     JSONListModel {
         id: stationsModel
         source: app.getStationByGenreURI(genreId)
-        query: "$..station.*"
+        query: "$..station"
         keepQuery: "$..tunein"
         orderField: "lc"
     }
