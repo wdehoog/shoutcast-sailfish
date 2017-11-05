@@ -53,8 +53,8 @@ function getSearchPart(query) {
 
 function getAudioTypeFilterPart(mimeType) {
     switch(mimeType) {
-    case "audio/mpeg": return "mt=audio/mpeg";
-    case "audio/aacp": return "mt=audio/aacp";
+    case "audio/mpeg": return "mt=audio%2Fmpeg";
+    case "audio/aacp": return "mt=audio%2Faacp";
     default: return "mt=" + mimeType;
     }
 }
