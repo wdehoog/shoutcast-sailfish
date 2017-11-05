@@ -172,6 +172,7 @@ Page {
             }
         }
 
+        VerticalScrollDecorator {}
     }
 
 }
