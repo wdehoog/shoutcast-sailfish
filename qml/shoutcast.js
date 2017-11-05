@@ -51,6 +51,14 @@ function getSearchPart(query) {
     return "search=" + encodeURI(query);
 }
 
+function getAudioTypeFilterPart(mimeType) {
+    switch(mimeType) {
+    case "audio/mpeg": return "mt=audio/mpeg";
+    case "audio/aacp": return "mt=audio/aacp";
+    default: return "mt=" + mimeType;
+    }
+}
+
 function getAudioType(mimeType) {
     switch(mimeType) {
     case "audio/mpeg": return "mp3";

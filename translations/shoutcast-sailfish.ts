@@ -149,6 +149,26 @@
         <source>Mpris Players</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Mime Type Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Which mime types to list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No filter. Accept all mime types.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept only MP3 (audio/mpeg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept only AAC (audio/aacp)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationListItemView</name>

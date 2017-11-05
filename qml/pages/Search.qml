@@ -66,11 +66,7 @@ Page {
 
     JSONListModel {
         id: nowPlayingModel
-        source: nowPlayingQuery.length == 0 ? "" : (Shoutcast.NowPlayingSearchBase
-                + "?" + Shoutcast.DevKeyPart
-                + "&" + Shoutcast.QueryFormat
-                + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
-                + "&" + Shoutcast.getPlayingPart(nowPlayingQuery))
+        source: app.getSearchNowPlayingURI(nowPlayingQuery)
         query: "$..station.*"
         keepQuery: "$..tunein"
     }

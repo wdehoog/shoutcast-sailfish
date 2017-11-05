@@ -70,6 +70,28 @@ Page {
             }
 
             ComboBox {
+                 label: qsTr("Mime Type Filter")
+                 description: qsTr("Which mime types to list")
+
+                 currentIndex: app.mimeTypeFilter.value
+
+                 menu: ContextMenu {
+                     MenuItem {
+                         text: qsTr("No filter. Accept all mime types.")
+                         onClicked: app.mimeTypeFilter.value = 0
+                     }
+                     MenuItem {
+                         text: qsTr("Accept only MP3 (audio/mpeg)")
+                         onClicked: app.mimeTypeFilter.value = 1
+                     }
+                     MenuItem {
+                         text: qsTr("Accept only AAC (audio/aacp)")
+                         onClicked: app.mimeTypeFilter.value = 2
+                     }
+                 }
+            }
+
+            ComboBox {
                  label: qsTr("Player Type")
                  description: qsTr("Which type of player to use")
 

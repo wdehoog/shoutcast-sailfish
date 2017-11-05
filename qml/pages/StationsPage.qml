@@ -25,11 +25,7 @@ Page {
 
     JSONListModel {
         id: stationsModel
-        source: Shoutcast.StationSearchBase
-                + "?" + Shoutcast.getGenrePart(genreId)
-                + "&" + Shoutcast.DevKeyPart
-                + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
-                + "&" + Shoutcast.QueryFormat
+        source: app.getStationByGenreURI(genreId)
         query: "$..station.*"
         keepQuery: "$..tunein"
         orderField: "lc"

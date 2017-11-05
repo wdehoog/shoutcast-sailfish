@@ -25,7 +25,9 @@ ApplicationWindow {
     property string mprisServiceName: "shoutcast-sailfish"
     property alias maxNumberOfResults: max_number_of_results
     property alias mprisPlayerServiceName: mpris_player_servicename
+    property alias mimeTypeFilter: mime_type_filter
     property alias playerType: player_type
+
     property alias mainPage: mainPage
     //property alias playerPage: playerPage
     property alias dbus: dbus
@@ -139,6 +141,10 @@ ApplicationWindow {
             + "?" + Shoutcast.DevKeyPart
             + "&" + Shoutcast.getLimitPart(max_number_of_results.value)
             + "&" + Shoutcast.getSearchPart(keywordQuery)
+        if(mimeTypeFilter.value === 1)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/mpeg")
+        else if(mimeTypeFilter.value === 2)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
@@ -148,12 +154,17 @@ ApplicationWindow {
         xhr.send();
     }
 
+
     function loadTop500(onDone) {
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.Top500Base
                 + "?" + Shoutcast.DevKeyPart
                 + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
                 + "&" + Shoutcast.QueryFormat
+        if(mimeTypeFilter.value === 1)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/mpeg")
+        else if(mimeTypeFilter.value === 2)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
@@ -161,6 +172,32 @@ ApplicationWindow {
             }
         }
         xhr.send();
+    }
+
+    function getSearchNowPlayingURI(nowPlayingQuery) {
+      var uri = nowPlayingQuery.length === 0 ? "" : (Shoutcast.NowPlayingSearchBase
+                    + "?" + Shoutcast.DevKeyPart
+                    + "&" + Shoutcast.QueryFormat
+                    + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
+                    + "&" + Shoutcast.getPlayingPart(nowPlayingQuery))
+        if(mimeTypeFilter.value === 1)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/mpeg")
+        else if(mimeTypeFilter.value === 2)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
+        return uri
+    }
+
+    function getStationByGenreURI(genreId) {
+      var uri = Shoutcast.StationSearchBase
+                    + "?" + Shoutcast.getGenrePart(genreId)
+                    + "&" + Shoutcast.DevKeyPart
+                    + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
+                    + "&" + Shoutcast.QueryFormat
+        if(mimeTypeFilter.value === 1)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/mpeg")
+        else if(mimeTypeFilter.value === 2)
+            uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
+        return uri
     }
 
     function showMessageDialog(title, text) {
@@ -461,6 +498,13 @@ ApplicationWindow {
         id: player_type
         key: "/shoutcast-sailfish/player_type"
         defaultValue: 0
+    }
+
+    // 0: no filter, 1: only audio/mpeg, 2: only audio/aacp
+    ConfigurationValue {
+        id: mime_type_filter
+        key: "/shoutcast-sailfish/mime_type_filter"
+        defaultValue: 1
     }
 }
 
