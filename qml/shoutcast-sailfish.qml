@@ -100,6 +100,7 @@ ApplicationWindow {
                 + (retryCount > 0 ? m3uBase : plsBase)
                 + "?" + Shoutcast.getStationPart(stationId)
         xhr.open("GET", playlistUri)
+        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 var playlist = xhr.responseText;
@@ -140,12 +141,13 @@ ApplicationWindow {
         var uri = Shoutcast.KeywordSearchBase
             + "?" + Shoutcast.DevKeyPart
             + "&" + Shoutcast.getLimitPart(max_number_of_results.value)
-            + "&" + Shoutcast.getSearchPart(keywordQuery)
         if(mimeTypeFilter.value === 1)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/mpeg")
         else if(mimeTypeFilter.value === 2)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
+        uri += "&" + Shoutcast.getSearchPart(keywordQuery)
         xhr.open("GET", uri)
+        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 onDone(xhr.responseText)
@@ -166,6 +168,7 @@ ApplicationWindow {
         else if(mimeTypeFilter.value === 2)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         xhr.open("GET", uri)
+        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 onDone(xhr.responseText)
