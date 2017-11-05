@@ -55,8 +55,9 @@ Page {
     }
 
     function refresh() {
+        if(showBusy)
+            return
         if(searchString.length >= 2) {
-            showBusy = true
             if(searchInType === 0)
                 nowPlayingQuery = searchString
             else
@@ -64,9 +65,14 @@ Page {
         }
     }
 
+    onNowPlayingQueryChanged: {
+        showBusy = true
+        nowPlayingModel.source = app.getSearchNowPlayingURI(nowPlayingQuery)
+    }
+
     JSONListModel {
         id: nowPlayingModel
-        source: app.getSearchNowPlayingURI(nowPlayingQuery)
+        source: ""
         query: "$..station.*"
         keepQuery: "$..tunein"
     }
@@ -91,12 +97,13 @@ Page {
                 if(b)
                     tuneinBase["base-xspf"] = b
             }
-            nowPlayingQuery = ""
+            //nowPlayingQuery = ""
             showBusy = false
         }
     }
 
     onKeywordQueryChanged: {
+        showBusy = true
         if(keywordQuery.length === 0)
             return
         app.loadKeywordSearch(keywordQuery, function(xml) {

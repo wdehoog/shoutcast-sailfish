@@ -175,15 +175,17 @@ ApplicationWindow {
     }
 
     function getSearchNowPlayingURI(nowPlayingQuery) {
-      var uri = nowPlayingQuery.length === 0 ? "" : (Shoutcast.NowPlayingSearchBase
-                    + "?" + Shoutcast.DevKeyPart
-                    + "&" + Shoutcast.QueryFormat
-                    + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
-                    + "&" + Shoutcast.getPlayingPart(nowPlayingQuery))
+        if(nowPlayingQuery.length === 0)
+            return ""
+        var uri = Shoutcast.NowPlayingSearchBase
+                  + "?" + Shoutcast.DevKeyPart
+                  + "&" + Shoutcast.QueryFormat
+                  + "&" + Shoutcast.getLimitPart(app.maxNumberOfResults.value)
         if(mimeTypeFilter.value === 1)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/mpeg")
         else if(mimeTypeFilter.value === 2)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
+        uri += "&" + Shoutcast.getPlayingPart(nowPlayingQuery)
         return uri
     }
 

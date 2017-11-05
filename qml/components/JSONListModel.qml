@@ -26,7 +26,6 @@ Item {
     onSourceChanged: refresh()
 
     function refresh() {
-        json = ""
         var xhr = new XMLHttpRequest;
         xhr.open("GET", source);
         xhr.onreadystatechange = function() {
