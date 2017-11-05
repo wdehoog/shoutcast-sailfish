@@ -29,8 +29,6 @@ Page {
     property var searchCapabilities: []
     property var scMap: []
     property string groupByField: ""
-    property string nowPlayingQuery: ""
-    property string keywordQuery: ""
     property int searchInType: 0
     property var tuneinBase: ({})
 
@@ -38,12 +36,8 @@ Page {
     property bool canGoNext: currentItem < (searchModel.count-1)
     property bool canGoPrevious: currentItem > 0
 
-    onSearchStringChanged: {
+    /*onSearchStringChanged: {
         typeDelay.restart()
-    }
-
-    onSearchInTypeChanged: {
-        refresh()
     }
 
     Timer {
@@ -52,22 +46,32 @@ Page {
         running: false
         repeat: false
         onTriggered: refresh()
+    }*/
+
+    onSearchInTypeChanged: {
+        refresh()
     }
 
     function refresh() {
-        if(showBusy)
-            return
-        if(searchString.length >= 2) {
+        if(searchString.length >= 1) {
             if(searchInType === 0)
-                nowPlayingQuery = searchString
+                performNowPlayingSearch(searchString)
             else
-                keywordQuery = searchString
+                performKeywordSearch(searchString)
         }
     }
 
-    onNowPlayingQueryChanged: {
+    property string _prevSearchString: ""
+    function performNowPlayingSearch(searchString) {
+        if(searchString === "")
+            return
         showBusy = true
-        nowPlayingModel.source = app.getSearchNowPlayingURI(nowPlayingQuery)
+        if(searchString === _prevSearchString)
+            nowPlayingModel.refresh()
+        else {
+            nowPlayingModel.source = app.getSearchNowPlayingURI(searchString)
+            _prevSearchString = searchString
+        }
     }
 
     JSONListModel {
@@ -80,6 +84,7 @@ Page {
     Connections {
         target: nowPlayingModel
         onLoaded: {
+            console.log("new results: "+nowPlayingModel.model.count)
             var i
             currentItem = -1
             searchModel.clear()
@@ -102,11 +107,11 @@ Page {
         }
     }
 
-    onKeywordQueryChanged: {
-        showBusy = true
-        if(keywordQuery.length === 0)
+    function performKeywordSearch(searchString) {
+        if(searchString.length === 0)
             return
-        app.loadKeywordSearch(keywordQuery, function(xml) {
+        showBusy = true
+        app.loadKeywordSearch(searchString, function(xml) {
             keywordModel.xml = xml
             tuneinModel.xml = xml
         })
@@ -135,7 +140,6 @@ Page {
             searchModel.clear()
             for(i=0;i<count;i++)
                 searchModel.append(get(i))
-            keywordQuery = ""
             showBusy = false
         }
     }
@@ -259,6 +263,7 @@ Page {
                     property: "searchString"
                     value: searchField.text.toLowerCase().trim()
                 }
+                EnterKey.onClicked: refresh()
             }
 
             ComboBox {
