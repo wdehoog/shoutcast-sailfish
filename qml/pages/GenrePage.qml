@@ -92,14 +92,14 @@ Page {
                         textFormat: Text.StyledText
                         truncationMode: TruncationMode.Fade
                         width: parent.width - countLabel.width
-                        text: name
+                        text: name ? name : qsTr("No Station Name")
                     }
                     Label {
                         id: countLabel
                         anchors.right: parent.right
                         color: Theme.secondaryColor
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        text: count
+                        text: count ? count : qsTr("?")
 
                     }
                 }
