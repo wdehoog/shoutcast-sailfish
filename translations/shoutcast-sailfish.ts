@@ -27,6 +27,10 @@
         <source>Thanks to</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>License: MIT</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

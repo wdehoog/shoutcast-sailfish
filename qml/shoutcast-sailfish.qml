@@ -146,6 +146,7 @@ ApplicationWindow {
         else if(mimeTypeFilter.value === 2)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         uri += "&" + Shoutcast.getSearchPart(keywordQuery)
+        //console.log("loadKeywordSearch: " + uri)
         xhr.open("GET", uri)
         //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
