@@ -70,7 +70,7 @@ Page {
                         horizontalAlignment: implicitWidth > width ? Text.AlignLeft : Text.AlignHCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        text: qStr("License: MIT")
+                        text: qsTr("License: MIT")
                         truncationMode: TruncationMode.Fade
                         width: parent.width
                     }
