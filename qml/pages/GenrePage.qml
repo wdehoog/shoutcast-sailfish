@@ -35,7 +35,8 @@ Page {
                         genresModel.model.clear()
                         for(var i=0;i<genres.length;i++) {
                             genresModel.model.append(
-                                {name: genres[i].name, id: genres[i].genreid, haschildren: (genres[i].subgenres.length > 0)})
+                                {name: genres[i].name, id: genres[i].genreid,
+                                 haschildren: genres[i].count > 0, count: genres[i].count})
                         }
                     })
                 }

@@ -39,15 +39,26 @@ Page {
             showBusy = false
             currentItem = -1
             tuneinBase = {}
-            var b = stationsModel.keepObject[0]["base"]
-            if(b)
-                tuneinBase["base"] = b
-            b = stationsModel.keepObject[0]["base-m3u"]
-            if(b)
-                tuneinBase["base-m3u"] = b
-            b = stationsModel.keepObject[0]["base-xspf"]
-            if(b)
-                tuneinBase["base-xspf"] = b
+            if(stationsModel.model.count === 0) {
+                console.log("SHOUTcast server returned no Stations")
+                if(app.scrapeWhenNoData) {
+                    Shoutcast.loadStationsAnotherWay(genreName, function(stations, tunein) {
+                        for(var i=0;i<stations.length;i++)
+                           stationsModel.model.append(stations[i])
+                        tuneinBase = tunein
+                    })
+                }
+            } else {
+                var b = stationsModel.keepObject[0]["base"]
+                if(b)
+                    tuneinBase["base"] = b
+                b = stationsModel.keepObject[0]["base-m3u"]
+                if(b)
+                    tuneinBase["base-m3u"] = b
+                b = stationsModel.keepObject[0]["base-xspf"]
+                if(b)
+                    tuneinBase["base-xspf"] = b
+            }
         }
     }
 

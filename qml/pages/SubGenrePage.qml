@@ -53,7 +53,9 @@ Page {
                     // load subgenres
                     for(i=0;i<primaryGenre.subgenres.length;i++) {
                         genresModel.model.append(
-                            {name: primaryGenre.subgenres[i].name, id: primaryGenre.subgenres[i].genreid})
+                            {name: primaryGenre.subgenres[i].name,
+                             id: primaryGenre.subgenres[i].genreid,
+                             count: ""})
                     }
                 }
             }

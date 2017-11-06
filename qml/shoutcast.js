@@ -126,6 +126,7 @@ function createInfo(model) {
 
 var primaryGenres = []
 
+// reverse engineerd www.shoutcast.com html/js
 // genres with parentid == 0 are the 'genres', the rest are the 'subgenres'
 function loadGenresFromHTML(onGenresLoaded) {
     var xhr = new XMLHttpRequest
@@ -138,23 +139,56 @@ function loadGenresFromHTML(onGenresLoaded) {
             var genre = {}
             var genreId = -1
             var lines = responseText.split('\n');
-            for(var i = 0;i < lines.length;i++) {
+            var i
+            for(i = 0;i < lines.length;i++) {
                 // <a href="/Genre?name=Acid%20Jazz" onclick="return loadStationsByGenre('Acid Jazz', 164, 163);">Acid Jazz</a>
-                //var match = lines[i].match(/.*loadStationsByGenre\('([^']+)'\s*,\s*(\d+)\s*,\s*(\d+)/g)
                 var match = lines[i].match(/.*loadStationsByGenre\('([^']+)',\s(\d+),\s(\d+)/)
                 if(match && match.length >= 4) {
                     if(match[3] === "0") {
                         // new genre
                         subgenres = []
-                        genre = {name: match[1], genreid: match[2], subgenres: subgenres}
+                        genre = {name: match[1], genreid: match[2], subgenres: subgenres, count: -1}
                         genres.push(genre)
                     } else
                       subgenres.push({name: match[1], genreid: match[2], parentgenreid: match[3]})
                 }
             }
+            for(i=0;i<genres.length;i++)
+                genres[i].count = genres[i].subgenres.length
             primaryGenres = genres
             onGenresLoaded(primaryGenres)
         }
     }
     xhr.send();
+}
+
+// reverse engineerd www.shoutcast.com html/js
+function loadStationsAnotherWay(genre, onStationsLoaded) {
+    var xhr = new XMLHttpRequest
+    xhr.open("POST", "http://www.shoutcast.com/Search/UpdateAdvancedSearch")
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+            var response = JSON.parse(xhr.responseText)
+            var stations = []
+            for(var i=0;i<response.length;i++) {
+                stations.push({
+                    id: response[i].ID,
+                    name: response[i].Name,
+                    genre: response[i].Genre,
+                    ct: response[i].CurrentTrack,
+                    mt: response[i].Format,
+                    lc: response[i].Listeners,
+                    br: response[i].Bitrate,
+                    logo: ""
+                })
+            }
+            var tuneinBase = {}
+            tuneinBase["base"] = "/sbin/tunein-station.pls"
+            tuneinBase["base-m3u"] = "/sbin/tunein-station.m3u"
+            tuneinBase["base-xspf"] = "/sbin/tunein-station.xspf"
+            onStationsLoaded(stations, tuneinBase)
+        }
+    }
+    xhr.send("genre="+encodeURIComponent(genre))
 }

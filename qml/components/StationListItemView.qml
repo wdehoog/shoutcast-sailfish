@@ -67,7 +67,7 @@ Column {
 
     function getMetaString(model) {
         var mstr = ""
-        if(lc)
+        if(model.lc)
             mstr += lc;
         var gstr = genreString(model)
         if(gstr.length > 0) {
@@ -75,15 +75,15 @@ Column {
                 mstr += ", "
             mstr += gstr
         }
-        if(mt) {
+        if(model.mt) {
             if(mstr.length > 0)
                 mstr += ", "
-            mstr += Shoutcast.getAudioType(mt)
+            mstr += Shoutcast.getAudioType(model.mt)
         }
-        if(br) {
+        if(model.br) {
             if(mstr.length > 0)
                 mstr += "/"
-            mstr += br
+            mstr += model.br
         }
         return mstr
     }
