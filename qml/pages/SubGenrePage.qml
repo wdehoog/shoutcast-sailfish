@@ -31,13 +31,33 @@ Page {
 
     onGenreIdChanged: {
         showBusy = true
-        if(genresModel.count == 0)
-            app.showErrorDialog(qsTr("SHOUTcast server returned no Sub Genres"))
     }
 
     Connections {
         target: genresModel
-        onLoaded: showBusy = false
+        onLoaded: {
+            showBusy = false
+            if(genresModel.count == 0) {
+                app.showErrorDialog(qsTr("SHOUTcast server returned no Sub Genres"))
+                console.log("SHOUTcast server returned no Sub Genres")
+                if(app.scrapeWhenNoData) {
+                    genresModel.model.clear()
+                    // search for primary genre
+                    var i
+                    var primaryGenre = {}
+                    for(i=0;i<Shoutcast.primaryGenres.length;i++) {
+                        if(Shoutcast.primaryGenres[i].genreid === genreId) {
+                            primaryGenre = Shoutcast.primaryGenres[i]
+                        }
+                    }
+                    // load subgenres
+                    for(i=0;i<primaryGenre.subgenres.length;i++) {
+                        genresModel.model.append(
+                            {name: primaryGenre.subgenres[i].name, id: primaryGenre.subgenres[i].genreid})
+                    }
+                }
+            }
+        }
     }
 
     SilicaListView {

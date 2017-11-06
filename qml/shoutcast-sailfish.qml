@@ -27,6 +27,7 @@ ApplicationWindow {
     property alias mprisPlayerServiceName: mpris_player_servicename
     property alias mimeTypeFilter: mime_type_filter
     property alias playerType: player_type
+    property alias scrapeWhenNoData: scrape_when_no_data
 
     property alias mainPage: mainPage
     //property alias playerPage: playerPage
@@ -531,5 +532,13 @@ ApplicationWindow {
         key: "/shoutcast-sailfish/mime_type_filter"
         defaultValue: 1
     }
+
+    // 0: do not scrape, 1: try to scrape
+    ConfigurationValue {
+        id: scrape_when_no_data
+        key: "/shoutcast-sailfish/scrape_when_no_data"
+        defaultValue: 1
+    }
+
 }
 

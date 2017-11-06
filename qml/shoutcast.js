@@ -123,3 +123,38 @@ function createInfo(model) {
 
     return info
 }
+
+var primaryGenres = []
+
+// genres with parentid == 0 are the 'genres', the rest are the 'subgenres'
+function loadGenresFromHTML(onGenresLoaded) {
+    var xhr = new XMLHttpRequest
+    xhr.open("GET", "http://www.shoutcast.com")
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+            var responseText = xhr.responseText
+            var genres = []
+            var subgenres = []
+            var genre = {}
+            var genreId = -1
+            var lines = responseText.split('\n');
+            for(var i = 0;i < lines.length;i++) {
+                // <a href="/Genre?name=Acid%20Jazz" onclick="return loadStationsByGenre('Acid Jazz', 164, 163);">Acid Jazz</a>
+                //var match = lines[i].match(/.*loadStationsByGenre\('([^']+)'\s*,\s*(\d+)\s*,\s*(\d+)/g)
+                var match = lines[i].match(/.*loadStationsByGenre\('([^']+)',\s(\d+),\s(\d+)/)
+                if(match && match.length >= 4) {
+                    if(match[3] === "0") {
+                        // new genre
+                        subgenres = []
+                        genre = {name: match[1], genreid: match[2], subgenres: subgenres}
+                        genres.push(genre)
+                    } else
+                      subgenres.push({name: match[1], genreid: match[2], parentgenreid: match[3]})
+                }
+            }
+            primaryGenres = genres
+            onGenresLoaded(primaryGenres)
+        }
+    }
+    xhr.send();
+}

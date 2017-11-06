@@ -27,8 +27,19 @@ Page {
         target: genresModel
         onLoaded: {
             showBusy = false
-            if(genresModel.count == 0)
+            if(genresModel.count == 0) {
                 app.showErrorDialog(qsTr("SHOUTcast server returned no Genres"))
+                console.log("SHOUTcast server returned no Genres")
+                if(app.scrapeWhenNoData) {
+                    Shoutcast.loadGenresFromHTML(function(genres) {
+                        genresModel.model.clear()
+                        for(var i=0;i<genres.length;i++) {
+                            genresModel.model.append(
+                                {name: genres[i].name, id: genres[i].genreid, haschildren: (genres[i].subgenres.length > 0)})
+                        }
+                    })
+                }
+            }
         }
     }
 
@@ -151,7 +162,7 @@ Page {
                                                {genreId: model.id, genreName: model.name})
                     else {
                        page.genreId = model.id
-                       page. genreName = model.name
+                       page.genreName = model.name
                     }
                 }
                 pageStack.navigateForward(PageStackAction.Animated)
