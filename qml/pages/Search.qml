@@ -66,6 +66,7 @@ Page {
         if(searchString === "")
             return
         showBusy = true
+        searchModel.clear()
         if(searchString === _prevSearchString)
             nowPlayingModel.refresh()
         else {
@@ -87,7 +88,6 @@ Page {
             console.log("new results: "+nowPlayingModel.model.count)
             var i
             currentItem = -1
-            searchModel.clear()
             for(i=0;i<nowPlayingModel.model.count;i++)
                 searchModel.append(nowPlayingModel.model.get(i))
             tuneinBase = {}
@@ -102,7 +102,6 @@ Page {
                 if(b)
                     tuneinBase["base-xspf"] = b
             }
-            //nowPlayingQuery = ""
             showBusy = false
         }
     }
@@ -111,9 +110,19 @@ Page {
         if(searchString.length === 0)
             return
         showBusy = true
+        searchModel.clear()
         app.loadKeywordSearch(searchString, function(xml) {
-            keywordModel.xml = xml
-            tuneinModel.xml = xml
+            console.log("onDone: " + xml)
+            if(keywordModel.xml === xml) {
+                // same data so we in theory we are done
+                // but the list might have contained data from 'Now Playing'
+                // so we reload().
+                keywordModel.reload()
+                tuneinModel.reload()
+            } else {
+                keywordModel.xml = xml
+                tuneinModel.xml = xml
+            }
         })
     }
 
@@ -137,7 +146,6 @@ Page {
                 return
             var i
             currentItem = -1
-            searchModel.clear()
             for(i=0;i<count;i++)
                 searchModel.append(get(i))
             showBusy = false
@@ -197,19 +205,6 @@ Page {
         }
     }
 
-    /*function reload() {
-        showBusy = true
-        if(searchInType === 0)
-            nowPlayingModel.refresh()
-        else
-            app.loadKeywordSearch(keywordQuery, function(xml) {
-                keywordModel.xml = xml
-                keywordModel.reload()
-                tuneinModel.xml = xml
-                tuneinModel.reload()
-            })
-    }*/
-
     SilicaListView {
         id: listView
         model: searchModel
@@ -218,20 +213,6 @@ Page {
 
         anchors.bottomMargin: playerPanel.visibleSize
         clip: playerPanel.expanded
-
-        /*PullDownMenu {
-            MenuItem {
-                text: qsTr("Reload")
-                onClicked: reload()
-            }
-        }
-
-        PushUpMenu {
-            MenuItem {
-                text: qsTr("Reload")
-                onClicked: reload()
-            }
-        }*/
 
         header: Column {
             id: lvColumn
@@ -282,23 +263,6 @@ Page {
                 }
             }
         }
-
-        /*section.property : groupByField
-        section.delegate : Component {
-            id: sectionHeading
-            Item {
-                width: parent.width - 2*Theme.paddingMedium
-                x: Theme.paddingMedium
-                height: childrenRect.height
-
-                Text {
-                    text: section
-                    font.bold: true
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: Theme.highlightColor
-                }
-            }
-        }*/
 
         delegate: ListItem {
             id: delegate
