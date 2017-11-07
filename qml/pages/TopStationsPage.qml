@@ -45,6 +45,8 @@ Page {
             if (status !== XmlListModel.Ready)
                 return
             showBusy = false
+            if(top500Page.status === PageStatus.Active)
+                pageAndDataLoaded()
         }
     }
 
@@ -86,6 +88,17 @@ Page {
 
     Component.onCompleted: reload()
 
+    signal pageAndDataLoaded()
+    onPageAndDataLoaded: {
+        if(top500Model.count === 0)
+            app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
+    }
+
+    onStatusChanged: {
+        if(status === PageStatus.Active)
+            if(!showBusy)
+                pageAndDataLoaded()
+    }
 
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
@@ -161,6 +174,7 @@ Page {
             width: parent.width - 2*Theme.paddingMedium
             height: stationListItemView.height
             x: Theme.paddingMedium
+            contentHeight: childrenRect.height
 
             StationListItemView {
                 id: stationListItemView

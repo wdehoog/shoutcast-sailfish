@@ -269,6 +269,7 @@ Page {
             width: parent.width - 2*Theme.paddingMedium
             height: stationListItemView.height
             x: Theme.paddingMedium
+            contentHeight: childrenRect.height
 
             StationListItemView {
                 id: stationListItemView

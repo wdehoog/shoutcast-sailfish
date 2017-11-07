@@ -185,6 +185,14 @@
         <source>Accept only AAC (audio/aacp)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Allow Scraping as Fallback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sometimes the Shoutcast API is offline. Allow to scrape the Shoutcast home page to collect information.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationListItemView</name>
@@ -201,6 +209,10 @@
     </message>
     <message>
         <source>No stations found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SHOUTcast server returned no Stations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -223,6 +235,10 @@
     </message>
     <message>
         <source>No stations found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SHOUTcast server returned no Stations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -23,24 +23,41 @@ Page {
         query: "$..genre.*"
     }
 
+    signal pageAndDataLoaded()
+    onPageAndDataLoaded: {
+        if(genresModel.model.count === 0) {
+            app.showErrorDialog(qsTr("SHOUTcast server returned no Genres"))
+            console.log("SHOUTcast server returned no Genres")
+        }
+    }
+
+    onStatusChanged: {
+        if(status === PageStatus.Active)
+            if(!showBusy)
+                pageAndDataLoaded()
+    }
+
+    function loadingDone() {
+        if(genrePage.status === PageStatus.Active)
+            pageAndDataLoaded()
+    }
+
     Connections {
         target: genresModel
         onLoaded: {
             showBusy = false
-            if(genresModel.count == 0) {
-                app.showErrorDialog(qsTr("SHOUTcast server returned no Genres"))
-                console.log("SHOUTcast server returned no Genres")
-                if(app.scrapeWhenNoData) {
-                    Shoutcast.loadGenresFromHTML(function(genres) {
-                        genresModel.model.clear()
-                        for(var i=0;i<genres.length;i++) {
-                            genresModel.model.append(
-                                {name: genres[i].name, id: genres[i].genreid,
-                                 haschildren: genres[i].count > 0, count: genres[i].count})
-                        }
-                    })
-                }
+            if(genresModel.model.count == 0
+               && app.scrapeWhenNoData.value) {
+                Shoutcast.loadGenresFromHTML(function(genres) {
+                    for(var i=0;i<genres.length;i++) {
+                        genresModel.model.append(
+                            {name: genres[i].name, id: genres[i].genreid,
+                             haschildren: genres[i].count > 0, count: genres[i].count})
+                    }
+                    loadingDone()
+                })
             }
+            loadingDone()
         }
     }
 

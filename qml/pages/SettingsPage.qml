@@ -120,6 +120,16 @@ Page {
                 }
             }
 
+            TextSwitch {
+                id: allowScrape
+                text: qsTr("Allow Scraping as Fallback")
+                description: qsTr("Sometimes the Shoutcast API is offline. Allow to scrape the Shoutcast home page to collect information.")
+                checked: app.scrapeWhenNoData.value
+                onCheckedChanged: {
+                    app.scrapeWhenNoData.value = checked;
+                }
+            }
+
         }
     }
 

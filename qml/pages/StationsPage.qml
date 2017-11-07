@@ -33,21 +33,39 @@ Page {
 
     onGenreIdChanged: showBusy = true
 
+    signal pageAndDataLoaded()
+    onPageAndDataLoaded: {
+        if(stationsModel.model.count === 0) {
+            app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
+            console.log("SHOUTcast server returned no Stations")
+        }
+    }
+
+    onStatusChanged: {
+        if(status === PageStatus.Active)
+            if(!showBusy)
+                pageAndDataLoaded()
+    }
+
+    function loadingDone() {
+        if(genrePage.status === PageStatus.Active)
+            pageAndDataLoaded()
+    }
+
     Connections {
         target: stationsModel
         onLoaded: {
             showBusy = false
             currentItem = -1
             tuneinBase = {}
-            if(stationsModel.model.count === 0) {
-                console.log("SHOUTcast server returned no Stations")
-                if(app.scrapeWhenNoData) {
-                    Shoutcast.loadStationsAnotherWay(genreName, function(stations, tunein) {
-                        for(var i=0;i<stations.length;i++)
-                           stationsModel.model.append(stations[i])
-                        tuneinBase = tunein
-                    })
-                }
+            if(stationsModel.model.count === 0
+               && app.scrapeWhenNoData.value) {
+                Shoutcast.loadStationsAnotherWay(genreName, function(stations, tunein) {
+                    for(var i=0;i<stations.length;i++)
+                       stationsModel.model.append(stations[i])
+                    tuneinBase = tunein
+                    loadingDone()
+                })
             } else {
                 var b = stationsModel.keepObject[0]["base"]
                 if(b)
@@ -58,6 +76,7 @@ Page {
                 b = stationsModel.keepObject[0]["base-xspf"]
                 if(b)
                     tuneinBase["base-xspf"] = b
+                loadingDone()
             }
         }
     }
@@ -141,6 +160,7 @@ Page {
             width: parent.width - 2*Theme.paddingMedium
             height: stationListItemView.height
             x: Theme.paddingMedium
+            contentHeight: childrenRect.height
 
             StationListItemView {
                 id: stationListItemView

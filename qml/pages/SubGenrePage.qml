@@ -33,32 +33,48 @@ Page {
         showBusy = true
     }
 
+    signal pageAndDataLoaded()
+    onPageAndDataLoaded: {
+        if(genresModel.model.count === 0) {
+            app.showErrorDialog(qsTr("SHOUTcast server returned no Sub Genres"))
+            console.log("SHOUTcast server returned no Sub Genres")
+        }
+    }
+
+    onStatusChanged: {
+        if(status === PageStatus.Active)
+            if(!showBusy)
+                pageAndDataLoaded()
+    }
+
+    function loadingDone() {
+        if(genrePage.status === PageStatus.Active)
+            pageAndDataLoaded()
+    }
+
     Connections {
         target: genresModel
         onLoaded: {
             showBusy = false
-            if(genresModel.count == 0) {
-                app.showErrorDialog(qsTr("SHOUTcast server returned no Sub Genres"))
-                console.log("SHOUTcast server returned no Sub Genres")
-                if(app.scrapeWhenNoData) {
-                    genresModel.model.clear()
-                    // search for primary genre
-                    var i
-                    var primaryGenre = {}
-                    for(i=0;i<Shoutcast.primaryGenres.length;i++) {
-                        if(Shoutcast.primaryGenres[i].genreid === genreId) {
-                            primaryGenre = Shoutcast.primaryGenres[i]
-                        }
-                    }
-                    // load subgenres
-                    for(i=0;i<primaryGenre.subgenres.length;i++) {
-                        genresModel.model.append(
-                            {name: primaryGenre.subgenres[i].name,
-                             id: primaryGenre.subgenres[i].genreid,
-                             count: ""})
+            if(genresModel.count == 0
+               && app.scrapeWhenNoData.value) {
+                // search for primary genre
+                var i
+                var primaryGenre = {}
+                for(i=0;i<Shoutcast.primaryGenres.length;i++) {
+                    if(Shoutcast.primaryGenres[i].genreid === genreId) {
+                        primaryGenre = Shoutcast.primaryGenres[i]
                     }
                 }
+                // load subgenres
+                for(i=0;i<primaryGenre.subgenres.length;i++) {
+                    genresModel.model.append(
+                        {name: primaryGenre.subgenres[i].name,
+                         id: primaryGenre.subgenres[i].genreid,
+                         count: ""})
+                }
             }
+            loadingDone()
         }
     }
 
