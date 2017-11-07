@@ -48,7 +48,7 @@ Page {
     }
 
     function loadingDone() {
-        if(genrePage.status === PageStatus.Active)
+        if(subGenrePage.status === PageStatus.Active)
             pageAndDataLoaded()
     }
 
