@@ -38,10 +38,10 @@ Column {
 
     Label {
         id: nameLabel
+        width: parent.width
         color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
         textFormat: Text.StyledText
         truncationMode: TruncationMode.Fade
-        width: parent.width
         text: name
     }
 
@@ -51,7 +51,6 @@ Column {
         color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
         font.pixelSize: Theme.fontSizeExtraSmall
         truncationMode: TruncationMode.Fade
-        //text: (genre ? (genre + ", ") : "") + lc + ", " + Shoutcast.getAudioType(mt) + "/" + br
         text: getMetaString(model)
     }
 
