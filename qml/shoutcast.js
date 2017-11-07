@@ -162,7 +162,7 @@ function loadGenresFromHTML(onGenresLoaded) {
     xhr.send();
 }
 
-// reverse engineerd www.shoutcast.com html/js
+// reverse engineered www.shoutcast.com html/js
 function loadStationsAnotherWay(genre, onStationsLoaded) {
     var xhr = new XMLHttpRequest
     xhr.open("POST", "http://www.shoutcast.com/Search/UpdateAdvancedSearch")
@@ -191,4 +191,17 @@ function loadStationsAnotherWay(genre, onStationsLoaded) {
         }
     }
     xhr.send("genre="+encodeURIComponent(genre))
+}
+
+// reverse engineered www.shoutcast.com html/js
+function loadStationStream(stationId, onStreamFound) {
+    var xhr = new XMLHttpRequest
+    xhr.open("POST", "http://www.shoutcast.com//Player/GetStreamUrl")
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+            onStreamFound(xhr.responseText)
+        }
+    }
+    xhr.send("station="+stationId)
 }

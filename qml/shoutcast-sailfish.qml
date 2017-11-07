@@ -128,8 +128,16 @@ ApplicationWindow {
                         _loadStation(stationId, info, tuneinBase, retryCount - 1)
                         console.log("Error could not find stream URL. Will retry.\n" + playlistUri + "\n" + playlist)
                     } else {
-                        showErrorDialog(qsTr("Failed to retrieve stream URL."))
-                        console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
+                        console.log("Error could not find stream URL. Will retry again.\n" + playlistUri + "\n" + playlist + "\n")
+                        Shoutcast.loadStationStream(stationId, function(streamURL) {
+                            if(streamURL.length === 0 || streamURL === "\"\"") {
+                                showErrorDialog(qsTr("Failed to retrieve stream URL."))
+                                console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
+                            } else {
+                                info.stream = streamURL
+                                stationChanged(info)
+                            }
+                        })
                     }
                 }
             }
@@ -533,11 +541,11 @@ ApplicationWindow {
         defaultValue: 1
     }
 
-    // 0: do not scrape, 1: try to scrape
+    // true: try to scrape, false: do not scrape
     ConfigurationValue {
         id: scrape_when_no_data
         key: "/shoutcast-sailfish/scrape_when_no_data"
-        defaultValue: 1
+        defaultValue: true
     }
 
 }
