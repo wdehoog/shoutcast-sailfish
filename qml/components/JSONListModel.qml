@@ -28,9 +28,8 @@ Item {
 
     function refresh() {
         var xhr = new XMLHttpRequest;
-        console.log("source: " + source)
+        //console.log("source: " + source)
         xhr.open("GET", source)
-        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE)
                 requestDone(xhr.responseText)
@@ -39,7 +38,7 @@ Item {
     }
 
     onRequestDone: {
-        console.log(responseText)
+        //console.log(responseText)
         json = responseText
         updateJSONModel()
     }
@@ -48,7 +47,7 @@ Item {
     onQueryChanged: updateJSONModel()
 
     function updateJSONModel() {
-        console.log("updateJSONModel")
+        //console.log("updateJSONModel")
         _updateJSONModel()
         loaded()
     }
