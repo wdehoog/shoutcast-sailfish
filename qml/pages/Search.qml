@@ -112,7 +112,7 @@ Page {
         showBusy = true
         searchModel.clear()
         app.loadKeywordSearch(searchString, function(xml) {
-            console.log("onDone: " + xml)
+            //console.log("onDone: " + xml)
             if(keywordModel.xml === xml) {
                 // same data so we in theory we are done
                 // but the list might have contained data from 'Now Playing'

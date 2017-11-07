@@ -81,6 +81,11 @@ ApplicationWindow {
         app.streamMetaText2 = (stationInfo.genre ? (stationInfo.genre + " - ") : "") + stationInfo.ct
         app.logoURL = stationInfo.logo ? stationInfo.logo : ""
         app.audio.source = stationInfo.stream
+
+        var metaData = {}
+        metaData['title'] = app.streamMetaText1
+        metaData['artist'] = app.stationName
+        mprisPlayer.metaData = metaData
     }
 
     function loadStation(stationId, info, tuneinBase) {
@@ -220,9 +225,14 @@ ApplicationWindow {
                                     {titleText: title, errorMessageText: text})
     }
 
+    Messagebox {
+        id: msgBox
+    }
+
     function showErrorDialog(text) { //, showCancelAll, cancelAll) {
-        var dialog = pageStack.push(Qt.resolvedUrl("dialogs/ErrorDialog.qml"),
-                                    {errorMessageText: text}) //, showCancelAll: showCancelAll});
+        msgBox.showMessage(text, 3000)
+        //var dialog = pageStack.push(Qt.resolvedUrl("dialogs/ErrorDialog.qml"),
+        //                            {errorMessageText: text}) //, showCancelAll: showCancelAll});
         /*if(showCancelAll) {
           dialog.accepted.connect(function() {
               if(dialog.cancelAll)
@@ -285,10 +295,6 @@ ApplicationWindow {
 
                 cover.metaText = streamMetaText2
             } else {
-
-                //streamMetaText1 = stationName ? stationName : ""
-                //streamMetaText2 = metaText ? metaText : ""
-
                 metaData = {}
                 metaData['title'] = streamMetaText1
                 metaData['artist'] = stationName
