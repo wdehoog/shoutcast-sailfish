@@ -15,7 +15,7 @@ DockedPanel {
     property alias playerButtons: playerButtons
 
     width: parent.width
-    height: playerUI.height + Theme.paddingSmall
+    height: Math.min(playerUI.height + Theme.paddingSmall, parent.height/2)
 
     open: app.audio.source && app.audio.source.toString().length > 0
     dock: Dock.Bottom
@@ -101,6 +101,7 @@ DockedPanel {
         anchors.top: parent.top
         x: 0
         width: parent.width - playerButtons.width
+        height: parent.height
         swipeTreshold: 45
 
         //onMove: content.x = (-root.width * currentIndex) + x
