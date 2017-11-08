@@ -138,6 +138,10 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Show Player")
+                onClicked: audioPanel.show()
+            }
+            MenuItem {
                 text: qsTr("Reload")
                 onClicked: reload()
             }
@@ -147,6 +151,10 @@ Page {
             MenuItem {
                 text: qsTr("Reload")
                 onClicked: reload()
+            }
+            MenuItem {
+                text: qsTr("Show Player")
+                onClicked: audioPanel.show()
             }
         }
 

@@ -126,6 +126,10 @@
         <source>No stations found</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show Player</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -215,6 +219,10 @@
         <source>SHOUTcast server returned no Stations</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show Player</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubGenrePage</name>
@@ -239,6 +247,10 @@
     </message>
     <message>
         <source>SHOUTcast server returned no Stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Player</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

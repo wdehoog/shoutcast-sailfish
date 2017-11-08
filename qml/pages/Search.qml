@@ -248,6 +248,20 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
+            PullDownMenu {
+                MenuItem {
+                    text: qsTr("Show Player")
+                    onClicked: audioPanel.show()
+                }
+            }
+
+            PushUpMenu {
+                MenuItem {
+                    text: qsTr("Show Player")
+                    onClicked: audioPanel.show()
+                }
+            }
+
             SearchField {
                 id: searchField
                 width: parent.width
