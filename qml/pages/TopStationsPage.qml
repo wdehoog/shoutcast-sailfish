@@ -19,6 +19,7 @@ Page {
     property var tuneinBase: ({})
     property bool canGoNext: currentItem < (top500Model.count-1)
     property bool canGoPrevious: currentItem > 0
+    property int navDirection: 0 // 0: none, -x: prev, +x: next
 
     allowedOrientations: Orientation.All
 
@@ -103,13 +104,12 @@ Page {
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
         id: audioPanel
-
         page: top500Page
 
         onPrevious: {
             if(canGoPrevious) {
-                currentItem--
-                var item = top500Model.get(currentItem)
+                navDirection = - 1
+                var item = top500Model.get(currentItem + navDirection)
                 if(item)
                     app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
@@ -117,11 +117,24 @@ Page {
 
         onNext: {
             if(canGoNext) {
-                currentItem++
-                var item = top500Model.get(currentItem)
+                navDirection = 1
+                var item = top500Model.get(currentItem + navDirection)
                 if(item)
                      app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
+        }
+    }
+
+    Connections {
+        target: app
+        onStationChanged: {
+            navDirection = 0
+            // station has changed look for the new current one
+            currentItem = app.findStation(stationInfo.id, top500Model)
+        }
+        onStationChangeFailed: {
+            if(navDirection !== 0)
+                navDirection = app.navToPrevNext(currentItem, navDirection, top500Model, tuneinBase)
         }
     }
 
@@ -180,10 +193,7 @@ Page {
                 id: stationListItemView
             }
 
-            onClicked: {
-                app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
-                currentItem = index
-            }
+            onClicked: app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
         }
 
         VerticalScrollDecorator {}

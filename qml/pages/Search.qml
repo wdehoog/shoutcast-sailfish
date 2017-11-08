@@ -35,6 +35,7 @@ Page {
     property int currentItem: -1
     property bool canGoNext: currentItem < (searchModel.count-1)
     property bool canGoPrevious: currentItem > 0
+    property int navDirection: 0 // 0: none, -x: prev, +x: next
 
     /*onSearchStringChanged: {
         typeDelay.restart()
@@ -183,13 +184,12 @@ Page {
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
         id: audioPanel
-
         page: searchPage
 
         onPrevious: {
             if(canGoPrevious) {
-                currentItem--
-                var item = searchModel.get(currentItem)
+                navDirection = - 1
+                var item = searchModel.get(currentItem + navDirection)
                 if(item)
                     app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
@@ -197,11 +197,24 @@ Page {
 
         onNext: {
             if(canGoNext) {
-                currentItem++
-                var item = searchModel.get(currentItem)
+                navDirection = 1
+                var item = searchModel.get(currentItem + navDirection)
                 if(item)
                      app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
+        }
+    }
+
+    Connections {
+        target: app
+        onStationChanged: {
+            navDirection = 0
+            // station has changed look for the new current one
+            currentItem = app.findStation(stationInfo.id, searchModel)
+        }
+        onStationChangeFailed: {
+            if(navDirection !== 0)
+                navDirection = app.navToPrevNext(currentItem, navDirection, searchModel, tuneinBase)
         }
     }
 
@@ -275,10 +288,7 @@ Page {
                 id: stationListItemView
             }
 
-            onClicked: {
-                app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
-                currentItem = index
-            }
+            onClicked: app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
         }
 
         VerticalScrollDecorator {}

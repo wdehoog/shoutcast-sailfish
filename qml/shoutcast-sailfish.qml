@@ -73,6 +73,7 @@ ApplicationWindow {
     onLogoURLChanged: cover.imageSource = logoURL.length > 0 ? logoURL : cover.defaultImageSource
 
     signal stationChanged(var stationInfo)
+    signal stationChangeFailed(var stationInfo)
 
     onStationChanged: {
         app.stationName = stationInfo.name
@@ -138,6 +139,7 @@ ApplicationWindow {
                             if(streamURL.length === 0 || streamURL === "\"\"") {
                                 showErrorDialog(qsTr("Failed to retrieve stream URL."))
                                 console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
+                                stationChangeFailed(info)
                             } else {
                                 info.stream = streamURL
                                 stationChanged(info)
@@ -218,6 +220,36 @@ ApplicationWindow {
         else if(mimeTypeFilter.value === 2)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         return uri
+    }
+
+    // when loading prev/next failed try the following one in the same direction
+    function navToPrevNext(currentItem, navDirection, model, tuneinBase) {
+        var item
+        if(navDirection === -1 || navDirection === 1) {
+            if(navDirection > 0 // next?
+               && (currentItem + navDirection) < (model.count-1))
+                navDirection++
+            else if(navDirection < 0 // prev?
+                      && (currentItem - navDirection) > 0)
+                navDirection--
+            else // reached the end
+                navDirection = 0
+
+            if(navDirection !== 0) {
+                item = model.get(currentItem + navDirection)
+                if(item)
+                    app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
+            }
+        }
+        return navDirection
+    }
+
+    function findStation(id, model) {
+        for(var i=0;i<model.count;i++) {
+            if(model.get(i).id === id)
+                return i
+        }
+        return -1
     }
 
     function showMessageDialog(title, text) {

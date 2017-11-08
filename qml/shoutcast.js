@@ -98,28 +98,28 @@ function extractURLFromPLS(text) {
     return "";
 }
 
-function createInfo(model) {
+function createInfo(item) {
     var info = {}
-    info.id = model.id
-    info.name = model.name ? model.name : "no name"
-    info.genre = model.genre ? model.genre : "no genre"
-    info.ct = model.ct ? model.ct : "no track info"
-    info.lc = model.lc ? model.lc : 0
-    info.br = model.br ? model.br : 0
-    info.mt = model.mt ? model.mt : "no mimetype"
-    info.logo = model.logo ? model.logo : ""
+    info.id = item.id
+    info.name = item.name ? item.name : "no name"
+    info.genre = item.genre ? item.genre : "no genre"
+    info.ct = item.ct ? item.ct : "no track info"
+    info.lc = item.lc ? item.lc : 0
+    info.br = item.br ? item.br : 0
+    info.mt = item.mt ? item.mt : "no mimetype"
+    info.logo = item.logo ? item.logo : ""
 
     info.genres = []
-    if(model.genre)
-        info.genres.push(model.genre)
-    if(model.genre2)
-        info.genres.push(model.genre2)
-    if(model.genre3)
-        info.genres.push(model.genre3)
-    if(model.genre4)
-        info.genres.push(model.genre4)
-    if(model.genre5)
-        info.genres.push(model.genre5)
+    if(item.genre)
+        info.genres.push(item.genre)
+    if(item.genre2)
+        info.genres.push(item.genre2)
+    if(item.genre3)
+        info.genres.push(item.genre3)
+    if(item.genre4)
+        info.genres.push(item.genre4)
+    if(item.genre5)
+        info.genres.push(item.genre5)
 
     return info
 }

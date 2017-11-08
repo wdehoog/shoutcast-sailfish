@@ -17,6 +17,7 @@ Page {
     property int currentItem: -1
     property bool canGoNext: currentItem < (stationsModel.count-1)
     property bool canGoPrevious: currentItem > 0
+    property int navDirection: 0 // 0: none, -x: prev, +x: next
 
     property bool showBusy: false
     property var tuneinBase: ({})
@@ -31,7 +32,10 @@ Page {
         orderField: "lc"
     }
 
-    onGenreIdChanged: showBusy = true
+    onGenreIdChanged: {
+        showBusy = true
+        stationsModel.model.clear()
+    }
 
     signal pageAndDataLoaded()
     onPageAndDataLoaded: {
@@ -89,13 +93,12 @@ Page {
     property alias playerPanel: audioPanel
     AudioPlayerPanel {
         id: audioPanel
-
         page: stationsPage
 
         onPrevious: {
             if(canGoPrevious) {
-                currentItem--
-                var item = stationsModel.model.get(currentItem)
+                navDirection = - 1
+                var item = stationsModel.model.get(currentItem + navDirection)
                 if(item)
                     app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
@@ -103,11 +106,24 @@ Page {
 
         onNext: {
             if(canGoNext) {
-                currentItem++
-                var item = stationsModel.model.get(currentItem)
+                navDirection = 1
+                var item = stationsModel.model.get(currentItem + navDirection)
                 if(item)
                      app.loadStation(item.id, Shoutcast.createInfo(item), tuneinBase)
             }
+        }
+    }
+
+    Connections {
+        target: app
+        onStationChanged: {
+            navDirection = 0
+            // station has changed look for the new current one
+            currentItem = app.findStation(stationInfo.id, stationsModel.model)
+        }
+        onStationChangeFailed: {
+            if(navDirection !== 0)
+                navDirection = app.navToPrevNext(currentItem, navDirection, stationsModel.model, tuneinBase)
         }
     }
 
@@ -166,10 +182,7 @@ Page {
                 id: stationListItemView
             }
 
-            onClicked: {
-                app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
-                currentItem = index
-            }
+            onClicked: app.loadStation(model.id, Shoutcast.createInfo(model), tuneinBase)
         }
 
         VerticalScrollDecorator {}
