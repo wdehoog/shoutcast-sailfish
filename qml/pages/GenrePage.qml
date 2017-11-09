@@ -45,12 +45,11 @@ Page {
                             {name: genres[i].name, id: genres[i].genreid,
                              haschildren: genres[i].count > 0, count: genres[i].count})
                     }
-                    loadingDone()
                 })
             }
-            loadingDone()
         }
         onTimeout: {
+            showBusy = false
             app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
             console.log("SHOUTcast server did not respond")
         }

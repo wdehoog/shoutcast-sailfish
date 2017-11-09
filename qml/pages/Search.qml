@@ -106,6 +106,7 @@ Page {
             showBusy = false
         }
         onTimeout: {
+            showBusy = false
             app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
             console.log("SHOUTcast server did not respond")
         }
@@ -130,6 +131,7 @@ Page {
             }
         }, function() {
             // timeout
+            showBusy = false
             app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
             console.log("SHOUTcast server did not respond")
         })

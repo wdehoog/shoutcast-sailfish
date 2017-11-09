@@ -46,10 +46,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SHOUTcast server returned no Genres</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No Station Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -59,6 +55,10 @@
     </message>
     <message>
         <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SHOUTcast server did not respond</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -243,11 +243,11 @@
 <context>
     <name>SubGenrePage</name>
     <message>
-        <source>SHOUTcast server returned no Sub Genres</source>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reload</source>
+        <source>SHOUTcast server did not respond</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
