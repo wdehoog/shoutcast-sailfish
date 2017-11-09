@@ -24,10 +24,7 @@ DockedPanel {
     //_threshold: _isVertical ? height : width
 
     // this way it can still be closed but less chance to be done accidently
-    //_threshold: _isVertical ? (height*0.9) : (width*0.9)
-
-    // disallow vertical flicks
-    flickableDirection: Flickable.HorizontalFlick
+    _threshold: _isVertical ? (height*0.7) : (width*0.7)
 
     property string defaultImageSource: "image://theme/icon-m-music"
     property string playIconSource: app.audio.playbackState === Audio.PlayingState

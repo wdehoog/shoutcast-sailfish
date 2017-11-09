@@ -33,8 +33,10 @@ Item {
         //console.log("source: " + source)
         xhr.open("GET", source)
         xhr.onreadystatechange = function() {
-            if(xhr.readyState === XMLHttpRequest.DONE)
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                timer.destroy()
                 requestDone(xhr.responseText)
+            }
         }
         var timer = app.createTimer(jsonListModel, app.serverTimeout.value*1000)
         timer.triggered.connect(function() {
@@ -42,6 +44,7 @@ Item {
                 return
             xhr.abort()
             timeout()
+            timer.destroy()
         });
         xhr.send();
     }

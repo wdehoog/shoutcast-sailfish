@@ -108,7 +108,6 @@ ApplicationWindow {
                 + (retryCount > 0 ? m3uBase : plsBase)
                 + "?" + Shoutcast.getStationPart(stationId)
         xhr.open("GET", playlistUri)
-        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 var playlist = xhr.responseText;
@@ -167,6 +166,7 @@ ApplicationWindow {
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
+                timer.destroy()
                 onDone(xhr.responseText)
             }
         }
@@ -176,6 +176,7 @@ ApplicationWindow {
                 return
             xhr.abort()
             onTimeout()
+            timer.destroy()
         });
         xhr.send();
     }
@@ -192,8 +193,10 @@ ApplicationWindow {
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         xhr.open("GET", uri)
         xhr.onreadystatechange = function() {
-            if(xhr.readyState === XMLHttpRequest.DONE)
-                onDone(xhr.responseText)            
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                timer.destroy()
+                onDone(xhr.responseText)
+            }
         }
         var timer = createTimer(app, serverTimeout.value*1000)
         timer.triggered.connect(function() {
@@ -201,12 +204,13 @@ ApplicationWindow {
                 return
             xhr.abort()
             onTimeout()
+            timer.destroy()
         });
         xhr.send();
     }
 
     function createTimer(root, interval) {
-        return Qt.createQmlObject("import QtQuick 2.0; Timer {interval: " + interval + "; repeat: false; running: true;}", root, "MyTimer");
+        return Qt.createQmlObject("import QtQuick 2.0; Timer {interval: " + interval + "; repeat: false; running: true;}", root, "TimeoutTimer");
     }
 
     function getSearchNowPlayingURI(nowPlayingQuery) {
