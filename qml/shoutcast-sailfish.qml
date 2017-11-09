@@ -28,6 +28,7 @@ ApplicationWindow {
     property alias mimeTypeFilter: mime_type_filter
     property alias playerType: player_type
     property alias scrapeWhenNoData: scrape_when_no_data
+    property alias serverTimeout: server_timeout
 
     property alias mainPage: mainPage
     //property alias playerPage: playerPage
@@ -152,7 +153,7 @@ ApplicationWindow {
         xhr.send();
     }
 
-    function loadKeywordSearch(keywordQuery, onDone) {
+    function loadKeywordSearch(keywordQuery, onDone, onTimeout) {
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.KeywordSearchBase
             + "?" + Shoutcast.DevKeyPart
@@ -164,17 +165,22 @@ ApplicationWindow {
         uri += "&" + Shoutcast.getSearchPart(keywordQuery)
         //console.log("loadKeywordSearch: " + uri)
         xhr.open("GET", uri)
-        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 onDone(xhr.responseText)
             }
         }
+        var timer = createTimer(app, serverTimeout.value*1000)
+        timer.triggered.connect(function() {
+            if(xhr.readyState === XMLHttpRequest.DONE)
+                return
+            xhr.abort()
+            onTimeout()
+        });
         xhr.send();
     }
 
-
-    function loadTop500(onDone) {
+    function loadTop500(onDone, onTimeout) {
         var xhr = new XMLHttpRequest
         var uri = Shoutcast.Top500Base
                 + "?" + Shoutcast.DevKeyPart
@@ -185,13 +191,22 @@ ApplicationWindow {
         else if(mimeTypeFilter.value === 2)
             uri += "&" + Shoutcast.getAudioTypeFilterPart("audio/aacp")
         xhr.open("GET", uri)
-        //xhr.withCredentials = true
         xhr.onreadystatechange = function() {
-            if(xhr.readyState === XMLHttpRequest.DONE) {
-                onDone(xhr.responseText)
-            }
+            if(xhr.readyState === XMLHttpRequest.DONE)
+                onDone(xhr.responseText)            
         }
+        var timer = createTimer(app, serverTimeout.value*1000)
+        timer.triggered.connect(function() {
+            if(xhr.readyState === XMLHttpRequest.DONE)
+                return
+            xhr.abort()
+            onTimeout()
+        });
         xhr.send();
+    }
+
+    function createTimer(root, interval) {
+        return Qt.createQmlObject("import QtQuick 2.0; Timer {interval: " + interval + "; repeat: false; running: true;}", root, "MyTimer");
     }
 
     function getSearchNowPlayingURI(nowPlayingQuery) {
@@ -586,5 +601,10 @@ ApplicationWindow {
         defaultValue: true
     }
 
+    ConfigurationValue {
+        id: server_timeout
+        key: "/shoutcast-sailfish/server_timeout"
+        defaultValue: 5
+    }
 }
 

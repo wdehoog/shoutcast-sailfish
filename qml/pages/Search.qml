@@ -105,6 +105,10 @@ Page {
             }
             showBusy = false
         }
+        onTimeout: {
+            app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
+            console.log("SHOUTcast server did not respond")
+        }
     }
 
     function performKeywordSearch(searchString) {
@@ -124,6 +128,10 @@ Page {
                 keywordModel.xml = xml
                 tuneinModel.xml = xml
             }
+        }, function() {
+            // timeout
+            app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
+            console.log("SHOUTcast server did not respond")
         })
     }
 

@@ -37,23 +37,16 @@ Page {
         stationsModel.model.clear()
     }
 
-    signal pageAndDataLoaded()
-    onPageAndDataLoaded: {
+    onStatusChanged: {
+        if(status === PageStatus.Active)
+            reload()
+    }
+
+    function loadingDone() {
         if(stationsModel.model.count === 0) {
             app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
             console.log("SHOUTcast server returned no Stations")
         }
-    }
-
-    onStatusChanged: {
-        if(status === PageStatus.Active)
-            if(!showBusy)
-                pageAndDataLoaded()
-    }
-
-    function loadingDone() {
-        if(stationsPage.status === PageStatus.Active)
-            pageAndDataLoaded()
     }
 
     Connections {
@@ -82,6 +75,10 @@ Page {
                     tuneinBase["base-xspf"] = b
                 loadingDone()
             }
+        }
+        onTimeout: {
+            app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
+            console.log("SHOUTcast server did not respond")
         }
     }
 

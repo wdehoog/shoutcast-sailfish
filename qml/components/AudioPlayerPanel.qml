@@ -9,7 +9,6 @@ import "../"
 DockedPanel {
     id: panel
 
-
     property alias swipe: mouse
     property alias page: mouse.page
     property alias playerButtons: playerButtons
@@ -19,6 +18,16 @@ DockedPanel {
 
     open: app.audio.source && app.audio.source.toString().length > 0
     dock: Dock.Bottom
+
+    // prevent dragging to close
+    // [sort of works. one still can drag but it does not close ('jumps' back)]
+    //_threshold: _isVertical ? height : width
+
+    // this way it can still be closed but less chance to be done accidently
+    //_threshold: _isVertical ? (height*0.9) : (width*0.9)
+
+    // disallow vertical flicks
+    flickableDirection: Flickable.HorizontalFlick
 
     property string defaultImageSource: "image://theme/icon-m-music"
     property string playIconSource: app.audio.playbackState === Audio.PlayingState
@@ -91,6 +100,7 @@ DockedPanel {
           }
 
        }
+
     }
 
     signal previous()
@@ -118,6 +128,9 @@ DockedPanel {
                  break
              }
          }
+
+         // prevent dragging [does not work]
+         drag.target: null
 
          //onCanceled:  currentIndexChanged()
      }

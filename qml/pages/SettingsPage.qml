@@ -19,6 +19,7 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Activating) {
             msrField.text = app.maxNumberOfResults.value
+            timeoutField.text = app.serverTimeout.value
             mprisServiceName.text = app.mprisPlayerServiceName.value
         }
     }
@@ -112,11 +113,21 @@ Page {
             TextField {
                 id: mprisServiceName
                 label: qsTr("Mpris Service Name (skip 'org.mpris.MediaPlayer2')")
-                inputMethodHints: Qt.ImhDigitsOnly
                 width: parent.width
                 onTextChanged: {
                     app.mprisPlayerServiceName.value = text
                     app.mprisPlayerServiceName.sync()
+                }
+            }
+
+            TextField {
+                id: timeoutField
+                label: qsTr("Timeout for shoutcast server queries (seconds)")
+                inputMethodHints: Qt.ImhDigitsOnly
+                width: parent.width
+                onTextChanged: {
+                    app.serverTimeout.value = text
+                    app.serverTimeout.sync()
                 }
             }
 

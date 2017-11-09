@@ -43,11 +43,11 @@ Page {
         XmlRole { name: "genre4"; query: "string(@genre4)" }
         XmlRole { name: "genre5"; query: "string(@genre5)" }
         onStatusChanged: {
-            if (status !== XmlListModel.Ready)
-                return
-            showBusy = false
-            if(top500Page.status === PageStatus.Active)
-                pageAndDataLoaded()
+            if(status === XmlListModel.Ready) {
+                showBusy = false
+                if(top500Model.count === 0)
+                    app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
+            }
         }
     }
 
@@ -84,21 +84,17 @@ Page {
             top500Model.reload()
             tuneinModel.xml = xml
             tuneinModel.reload()
+        }, function() {
+            // timeout
+            showBusy = false
+            app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
+            console.log("SHOUTcast server did not respond")
         })
-    }
-
-    Component.onCompleted: reload()
-
-    signal pageAndDataLoaded()
-    onPageAndDataLoaded: {
-        if(top500Model.count === 0)
-            app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
     }
 
     onStatusChanged: {
         if(status === PageStatus.Active)
-            if(!showBusy)
-                pageAndDataLoaded()
+            reload()
     }
 
     property alias playerPanel: audioPanel

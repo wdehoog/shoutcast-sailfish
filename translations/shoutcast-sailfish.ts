@@ -130,6 +130,10 @@
         <source>Show Player</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -197,6 +201,10 @@
         <source>Sometimes the Shoutcast API is offline. Allow to scrape the Shoutcast home page to collect information.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Timeout for shoutcast server queries (seconds)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationListItemView</name>
@@ -223,6 +231,10 @@
         <source>Show Player</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubGenrePage</name>
@@ -234,7 +246,11 @@
 <context>
     <name>TopStationsPage</name>
     <message>
-        <source>Top 500</source>
+        <source>SHOUTcast server returned no Stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -242,15 +258,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Top 500</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>No stations found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SHOUTcast server returned no Stations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show Player</source>
+        <source>SHOUTcast server did not respond</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

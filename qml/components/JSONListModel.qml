@@ -9,6 +9,7 @@ import QtQuick 2.0
 import "jsonpath.js" as JSONPath
 
 Item {
+    id: jsonListModel
     property string source: ""
     property string json: ""
     property string query: ""
@@ -21,8 +22,9 @@ Item {
     property ListModel model : ListModel { id: jsonModel }
     property alias count: jsonModel.count
 
-    signal loaded();
-    signal requestDone(string responseText);
+    signal loaded()
+    signal timeout()
+    signal requestDone(string responseText)
 
     onSourceChanged: refresh()
 
@@ -31,9 +33,16 @@ Item {
         //console.log("source: " + source)
         xhr.open("GET", source)
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE)
+            if(xhr.readyState === XMLHttpRequest.DONE)
                 requestDone(xhr.responseText)
         }
+        var timer = app.createTimer(jsonListModel, app.serverTimeout.value*1000)
+        timer.triggered.connect(function() {
+            if(xhr.readyState === XMLHttpRequest.DONE)
+                return
+            xhr.abort()
+            timeout()
+        });
         xhr.send();
     }
 
