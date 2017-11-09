@@ -1,8 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-BackgroundItem
-{
+BackgroundItem {
     id: messagebox
     z: 20
     visible: messageboxVisibility.running
@@ -39,10 +38,18 @@ BackgroundItem
         wrapMode: Text.Wrap
         text: ""
         anchors.centerIn: parent
+        readOnly: true
     }
 
     Timer {
         id: messageboxVisibility
         interval: 3000
+    }
+
+    // BackgroundItem onClicked is not firing when clicking on text
+    // so add another MouseArea
+    MouseArea {
+         anchors.fill: parent
+         onClicked: messageboxVisibility.stop()
     }
 }
