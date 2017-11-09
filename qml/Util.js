@@ -153,3 +153,12 @@ function parseURL(arg, url) {
 
 }
 
+function printQMLErrors(text, error) {
+    console.log(text)
+    for(var i = 0; i < error.qmlErrors.length; i++) {
+        console.log("line: " + error.qmlErrors[i].lineNumber)
+        console.log("columnNumber: " + error.qmlErrors[i].columnNumber)
+        console.log("fileName: " + error.qmlErrors[i].fileName)
+        console.log("message: " + error.qmlErrors[i].message)
+    }
+}

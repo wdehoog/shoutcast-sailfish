@@ -5,6 +5,8 @@
 import Sailfish.Silica 1.0
 import QtQuick 2.0
 
+import "../Util.js" as Util
+
 MouseArea {
     // ############################
     // #   Public properties
@@ -35,6 +37,7 @@ MouseArea {
     property point _origin
 
     onPressed: {
+        console.log("SwipeArea.onPressed")
         drag.axis = Drag.XAndYAxis
         _origin = Qt.point(mouse.x, mouse.y)
         if(page) {
@@ -60,11 +63,25 @@ MouseArea {
     }
 
     onReleased: {
-        switch (drag.axis) {
-        case Drag.XAndYAxis: canceled(mouse) ; break
-        case Drag.XAxis: swipe(mouse.x - _origin.x < 0 ? dirLeft : dirRight, Math.abs(mouse.x-_origin.x)) ; break
-        case Drag.YAxis: swipe(mouse.y - _origin.y < 0 ? dirUp : dirDown, Math.abs(mouse.y-_origin.y)) ; break
+        console.log("SwipeArea.onReleased")
+        try {
+            switch (drag.axis) {
+            case Drag.XAndYAxis: canceled(mouse) ; break
+            case Drag.XAxis: swipe(mouse.x - _origin.x < 0 ? dirLeft : dirRight, Math.abs(mouse.x-_origin.x)) ; break
+            case Drag.YAxis: swipe(mouse.y - _origin.y < 0 ? dirUp : dirDown, Math.abs(mouse.y-_origin.y)) ; break
+            }
+        } catch (error) {
+            Util.printQMLErrors("Caught Error in SwipeArea.onReleased", error)
         }
+
+        if(page) {
+            page.forwardNavigation = forwardNavigation
+            page.backNavigation  = backNavigation
+        }
+    }
+
+    onCanceled: {
+        console.log("SwipeArea.onCanceled")
         if(page) {
             page.forwardNavigation = forwardNavigation
             page.backNavigation  = backNavigation
