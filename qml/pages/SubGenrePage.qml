@@ -33,24 +33,15 @@ Page {
         showBusy = true
     }
 
-    signal pageAndDataLoaded()
-    onPageAndDataLoaded: {
-        if(genresModel.model.count === 0) {
-            app.showErrorDialog(qsTr("SHOUTcast server returned no Sub Genres"))
-            console.log("SHOUTcast server returned no Sub Genres")
-        }
+    function reload() {
+        showBusy = true
+        genresModel.refresh()
     }
 
-    onStatusChanged: {
+    /*onStatusChanged: {
         if(status === PageStatus.Active)
-            if(!showBusy)
-                pageAndDataLoaded()
-    }
-
-    function loadingDone() {
-        if(subGenrePage.status === PageStatus.Active)
-            pageAndDataLoaded()
-    }
+            reload()
+    }*/
 
     Connections {
         target: genresModel
@@ -76,6 +67,10 @@ Page {
             }
             loadingDone()
         }
+        onTimeout: {
+            app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
+            console.log("SHOUTcast server did not respond")
+        }
     }
 
     SilicaListView {
@@ -85,6 +80,20 @@ Page {
         anchors {
             topMargin: 0
             bottomMargin: 0
+        }
+
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
+        }
+
+        PushUpMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
         }
 
         header: Column {

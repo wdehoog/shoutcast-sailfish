@@ -37,10 +37,10 @@ Page {
         stationsModel.model.clear()
     }
 
-    onStatusChanged: {
+    /*onStatusChanged: {
         if(status === PageStatus.Active)
             reload()
-    }
+    }*/
 
     function loadingDone() {
         if(stationsModel.model.count === 0) {

@@ -194,6 +194,37 @@ function loadStationsAnotherWay(genre, onStationsLoaded) {
 }
 
 // reverse engineered www.shoutcast.com html/js
+function loadTopStationsAnotherWay(onStationsLoaded) {
+    var xhr = new XMLHttpRequest
+    xhr.open("POST", "http://www.shoutcast.com/Home/Top")
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+            var response = JSON.parse(xhr.responseText)
+            var stations = []
+            for(var i=0;i<response.length;i++) {
+                stations.push({
+                    id: response[i].ID,
+                    name: response[i].Name,
+                    genre: response[i].Genre,
+                    ct: response[i].CurrentTrack,
+                    mt: response[i].Format,
+                    lc: response[i].Listeners,
+                    br: response[i].Bitrate,
+                    logo: ""
+                })
+            }
+            var tuneinBase = {}
+            tuneinBase["base"] = "/sbin/tunein-station.pls"
+            tuneinBase["base-m3u"] = "/sbin/tunein-station.m3u"
+            tuneinBase["base-xspf"] = "/sbin/tunein-station.xspf"
+            onStationsLoaded(stations, tuneinBase)
+        }
+    }
+    xhr.send()
+}
+
+// reverse engineered www.shoutcast.com html/js
 function loadStationStream(stationId, onStreamFound) {
     var xhr = new XMLHttpRequest
     xhr.open("POST", "http://www.shoutcast.com//Player/GetStreamUrl")

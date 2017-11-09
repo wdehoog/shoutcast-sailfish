@@ -57,6 +57,10 @@
         <source>?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ItemPicker</name>
@@ -240,6 +244,10 @@
     <name>SubGenrePage</name>
     <message>
         <source>SHOUTcast server returned no Sub Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

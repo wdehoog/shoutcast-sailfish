@@ -23,24 +23,15 @@ Page {
         query: "$..genre.*"
     }
 
-    signal pageAndDataLoaded()
-    onPageAndDataLoaded: {
-        if(genresModel.model.count === 0) {
-            app.showErrorDialog(qsTr("SHOUTcast server returned no Genres"))
-            console.log("SHOUTcast server returned no Genres")
-        }
+    function reload() {
+        showBusy = true
+        genresModel.refresh()
     }
 
-    onStatusChanged: {
+    /*onStatusChanged: {
         if(status === PageStatus.Active)
-            if(!showBusy)
-                pageAndDataLoaded()
-    }
-
-    function loadingDone() {
-        if(genrePage.status === PageStatus.Active)
-            pageAndDataLoaded()
-    }
+            reload()
+    }*/
 
     Connections {
         target: genresModel
@@ -58,6 +49,10 @@ Page {
                 })
             }
             loadingDone()
+        }
+        onTimeout: {
+            app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
+            console.log("SHOUTcast server did not respond")
         }
     }
 
@@ -80,6 +75,20 @@ Page {
         anchors {
             topMargin: 0
             bottomMargin: 0
+        }
+
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
+        }
+
+        PushUpMenu {
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: reload()
+            }
         }
 
         header: Column {
