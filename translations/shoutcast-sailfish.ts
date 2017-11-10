@@ -292,5 +292,9 @@
         <source>Failed to retrieve stream URL.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Server did not respond while retrieving stream URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

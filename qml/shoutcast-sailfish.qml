@@ -77,6 +77,7 @@ ApplicationWindow {
     signal stationChangeFailed(var stationInfo)
 
     onStationChanged: {
+        app.stationId = stationInfo.id
         app.stationName = stationInfo.name
         app.genreName = stationInfo.genre
         app.streamMetaText1 = stationInfo.name + " - " + stationInfo.lc + " " + Shoutcast.getAudioType(stationInfo.mt) + " " + stationInfo.br
@@ -91,10 +92,62 @@ ApplicationWindow {
     }
 
     function loadStation(stationId, info, tuneinBase) {
-        _loadStation(stationId, info, tuneinBase, 1)
+        _loadStation(stationId, info, tuneinBase)
     }
 
-    function _loadStation(stationId, info, tuneinBase, retryCount) {
+    function _loadStation(stationId, info, tuneinBase) {
+        var m3uBase = tuneinBase["base-m3u"]
+
+        if(!m3uBase) {
+            showErrorDialog(qsTr("Don't know how to retrieve playlist."))
+            console.log("Don't know how to retrieve playlist.: \n" + JSON.stringify(tuneinBase))
+        }
+
+        var xhr = new XMLHttpRequest
+        var playlistUri = Shoutcast.TuneInBase
+                + m3uBase
+                + "?" + Shoutcast.getStationPart(stationId)
+        xhr.open("GET", playlistUri)
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                timer.destroy()
+                var playlist = xhr.responseText;
+                console.log("Playlis for stream: \n" + playlist)
+                var streamURL
+                streamURL = Shoutcast.extractURLFromM3U(playlist)
+                console.log("URL: \n" + streamURL)
+                if(streamURL.length > 0) {
+                    switch(playerType.value) {
+                    case 1:
+                        mprisOpenUri(streamURL, info.mt)
+                        break
+                    case 0:
+                    default:
+                        info.stream = streamURL
+                        stationChanged(info)
+                        break
+                    }
+                } else {
+                    showErrorDialog(qsTr("Failed to retrieve stream URL."))
+                    console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
+                    stationChangeFailed(info)
+                }
+            }
+        }
+        var timer = createTimer(app, serverTimeout.value*1000)
+        timer.triggered.connect(function() {
+            if(xhr.readyState === XMLHttpRequest.DONE)
+                return
+            xhr.abort()
+            showErrorDialog(qsTr("Server did not respond while retrieving stream URL."))
+            console.log("Error timeout while retrieving stream URL: \n")
+            stationChangeFailed(info)
+            timer.destroy()
+        });
+        xhr.send();
+    }
+
+    /*function _loadStation(stationId, info, tuneinBase, retryCount) {
         var m3uBase = tuneinBase["base-m3u"]
         var plsBase = tuneinBase["base"]
 
@@ -110,6 +163,7 @@ ApplicationWindow {
         xhr.open("GET", playlistUri)
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
+                timer.destroy()
                 var playlist = xhr.responseText;
                 console.log("Station: \n" + playlist)
                 var streamURL
@@ -134,23 +188,37 @@ ApplicationWindow {
                         _loadStation(stationId, info, tuneinBase, retryCount - 1)
                         console.log("Error could not find stream URL. Will retry.\n" + playlistUri + "\n" + playlist)
                     } else {
-                        console.log("Error could not find stream URL. Will retry again.\n" + playlistUri + "\n" + playlist + "\n")
-                        Shoutcast.loadStationStream(stationId, function(streamURL) {
-                            if(streamURL.length === 0 || streamURL === "\"\"") {
-                                showErrorDialog(qsTr("Failed to retrieve stream URL."))
-                                console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
-                                stationChangeFailed(info)
-                            } else {
-                                info.stream = streamURL
-                                stationChanged(info)
-                            }
-                        })
+                        if(scrapeWhenNoData.value) {
+                            console.log("Error could not find stream URL. Will retry again.\n" + playlistUri + "\n" + playlist + "\n")
+                            Shoutcast.loadStationStream(stationId, function(streamURL) {
+                                if(streamURL.length === 0 || streamURL === "\"\"") {
+                                    showErrorDialog(qsTr("Failed to retrieve stream URL."))
+                                    console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
+                                    stationChangeFailed(info)
+                                } else {
+                                    info.stream = streamURL
+                                    stationChanged(info)
+                                }
+                            })
+                        } else {
+                            showErrorDialog(qsTr("Failed to retrieve stream URL."))
+                            console.log("Error could not find stream URL: \n" + playlistUri + "\n" + playlist + "\n")
+                            stationChangeFailed(info)
+                        }
                     }
                 }
             }
         }
+        var timer = createTimer(app, serverTimeout.value*1000)
+        timer.triggered.connect(function() {
+            if(xhr.readyState === XMLHttpRequest.DONE)
+                return
+            xhr.abort()
+            onTimeout()
+            timer.destroy()
+        });
         xhr.send();
-    }
+    }*/
 
     function loadKeywordSearch(keywordQuery, onDone, onTimeout) {
         var xhr = new XMLHttpRequest
@@ -322,6 +390,7 @@ ApplicationWindow {
         return matches;
     }*/
 
+    property int stationId: -1
     property string stationName: ""
     property string genreName: ""
     property string metaText: genreName
@@ -602,13 +671,13 @@ ApplicationWindow {
     ConfigurationValue {
         id: scrape_when_no_data
         key: "/shoutcast-sailfish/scrape_when_no_data"
-        defaultValue: true
+        defaultValue: false
     }
 
     ConfigurationValue {
         id: server_timeout
         key: "/shoutcast-sailfish/server_timeout"
-        defaultValue: 5
+        defaultValue: 10
     }
 }
 

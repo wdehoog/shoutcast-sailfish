@@ -47,6 +47,8 @@ Page {
                 showBusy = false
                 if(top500Model.count === 0)
                     app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
+                else
+                    currentItem = app.findStation(app.stationId, top500Model)
             }
         }
     }

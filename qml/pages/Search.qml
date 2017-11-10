@@ -104,6 +104,8 @@ Page {
                     tuneinBase["base-xspf"] = b
             }
             showBusy = false
+            if(searchModel.count > 0)
+                currentItem = app.findStation(app.stationId, searchModel)
         }
         onTimeout: {
             showBusy = false
@@ -160,6 +162,8 @@ Page {
             for(i=0;i<count;i++)
                 searchModel.append(get(i))
             showBusy = false
+            if(searchModel.count > 0)
+                currentItem = app.findStation(app.stationId, searchModel)
         }
     }
 

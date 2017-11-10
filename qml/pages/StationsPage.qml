@@ -46,7 +46,8 @@ Page {
         if(stationsModel.model.count === 0) {
             app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))
             console.log("SHOUTcast server returned no Stations")
-        }
+        } else
+            currentItem = app.findStation(app.stationId, stationsModel.model)
     }
 
     Connections {
