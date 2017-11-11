@@ -8,6 +8,9 @@ See the [screenshots](https://github.com/wdehoog/shoutcast-sailfish/tree/master/
 
 A package can be found in my [OBS repository]( http://repo.merproject.org/obs/home:/wdehoog:/shoutcast-sailfish/sailfish_latest_armv7hl/). 
 
+### Issues
+  * The shoutcast api service is sometimes offline. The app can try to use information 'scraped' from the shoutcast home page but this is WIP and quit often the home page is offline as well. So this feature will probably disappear.
+
 ### Features
   * Browse by Genre
   * List Top 500
@@ -17,8 +20,11 @@ A package can be found in my [OBS repository]( http://repo.merproject.org/obs/ho
 
 #### Usage
   * Press a Station will start playing it
-  * Swipe the player area left/right will load previous/next Station (only for pages having a Station list)
+  * Swipe the player area left/right will load previous/next Station (only for pages having a Station list).
+    When swiped away the player can be restored using one of the pull/push menus
   * When configured to do so instead of playing a stream in the built in player it will call `openUri` on a MPris Player.
+  * Cover page buttons allow play/pause/prev/next
+  * Mpris controls (for example on lock page) allow play/pause/prev/next
 
 ### Development
 This project is developed with the Sailfish OS IDE (QT Creator). 
