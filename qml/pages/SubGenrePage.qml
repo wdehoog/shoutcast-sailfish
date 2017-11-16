@@ -47,7 +47,7 @@ Page {
         target: genresModel
         onLoaded: {
             showBusy = false
-            if(genresModel.count == 0
+            /*if(genresModel.count == 0
                && app.scrapeWhenNoData.value) {
                 // search for primary genre
                 var i
@@ -64,7 +64,7 @@ Page {
                          id: primaryGenre.subgenres[i].genreid,
                          count: ""})
                 }
-            }
+            }*/
         }
         onTimeout: {
             showBusy = false

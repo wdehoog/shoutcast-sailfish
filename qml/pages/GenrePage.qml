@@ -37,7 +37,7 @@ Page {
         target: genresModel
         onLoaded: {
             showBusy = false
-            if(genresModel.model.count == 0
+            /*if(genresModel.model.count == 0
                && app.scrapeWhenNoData.value) {
                 Shoutcast.loadGenresFromHTML(function(genres) {
                     for(var i=0;i<genres.length;i++) {
@@ -46,7 +46,7 @@ Page {
                              haschildren: genres[i].count > 0, count: genres[i].count})
                     }
                 })
-            }
+            }*/
         }
         onTimeout: {
             showBusy = false

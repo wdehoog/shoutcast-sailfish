@@ -198,14 +198,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allow Scraping as Fallback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sometimes the Shoutcast API is offline. Allow to scrape the Shoutcast home page to collect information.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Timeout for shoutcast server queries (seconds)</source>
         <translation type="unfinished"></translation>
     </message>

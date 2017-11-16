@@ -56,7 +56,7 @@ Page {
             showBusy = false
             currentItem = -1
             tuneinBase = {}
-            if(stationsModel.model.count === 0
+            /*if(stationsModel.model.count === 0
                && app.scrapeWhenNoData.value) {
                 Shoutcast.loadStationsAnotherWay(genreName, function(stations, tunein) {
                     for(var i=0;i<stations.length;i++)
@@ -64,7 +64,7 @@ Page {
                     tuneinBase = tunein
                     loadingDone()
                 })
-            } else {
+            } else {*/
                 var b = stationsModel.keepObject[0]["base"]
                 if(b)
                     tuneinBase["base"] = b
@@ -75,7 +75,7 @@ Page {
                 if(b)
                     tuneinBase["base-xspf"] = b
                 loadingDone()
-            }
+            /*}*/
         }
         onTimeout: {
             app.showErrorDialog(qsTr("SHOUTcast server did not respond"))
