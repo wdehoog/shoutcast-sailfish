@@ -4,64 +4,82 @@ import Sailfish.Silica 1.0
 import "../shoutcast.js" as Shoutcast
 import "../"
 
-Column {
+Row {
     id: stationListItemViewColumn
     width: parent.width
+    spacing: Theme.paddingMedium
 
-    // name    lc, mt/br
-    // ct
+    Image {
+        id: image
+        width: height
+        height: column.height - Theme.paddingSmall
+        anchors {
+            verticalCenter: parent.verticalCenter
+        }
+        asynchronous: true
+        fillMode: Image.PreserveAspectFit
+        source: logo
+    }
 
-    /*Item {
-        width: parent.width
-        height: nameLabel.height
+    Column {
+        id: column
+        width: parent.width - image.width - Theme.paddingMedium
+
+        // name
+        // lc, genre, mt/br
+        // ct
 
         Label {
             id: nameLabel
+            width: parent.width
             color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
             textFormat: Text.StyledText
             truncationMode: TruncationMode.Fade
-            width: parent.width - countLabel.width
             text: name
         }
+
         Label {
-            id: countLabel
-            anchors.right: parent.right
+            id: metaLabel
+            width: parent.width
+            color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
+            font.pixelSize: Theme.fontSizeExtraSmall
+            truncationMode: TruncationMode.Fade
+            text: getMetaString(model)
+        }
+
+        Label {
+            id: trackLabel
+            width: parent.width
             color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
             font.pixelSize: Theme.fontSizeExtraSmall
-            text: lc + " - " + Shoutcast.getAudioType(mt) + "/" + br
+            textFormat: Text.StyledText
+            truncationMode: TruncationMode.Fade
+            text: ct ? ct : qsTr("no track info")
         }
-    }*/
 
-    // name
-    // lc, genre, mt/br
-    // ct
+        // name    lc, mt/br
+        // ct
 
-    Label {
-        id: nameLabel
-        width: parent.width
-        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
-        textFormat: Text.StyledText
-        truncationMode: TruncationMode.Fade
-        text: name
-    }
+        /*Item {
+            width: parent.width
+            height: nameLabel.height
 
-    Label {
-        id: metaLabel
-        width: parent.width
-        color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
-        font.pixelSize: Theme.fontSizeExtraSmall
-        truncationMode: TruncationMode.Fade
-        text: getMetaString(model)
-    }
-
-    Label {
-        id: trackLabel
-        width: parent.width
-        color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
-        font.pixelSize: Theme.fontSizeExtraSmall
-        textFormat: Text.StyledText
-        truncationMode: TruncationMode.Fade
-        text: ct ? ct : qsTr("no track info")
+            Label {
+                id: nameLabel
+                color: currentItem === index ? Theme.highlightColor : Theme.primaryColor
+                textFormat: Text.StyledText
+                truncationMode: TruncationMode.Fade
+                width: parent.width - countLabel.width
+                text: name
+            }
+            Label {
+                id: countLabel
+                anchors.right: parent.right
+                color: currentItem === index ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: lc + " - " + Shoutcast.getAudioType(mt) + "/" + br
+            }
+        }*/
     }
 
     function getMetaString(model) {

@@ -115,58 +115,25 @@ Page {
             id: delegate
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
-            //property alias repr: repr
-            Column {
-                width: parent.width
 
-                Item {
-                    width: parent.width
-                    //height: nameLabel.height
-
-                    Label {
-                        id: nameLabel
-                        color: Theme.primaryColor
-                        textFormat: Text.StyledText
-                        truncationMode: TruncationMode.Fade
-                        width: parent.width - countLabel.width
-                        text: name ? name : qsTr("No Station Name")
-                    }
-                    Label {
-                        id: countLabel
-                        anchors.right: parent.right
-                        color: Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        text: count ? count : qsTr("?")
-
-                    }
-                }
+            Label {
+                id: nameLabel
+                anchors.verticalCenter: parent.verticalCenter
+                color: Theme.primaryColor
+                textFormat: Text.StyledText
+                truncationMode: TruncationMode.Fade
+                width: parent.width - countLabel.width
+                text: name ? name : qsTr("No Station Name")
+            }
+            Label {
+                id: countLabel
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: count ? count : qsTr("?")
 
             }
-
-            /*Connections {
-                target: subGenresModel
-                onLoaded: {
-                    showBusy = false
-                    //menu.show(currentGenreItem)
-                }
-            }
-
-            menu: ContextMenu {
-                id: cmemu
-                Repeater {
-                    id: repr
-                    model: subGenresModel.model
-                    MenuItem {
-                        text: model.name + " - " + model.count
-                    }
-                }
-            }
-
-            onPressed: {
-                showBusy = true
-                currentGenreItem = this
-                genreId = model.id
-            }*/
 
             onClicked: {
                 var page

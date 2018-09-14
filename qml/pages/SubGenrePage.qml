@@ -121,31 +121,23 @@ Page {
             id: delegate
             width: parent.width - 2*Theme.paddingMedium
             x: Theme.paddingMedium
-            Column {
-                width: parent.width
 
-                Item {
-                    width: parent.width
-                    //height: nameLabel.height
-
-                    Label {
-                        id: nameLabel
-                        color: Theme.primaryColor
-                        textFormat: Text.StyledText
-                        truncationMode: TruncationMode.Fade
-                        width: parent.width - countLabel.width
-                        text: name
-                    }
-                    Label {
-                        id: countLabel
-                        anchors.right: parent.right
-                        color: Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        text: count
-
-                    }
-                }
-
+            Label {
+                id: nameLabel
+                anchors.verticalCenter: parent.verticalCenter
+                color: Theme.primaryColor
+                textFormat: Text.StyledText
+                truncationMode: TruncationMode.Fade
+                width: parent.width - countLabel.width
+                text: name
+            }
+            Label {
+                id: countLabel
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: count
             }
 
             onClicked: {
