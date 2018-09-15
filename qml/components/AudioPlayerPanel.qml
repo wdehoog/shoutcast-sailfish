@@ -43,6 +43,7 @@ DockedPanel {
         id: playerUI
 
         //height: Math.max(imageItem.height, meta.height, playerButtons.height)
+        anchors.verticalCenter: parent.verticalCenter
         width: parent.width
 
         Image {
@@ -82,12 +83,12 @@ DockedPanel {
 
         }
 
-        Row {
+        Item {
           id: playerButtons
 
           anchors.verticalCenter: parent.verticalCenter
-          spacing: Theme.paddingSmall
           width: playIcon.width + Theme.paddingSmall
+          height: busyIndicator.height
 
           IconButton {
               id: playIcon
@@ -96,6 +97,16 @@ DockedPanel {
               onClicked: app.pause()
           }
 
+          BusyIndicator {
+              id: busyIndicator
+              size: BusyIndicatorSize.Medium
+              anchors.horizontalCenter: playIcon.horizontalCenter
+              anchors.verticalCenter: playIcon.verticalCenter
+              z: 0
+              running: app.audio.status === Audio.Loading
+                       || app.audio.status === Audio.Loaded
+                       || app.audio.status === Audio.Buffering
+          }
        }
 
     }
