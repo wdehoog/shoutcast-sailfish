@@ -18,7 +18,7 @@ Row {
         }
         asynchronous: true
         fillMode: Image.PreserveAspectFit
-        source: logo
+        source: logo ? logo : ""
     }
 
     Column {
