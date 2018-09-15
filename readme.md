@@ -32,6 +32,11 @@ This project is developed with the Sailfish OS IDE (QT Creator).
 ### Translations
 Translation is done using Qt Quick Internationalisation. If you want to contribute a translation take shoutcast-sailfish.ts and create a version for your locale.
 
+### Donations
+Soddy but I do not accept any donations. I really appreciate the gesture but it is a hobby that I am able to do because others are investing their time as well.
+
+If someone wants to show appreciation for my work by a donation then I suggest to help support openrepos.net.
+
 ### Thanks
   * Shoutcast: fantastic radio directory
   * nesnomis: harbour-allradio
