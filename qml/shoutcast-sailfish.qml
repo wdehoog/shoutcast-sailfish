@@ -64,6 +64,38 @@ ApplicationWindow {
             console.log("source: " + source)
             showErrorDialog(qsTr("Audio Player:") + "\n\n" + errorString)
         }
+        /*onStatusChanged: {
+            console.log("Audio.status: " + status)
+            switch(status) {
+            case Audio.NoMedia:
+                console.log("  no media has been set.")
+                break
+            case Audio.Loading:
+                console.log("  the media is currently being loaded.")
+                break
+            case Audio.Loaded:
+                console.log("  the media has been loaded.")
+                break
+            case Audio.Buffering:
+                console.log("  the media is buffering data.")
+                break
+            case Audio.Stalled:
+                console.log("  playback has been interrupted while the media is buffering data.")
+                break
+            case Audio.Buffered:
+                console.log("  the media has buffered data.")
+                break
+            case Audio.EndOfMedia:
+                console.log("  the media has played to the end.")
+                break
+            case Audio.InvalidMedia:
+                console.log("  the media cannot be played.")
+                break
+            case Audio.UnknownStatus:
+                console.log("  the status of the media is unknown.")
+                break
+            }
+        }*/
     }
 
     MainPage {
