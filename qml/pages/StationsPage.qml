@@ -42,6 +42,31 @@ Page {
             reload()
     }*/
 
+    // the shoutcast stations data does not have all fields for all stations
+    // the qml listmodel cannot handle that. if the first 'record' does not contain the field
+    // the rest of the records seem not to have it as well
+
+    /**
+      Possible station fields:
+
+        br - bit rate
+        ct - current track
+        genre, genre2, genre3, genre4, genre5
+        id - id
+        lc - listeners
+        logo - image url
+        ml - ?
+        mt - mime type
+        name - name
+
+      */
+
+    Component.onCompleted: {
+        // set model structure
+        stationsModel.model.append(Shoutcast.EmptyStationRecord)
+        stationsModel.model.clear()
+    }
+
     function loadingDone() {
         if(stationsModel.model.count === 0) {
             app.showErrorDialog(qsTr("SHOUTcast server returned no Stations"))

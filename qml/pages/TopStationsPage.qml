@@ -27,6 +27,12 @@ Page {
         id: stationsModel
     }
 
+    Component.onCompleted: {
+        // set model structure
+        stationsModel.model.append(Shoutcast.EmptyStationRecord)
+        stationsModel.model.clear()
+    }
+
     XmlListModel {
         id: top500Model
         query: "/stationlist/station"

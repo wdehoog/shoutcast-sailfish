@@ -236,3 +236,18 @@ function loadStationStream(stationId, onStreamFound) {
     }
     xhr.send("station="+stationId)
 }
+
+var EmptyStationRecord = {
+    name: "",
+    mt: "",
+    id: 0,
+    br: 0,
+    genre: "",
+    ct: "",
+    lc: 0,
+    logo: "",
+    genre2: "",
+    genre3: "",
+    genre4: "",
+    genre5: ""
+}

@@ -83,6 +83,12 @@ Page {
         keepQuery: "$..tunein"
     }
 
+    Component.onCompleted: {
+        // set model structure
+        nowPlayingModel.model.append(Shoutcast.EmptyStationRecord)
+        nowPlayingModel.model.clear()
+    }
+
     Connections {
         target: nowPlayingModel
         onLoaded: {
