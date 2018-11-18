@@ -47,7 +47,7 @@ Page {
                     Label {
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeLarge
-                        text: "shoutcast-sailfish 0.2"
+                        text: "shoutcast-sailfish 0.3"
                     }
 
                     Label {
@@ -62,7 +62,7 @@ Page {
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeExtraSmall
                         //: I doubt this needs to be translated
-                        text: qsTr("Copyright (C) 2017 Willem-Jan de Hoog")
+                        text: qsTr("Copyright (C) 2018 Willem-Jan de Hoog")
                         truncationMode: TruncationMode.Fade
                         width: parent.width
                     }
