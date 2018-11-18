@@ -29,6 +29,7 @@ ApplicationWindow {
     property alias playerType: player_type
     property alias scrapeWhenNoData: scrape_when_no_data
     property alias serverTimeout: server_timeout
+    property alias play_buffer_threshold: play_buffer_threshold
 
     property alias mainPage: mainPage
     //property alias playerPage: playerPage
@@ -49,6 +50,7 @@ ApplicationWindow {
 
     Audio {
         id: audio
+        property bool restart: false
 
         autoLoad: true
         autoPlay: false
@@ -56,15 +58,18 @@ ApplicationWindow {
         //onPlaybackStateChanged: app.playbackStateChanged()
         //onSourceChanged: refreshTransportState()
         onBufferProgressChanged: {
-            if(bufferProgress == 1.0)
+            //console.log("onBufferProgressChanged: " + bufferProgress)
+            if(bufferProgress >= play_buffer_threshold.value && restart) {
                 audioBufferFull()
+                restart = false
+            }
         }
         onError: {
             console.log("Audio Player:" + errorString)
             console.log("source: " + source)
             showErrorDialog(qsTr("Audio Player:") + "\n\n" + errorString)
         }
-        /*onStatusChanged: {
+        onStatusChanged: {
             console.log("Audio.status: " + status)
             switch(status) {
             case Audio.NoMedia:
@@ -95,7 +100,8 @@ ApplicationWindow {
                 console.log("  the status of the media is unknown.")
                 break
             }
-        }*/
+        }
+        onSourceChanged: restart = true
     }
 
     MainPage {
@@ -459,7 +465,11 @@ ApplicationWindow {
         }
     }
 
-    onAudioBufferFull: play()
+    onAudioBufferFull: {
+        // start playing if not already
+        if(audio.playbackState !== Audio.PlayingState)
+            play()
+    }
     onPlayRequested: play()
     onPauseRequested: pause()
 
@@ -710,6 +720,13 @@ ApplicationWindow {
         id: server_timeout
         key: "/shoutcast-sailfish/server_timeout"
         defaultValue: 10
+    }
+
+    // 0..1.0
+    ConfigurationValue {
+        id: play_buffer_threshold
+        key: "/shoutcast-sailfish/play_buffer_threshold"
+        defaultValue: 1.0
     }
 }
 

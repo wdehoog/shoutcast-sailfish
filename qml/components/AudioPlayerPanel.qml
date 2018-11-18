@@ -39,6 +39,12 @@ DockedPanel {
         onPreviousRequested: previous()
     }
 
+    Rectangle {
+        color: Theme.secondaryColor
+        width: parent.width * app.audio.bufferProgress
+        height: Theme.paddingSmall
+    }
+
     Row {
         id: playerUI
 

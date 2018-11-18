@@ -21,6 +21,7 @@ Page {
             msrField.text = app.maxNumberOfResults.value
             timeoutField.text = app.serverTimeout.value
             mprisServiceName.text = app.mprisPlayerServiceName.value
+            playbBufferThreshold.value = app.play_buffer_threshold.value * 100
         }
     }
 
@@ -129,6 +130,16 @@ Page {
                     app.serverTimeout.value = text
                     app.serverTimeout.sync()
                 }
+            }
+
+            Slider {
+                id: playbBufferThreshold
+                label: qsTr("Buffered percentage before play starts")
+                width: parent.width
+                minimumValue: 0
+                maximumValue: 100
+                valueText: "" + Math.floor(value) + "%"
+                onValueChanged: app.play_buffer_threshold.value = value / 100
             }
 
             /*TextSwitch {

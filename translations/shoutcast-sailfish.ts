@@ -201,6 +201,10 @@
         <source>Timeout for shoutcast server queries (seconds)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Buffered percentage before play starts</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationListItemView</name>
