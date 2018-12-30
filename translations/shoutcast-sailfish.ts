@@ -205,6 +205,14 @@
         <source>Buffered percentage before play starts</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Start after buffered percentage reached</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start playing when buffered percentage is at set level or start playing immediately.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationListItemView</name>

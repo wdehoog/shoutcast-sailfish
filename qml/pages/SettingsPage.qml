@@ -132,6 +132,16 @@ Page {
                 }
             }
 
+            TextSwitch {
+                id: startOnBufferprogress
+                text: qsTr("Start at buffered percentage")
+                description: qsTr("Start playing when buffered percentage is at set level or start playing immediately.")
+                checked: app.play_start_on_bufferprogress.value
+                onCheckedChanged: {
+                    app.play_start_on_bufferprogress.value = checked;
+                }
+            }
+
             Slider {
                 id: playbBufferThreshold
                 label: qsTr("Buffered percentage before play starts")

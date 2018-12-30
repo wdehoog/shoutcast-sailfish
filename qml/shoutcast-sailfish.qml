@@ -23,6 +23,7 @@ ApplicationWindow {
     id: app
 
     property string mprisServiceName: "shoutcast-sailfish"
+
     property alias maxNumberOfResults: max_number_of_results
     property alias mprisPlayerServiceName: mpris_player_servicename
     property alias mimeTypeFilter: mime_type_filter
@@ -30,6 +31,7 @@ ApplicationWindow {
     property alias scrapeWhenNoData: scrape_when_no_data
     property alias serverTimeout: server_timeout
     property alias play_buffer_threshold: play_buffer_threshold
+    property alias play_start_on_bufferprogress: play_start_on_bufferprogress
 
     property alias mainPage: mainPage
     //property alias playerPage: playerPage
@@ -45,7 +47,7 @@ ApplicationWindow {
         id: cover
     }
 
-    signal audioBufferFull()
+    signal audioReady()
     //signal playbackStateChanged()
 
     Audio {
@@ -59,8 +61,11 @@ ApplicationWindow {
         //onSourceChanged: refreshTransportState()
         onBufferProgressChanged: {
             //console.log("onBufferProgressChanged: " + bufferProgress)
-            if(bufferProgress >= play_buffer_threshold.value && restart) {
-                audioBufferFull()
+            // buffering is so slow
+            if(app.play_start_on_bufferprogress.value
+               && bufferProgress >= play_buffer_threshold.value
+               && restart) {
+                audioReady()
                 restart = false
             }
         }
@@ -80,6 +85,8 @@ ApplicationWindow {
                 break
             case Audio.Loaded:
                 console.log("  the media has been loaded.")
+                if(!app.play_start_on_bufferprogress.value)
+                    audioReady()
                 break
             case Audio.Buffering:
                 console.log("  the media is buffering data.")
@@ -465,7 +472,7 @@ ApplicationWindow {
         }
     }
 
-    onAudioBufferFull: {
+    onAudioReady: {
         // start playing if not already
         if(audio.playbackState !== Audio.PlayingState)
             play()
@@ -710,6 +717,7 @@ ApplicationWindow {
     }
 
     // true: try to scrape, false: do not scrape
+    // (load data from html instead of using shoutcast-api)
     ConfigurationValue {
         id: scrape_when_no_data
         key: "/shoutcast-sailfish/scrape_when_no_data"
@@ -720,6 +728,13 @@ ApplicationWindow {
         id: server_timeout
         key: "/shoutcast-sailfish/server_timeout"
         defaultValue: 10
+    }
+
+    // true: guard buffer progress before plaing, false: start asap
+    ConfigurationValue {
+        id: play_start_on_bufferprogress
+        key: "/shoutcast-sailfish/play_start_on_bufferprogress"
+        defaultValue: true
     }
 
     // 0..1.0
