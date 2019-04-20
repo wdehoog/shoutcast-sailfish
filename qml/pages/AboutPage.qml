@@ -93,7 +93,7 @@ Page {
                 wrapMode: Text.WordWrap
                 text:
 "cs: malakay
-de: ???
+de: unknown [sorry]
 sv: eson57"
             }
 
