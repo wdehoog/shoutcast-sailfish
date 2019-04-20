@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="sv">
+<TS version="2.1" language="cs_CZ" sourcelanguage="cs_CZ">
 <context>
     <name></name>
     <message id="Shoutcast for SailfishOS">
@@ -12,202 +12,202 @@
     <name>AboutPage</name>
     <message>
         <source>About</source>
-        <translation>Om</translation>
+        <translation type="unfinished">O aplikaci</translation>
     </message>
     <message>
         <source>Shoutcast player for Sailfish OS</source>
-        <translation>Shoutcast-spelare för Sailfish OS</translation>
+        <translation type="unfinished">Přehrávač Shoutcast pro Sailfish OS</translation>
     </message>
     <message>
         <source>Thanks to</source>
-        <translation>Tack till</translation>
+        <translation type="unfinished">Poděkování</translation>
     </message>
     <message>
         <source>License: MIT</source>
-        <translation>Licens: MIT</translation>
+        <translation type="unfinished">Licence: MIT</translation>
     </message>
     <message>
         <source>Copyright (C) 2019 Willem-Jan de Hoog</source>
         <extracomment>I doubt this needs to be translated</extracomment>
-        <translation type="unfinished">Copyright (C) 2018 Willem-Jan de Hoog {2019 ?}</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Shoutcast</source>
-        <translation>Shoutcast</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>GenrePage</name>
     <message>
         <source>Genres</source>
-        <translation>Genrer</translation>
+        <translation type="unfinished">Žánr</translation>
     </message>
     <message>
         <source>No Station Name</source>
-        <translation>Inget stationsnamn</translation>
+        <translation type="unfinished">Stanice bez názvu</translation>
     </message>
     <message>
         <source>?</source>
-        <translation>?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation>Uppdatera</translation>
+        <translation type="unfinished">Obnovit</translation>
     </message>
     <message>
         <source>SHOUTcast server did not respond</source>
-        <translation>SHOUTcast server svarade inte</translation>
+        <translation type="unfinished">Server Shoutcast neodpovídá</translation>
     </message>
 </context>
 <context>
     <name>ItemPicker</name>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Avbryt</translation>
+        <translation type="unfinished">Zrušit</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>About</source>
-        <translation>Om</translation>
+        <translation type="unfinished">O aplikaci</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Inställningar</translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <source>Shoutcast Sailfish</source>
-        <translation>Shoutcast Sailfish</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation>Genrer</translation>
+        <translation type="unfinished">Žánr</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Sök</translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
     <message>
         <source>Top 500</source>
-        <translation>Topp 500</translation>
+        <translation type="unfinished">Top 500</translation>
     </message>
     <message>
         <source>There is no Network available.</source>
-        <translation>Det finns inget nätverk tillgängligt.</translation>
+        <translation type="unfinished">Není k dispozici síťové připojení.</translation>
     </message>
 </context>
 <context>
     <name>Search</name>
     <message>
         <source>Search</source>
-        <translation>Sök</translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
     <message>
         <source>Search text</source>
-        <translation>Sök text</translation>
+        <translation type="unfinished">Hledat text</translation>
     </message>
     <message>
         <source>Search in</source>
-        <translation>Sök i</translation>
+        <translation type="unfinished">Hledat v</translation>
     </message>
     <message>
         <source>Now Playing</source>
-        <translation>Spelas nu</translation>
+        <translation type="unfinished">Právě hraje</translation>
     </message>
     <message>
         <source>Keyword</source>
-        <translation>Nyckelord</translation>
+        <translation type="unfinished">Klíčové slovo</translation>
     </message>
     <message>
         <source>No stations found</source>
-        <translation>Inga stationer hittades</translation>
+        <translation type="unfinished">Stanice nenalezeny</translation>
     </message>
     <message>
         <source>Show Player</source>
-        <translation>Visa spelare</translation>
+        <translation type="unfinished">Zobrazit přehrávač</translation>
     </message>
     <message>
         <source>SHOUTcast server did not respond</source>
-        <translation>SHOUTcast server svarade inte</translation>
+        <translation type="unfinished">Server Shoutcast neodpovídá</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation>Inställningar</translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <source>Maximum number of results per request</source>
-        <translation>Max antal träffar per förfrågan</translation>
+        <translation type="unfinished">Maximální počet výsledků žádosti</translation>
     </message>
     <message>
         <source>Player Type</source>
-        <translation>Spelartyp</translation>
+        <translation type="unfinished">Typ přehrávače</translation>
     </message>
     <message>
         <source>Which type of player to use</source>
-        <translation>Vilken typ av spelare som används</translation>
+        <translation type="unfinished">Který typ přehrávače použít</translation>
     </message>
     <message>
         <source>Built In Player (Qt Audio)</source>
-        <translation>Inbyggd spelare (Qt Audio)</translation>
+        <translation type="unfinished">Vestavěný (Qt Audio)</translation>
     </message>
     <message>
         <source>Mpris Player</source>
-        <translation>Mpris-spelare</translation>
+        <translation type="unfinished">Přehrávač Mpris</translation>
     </message>
     <message>
         <source>Detect Mpris Players</source>
-        <translation>Identifiera Mpris-spelare</translation>
+        <translation type="unfinished">Detekovat Mpris přehrávač</translation>
     </message>
     <message>
         <source>Mpris Service Name (skip &apos;org.mpris.MediaPlayer2&apos;)</source>
-        <translation>Mpris tjänstnamn (undanta &apos;org.mpris.MediaPlayer2&apos;)</translation>
+        <translation type="unfinished">Název služby Mpris  (přeskočte &apos;org.mpris.MediaPlayer2&apos;)</translation>
     </message>
     <message>
         <source>Mpris Players</source>
-        <translation>Mpris-spelare</translation>
+        <translation type="unfinished">Mpris přehrávače</translation>
     </message>
     <message>
         <source>Mime Type Filter</source>
-        <translation>Mime Type-filter</translation>
+        <translation type="unfinished">MIME typ filtr</translation>
     </message>
     <message>
         <source>Which mime types to list</source>
-        <translation>Vilka mime-types som skall listas</translation>
+        <translation type="unfinished">Které MIME typy zobrazovat</translation>
     </message>
     <message>
         <source>No filter. Accept all mime types.</source>
-        <translation>Inga filter. Acceptera alla mime-types</translation>
+        <translation type="unfinished">Bez filtru. Zobrazovat všechny typy.</translation>
     </message>
     <message>
         <source>Accept only MP3 (audio/mpeg)</source>
-        <translation>Acceptera endast MP3 (audio/mpeg)</translation>
+        <translation type="unfinished">Přijmout pouze MP3 (audio/mpeg)</translation>
     </message>
     <message>
         <source>Accept only AAC (audio/aacp)</source>
-        <translation>Acceptera endast AAC (audio/aacp)</translation>
+        <translation type="unfinished">Přimout pouze AAC (audio/aacp)</translation>
     </message>
     <message>
         <source>Timeout for shoutcast server queries (seconds)</source>
-        <translation>Tidsgräns för shoutcast serveranrop (sekunder)</translation>
+        <translation type="unfinished">Timeout pro Shoutcast server (sekundy)</translation>
     </message>
     <message>
         <source>Buffered percentage before play starts</source>
-        <translation>Buffrad procent innan uppspelning startar</translation>
+        <translation type="unfinished">Počet procent v bufferu před spuštěním přehrávání</translation>
     </message>
     <message>
         <source>Start playing when buffered percentage is at set level or start playing immediately.</source>
-        <translation>Börja spela när den buffrade procentsatsen är på inställd nivå, eller börja spela direkt.</translation>
+        <translation type="unfinished">Spustit přehrávání ihned nebo po dosažení nastavených procent v bufferu.</translation>
     </message>
     <message>
         <source>Start at buffered percentage</source>
@@ -218,87 +218,87 @@
     <name>StationListItemView</name>
     <message>
         <source>no track info</source>
-        <translation>ingen spårinfo</translation>
+        <translation type="unfinished">Skladba bez informací</translation>
     </message>
 </context>
 <context>
     <name>StationsPage</name>
     <message>
         <source>Reload</source>
-        <translation>Uppdatera</translation>
+        <translation type="unfinished">Obnovit</translation>
     </message>
     <message>
         <source>No stations found</source>
-        <translation>Inga stationer hittades</translation>
+        <translation type="unfinished">Stanice nenalezeny</translation>
     </message>
     <message>
         <source>SHOUTcast server returned no Stations</source>
-        <translation>SHOUTcast server returnerade inga stationer</translation>
+        <translation type="unfinished">SHOUTcast server nenalezl stanice</translation>
     </message>
     <message>
         <source>Show Player</source>
-        <translation>Visa spelare</translation>
+        <translation type="unfinished">Zobrazit přehrávač</translation>
     </message>
     <message>
         <source>SHOUTcast server did not respond</source>
-        <translation>SHOUTcast server svarade inte</translation>
+        <translation type="unfinished">SHOUTcast server neodpovídá</translation>
     </message>
 </context>
 <context>
     <name>SubGenrePage</name>
     <message>
         <source>Reload</source>
-        <translation>Uppdatera</translation>
+        <translation type="unfinished">Obnovit</translation>
     </message>
     <message>
         <source>SHOUTcast server did not respond</source>
-        <translation>SHOUTcast server svarade inte</translation>
+        <translation type="unfinished">SHOUTcast server neodpovídá</translation>
     </message>
 </context>
 <context>
     <name>TopStationsPage</name>
     <message>
         <source>SHOUTcast server returned no Stations</source>
-        <translation>SHOUTcast server returnerade inga stationer</translation>
+        <translation type="unfinished">SHOUTcast server nenalezl stanice</translation>
     </message>
     <message>
         <source>Show Player</source>
-        <translation>Visa spelare</translation>
+        <translation type="unfinished">Zobrazit přehrávač</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation>Uppdatera</translation>
+        <translation type="unfinished">Obnovit</translation>
     </message>
     <message>
         <source>Top 500</source>
-        <translation>Topp 500</translation>
+        <translation type="unfinished">Top 500</translation>
     </message>
     <message>
         <source>No stations found</source>
-        <translation>Inga stationer hittades</translation>
+        <translation type="unfinished">Stanice nenalezeny</translation>
     </message>
     <message>
         <source>SHOUTcast server did not respond</source>
-        <translation>SHOUTcast server svarade inte</translation>
+        <translation type="unfinished">SHOUTcast server neodpovídá</translation>
     </message>
 </context>
 <context>
     <name>shoutcast-sailfish</name>
     <message>
         <source>Audio Player:</source>
-        <translation>Ljudspelare:</translation>
+        <translation type="unfinished">Audio přehrávač:</translation>
     </message>
     <message>
         <source>Don&apos;t know how to retrieve playlist.</source>
-        <translation>Kan inte hämta spellista.</translation>
+        <translation type="unfinished">Nevím jak načíst playlist.</translation>
     </message>
     <message>
         <source>Failed to retrieve stream URL.</source>
-        <translation>Kunde inte hämta ström-URL.</translation>
+        <translation type="unfinished">Nepodařilo se načíst URL streamu.</translation>
     </message>
     <message>
         <source>Server did not respond while retrieving stream URL.</source>
-        <translation>Servern svarade inte när ström-URL hämtades.</translation>
+        <translation type="unfinished">Server neodpověděl při načítání URL streamu.</translation>
     </message>
 </context>
 </TS>

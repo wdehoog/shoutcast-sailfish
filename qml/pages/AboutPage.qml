@@ -79,6 +79,25 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Translations")
+            }
+
+            Label {
+                anchors {
+                    left: parent.left
+                    leftMargin: Theme.horizontalPageMargin
+                    right: parent.right
+                    rightMargin: Theme.horizontalPageMargin
+                }
+                font.pixelSize: Theme.fontSizeSmall
+                wrapMode: Text.WordWrap
+                text:
+"cs: malakay
+de: ???
+sv: eson57"
+            }
+
+            SectionHeader {
                 text: qsTr("Thanks to")
             }
 

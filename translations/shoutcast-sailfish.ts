@@ -27,7 +27,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copyright (C) 2018 Willem-Jan de Hoog</source>
+        <source>Copyright (C) 2019 Willem-Jan de Hoog</source>
         <extracomment>I doubt this needs to be translated</extracomment>
         <translation type="unfinished"></translation>
     </message>
@@ -206,11 +206,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start after buffered percentage reached</source>
+        <source>Start playing when buffered percentage is at set level or start playing immediately.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start playing when buffered percentage is at set level or start playing immediately.</source>
+        <source>Start at buffered percentage</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

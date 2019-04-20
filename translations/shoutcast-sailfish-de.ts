@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name></name>
+    <message id="Shoutcast for SailfishOS">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutPage</name>
     <message>
         <source>About</source>
@@ -12,12 +19,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copyright (C) 2017 Willem-Jan de Hoog</source>
+        <source>Thanks to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2019 Willem-Jan de Hoog</source>
         <extracomment>I doubt this needs to be translated</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thanks to</source>
+        <source>License: MIT</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -32,6 +43,33 @@
     <name>GenrePage</name>
     <message>
         <source>Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Station Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ItemPicker</name>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -58,7 +96,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Player</source>
+        <source>Top 500</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no Network available.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -85,7 +127,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>no track info</source>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stations found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -99,11 +149,155 @@
         <source>Maximum number of results per request</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Detect Mpris Players</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mpris Players</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mime Type Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Which mime types to list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No filter. Accept all mime types.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept only MP3 (audio/mpeg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept only AAC (audio/aacp)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Player Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Which type of player to use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Built In Player (Qt Audio)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mpris Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mpris Service Name (skip &apos;org.mpris.MediaPlayer2&apos;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeout for shoutcast server queries (seconds)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start at buffered percentage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start playing when buffered percentage is at set level or start playing immediately.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Buffered percentage before play starts</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StationListItemView</name>
+    <message>
+        <source>no track info</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationsPage</name>
     <message>
-        <source>no track info</source>
+        <source>SHOUTcast server returned no Stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stations found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SubGenrePage</name>
+    <message>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TopStationsPage</name>
+    <message>
+        <source>SHOUTcast server returned no Stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SHOUTcast server did not respond</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top 500</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stations found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>shoutcast-sailfish</name>
+    <message>
+        <source>Audio Player:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t know how to retrieve playlist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to retrieve stream URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server did not respond while retrieving stream URL.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

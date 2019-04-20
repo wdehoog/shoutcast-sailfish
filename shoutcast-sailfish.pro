@@ -39,8 +39,7 @@ DISTFILES += qml/shoutcast-sailfish.qml \
     qml/components/AudioPlayerPanel.qml \
     qml/components/SwipeArea.qml \
     qml/components/StationListItemView.qml \
-    qml/components/Messagebox.qml \
-    translations/shoutcast-sailfish-sv.ts
+    qml/components/Messagebox.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
@@ -48,3 +47,7 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 
+TRANSLATIONS += translations/hutspot.ts \
+    translations/shoutcast-sailfish-cs.ts \
+    translations/shoutcast-sailfish-de.ts \
+    translations/shoutcast-sailfish-sv.ts
