@@ -49,5 +49,4 @@ CONFIG += sailfishapp_i18n
 
 TRANSLATIONS += translations/hutspot.ts \
     translations/shoutcast-sailfish-cs.ts \
-    translations/shoutcast-sailfish-de.ts \
     translations/shoutcast-sailfish-sv.ts

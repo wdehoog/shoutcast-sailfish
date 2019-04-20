@@ -31,6 +31,10 @@
         <extracomment>I doubt this needs to be translated</extracomment>
         <translation type="unfinished">Copyright (C) 2018 Willem-Jan de Hoog {2019 ?}</translation>
     </message>
+    <message>
+        <source>Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

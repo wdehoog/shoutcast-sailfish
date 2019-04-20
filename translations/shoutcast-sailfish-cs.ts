@@ -31,6 +31,10 @@
         <extracomment>I doubt this needs to be translated</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
