@@ -47,7 +47,7 @@ Page {
                     Label {
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeLarge
-                        text: "shoutcast-sailfish 0.4"
+                        text: "shoutcast-sailfish 0.5"
                     }
 
                     Label {
