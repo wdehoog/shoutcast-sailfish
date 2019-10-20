@@ -29,11 +29,11 @@
     <message>
         <source>Copyright (C) 2019 Willem-Jan de Hoog</source>
         <extracomment>I doubt this needs to be translated</extracomment>
-        <translation type="unfinished">Copyright (C) 2018 Willem-Jan de Hoog {2019 ?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Översättningar</translation>
     </message>
 </context>
 <context>
